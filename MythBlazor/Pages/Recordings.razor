@@ -1,0 +1,112 @@
+﻿@page "/recordings"
+@using MythBlazor.Services
+@using MythBlazor.Utils
+@using Program = MythTvApi.Dvr.Models.Program
+@inject RecordingsDataService RecordingsService
+
+<h3>Recordings</h3>
+
+<div class="d-flex flex-column" style="height: calc(100vh - 120px);">
+    <!-- top 3/4: list -->
+    <div style="flex: 3; overflow:auto;" class="border rounded p-2">
+        <div class="d-flex justify-content-between mb-2">
+            <div>
+                <button class="btn btn-secondary btn-sm me-2" @onclick="PrevPage" disabled="@(_pageIndex == 0)">Previous</button>
+                <button class="btn btn-secondary btn-sm" @onclick="NextPage">Next</button>
+            </div>
+            <div>Page: @(_pageIndex + 1)</div>
+        </div>
+
+        @if (_isLoading)
+        {
+            <div>Loading...</div>
+        }
+        else if (_recordings?.Any() != true)
+        {
+            <div>No recordings found.</div>
+        }
+        else
+        {
+            <div class="list-group">
+                @foreach (var r in _recordings.Select((rec, idx) => (rec, idx)))
+                {
+                    var recItem = r.rec;
+                    var idx = r.idx;
+                    <button class="list-group-item list-group-item-action @(idx == _selectedIndex ? "active" : "")"
+                            @onclick="@(async () => await SelectRecording(idx))">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">@recItem.Title</h5>
+                            <small>@DateTimeHelpers.FormatDurationMinutes(recItem.StartTime ?? recItem.Recording?.StartTs, recItem.EndTime ?? recItem.Recording?.EndTs)</small>
+                        </div>
+                        <p class="mb-1">@recItem.SubTitle</p>
+                        <small>@(recItem.Channel?.ChannelName ?? "") — @DateTimeHelpers.ToLocalDateString(recItem.StartTime ?? recItem.Airdate?.DateTime)</small>
+                    </button>
+                }
+            </div>
+        }
+    </div>
+
+    <div style="flex: 1; overflow:auto;" class="border rounded p-2 mt-2">
+        <RecordingDetails SelectedRecording="_selectedRecording" />
+    </div>
+</div>
+
+@code {
+    private List<Program> _recordings = new();
+    private Program? _selectedRecording;
+    private bool _isLoading;
+    private int _pageIndex = 0;
+    private int _pageSize = 25;
+    private int _selectedIndex = -1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPageAsync();
+    }
+
+    private async Task LoadPageAsync()
+    {
+        _isLoading = true;
+        _recordings.Clear();
+        _selectedRecording = null;
+        _selectedIndex = -1;
+        StateHasChanged();
+
+        try
+        {
+            var list = await RecordingsService.GetRecordedPageAsync(_pageIndex, _pageSize);
+            _recordings.AddRange(list);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to load recordings: {ex}");
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task NextPage()
+    {
+        _pageIndex++;
+        await LoadPageAsync();
+    }
+
+    private async Task PrevPage()
+    {
+        if (_pageIndex == 0) return;
+        _pageIndex--;
+        await LoadPageAsync();
+    }
+
+    private Task SelectRecording(int idx)
+    {
+        if (idx < 0 || idx >= _recordings.Count) return Task.CompletedTask;
+        _selectedIndex = idx;
+        _selectedRecording = _recordings[idx];
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+}

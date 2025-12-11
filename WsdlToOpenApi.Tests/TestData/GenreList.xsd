@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://mythtv.org" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://mythtv.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="ArrayOfGenre.xsd" />
+  <xs:complexType name="GenreList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="GenreList" type="tns:ArrayOfGenre" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GenreList" nillable="true" type="tns:GenreList" />
+</xs:schema>

@@ -1,0 +1,34 @@
+{
+  "descriptionHash": "5A04F35A7EB7753C849E99B0B1A83579D6435E92F3CFDD0848D348EB2F9F73C9C3AA0B94BC0C639A178B9613CFEEA2D5A427AE6BB0243F74EDED8F22BBEE27F5",
+  "descriptionLocation": "../Temp/Content.openapi.json",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "1.29.0",
+  "clientClassName": "ApiClient",
+  "typeAccessModifier": "Public",
+  "clientNamespaceName": "MythTvApi.Content",
+  "language": "CSharp",
+  "usesBackingStore": false,
+  "excludeBackwardCompatible": true,
+  "includeAdditionalData": true,
+  "disableSSLValidation": false,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Multipart.MultipartSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json",
+    "text/plain;q=0.9",
+    "application/x-www-form-urlencoded;q=0.2",
+    "multipart/form-data;q=0.1"
+  ],
+  "includePatterns": [],
+  "excludePatterns": [],
+  "disabledValidationRules": []
+}

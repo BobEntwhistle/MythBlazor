@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://mythtv.org" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://mythtv.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="ArrayOfVideoCategory.xsd" />
+  <xs:complexType name="VideoCategoryList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="VideoCategories" type="tns:ArrayOfVideoCategory" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VideoCategoryList" nillable="true" type="tns:VideoCategoryList" />
+</xs:schema>

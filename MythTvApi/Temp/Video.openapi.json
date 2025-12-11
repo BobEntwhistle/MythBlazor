@@ -1,0 +1,1602 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "VideoServices",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/Video/AddVideo": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "FileName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "HostName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "AddVideoResponse": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/GetBluray": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Path",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "BlurayInfo": {
+                      "$ref": "#/components/schemas/BlurayInfo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/GetCategoryList": {
+      "get": {
+        "summary": "GET ",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "VideoCategory": {
+                      "$ref": "#/components/schemas/VideoCategory"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/GetLastPlayPos": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "GetLastPlayPosResponse": {
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/GetSavedBookmark": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "GetSavedBookmarkResponse": {
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/GetStreamInfo": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "StorageGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "FileName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "VideoStreamInfoList": {
+                      "$ref": "#/components/schemas/VideoStreamInfoList"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/GetVideo": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "VideoMetadataInfo": {
+                      "$ref": "#/components/schemas/VideoMetadataInfo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/GetVideoByFileName": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "FileName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "VideoMetadataInfo": {
+                      "$ref": "#/components/schemas/VideoMetadataInfo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/GetVideoCommBreak": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "OffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "IncludeFps",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Cutting": {
+                      "$ref": "#/components/schemas/Cutting"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/GetVideoCutList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "OffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "IncludeFps",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Cutting": {
+                      "$ref": "#/components/schemas/Cutting"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/GetVideoList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Folder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "TitleRegEx",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Category",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Descending",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "StartIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "CollapseSubDirs",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "VideoMetadataInfoList": {
+                      "$ref": "#/components/schemas/VideoMetadataInfoList"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/LookupVideo": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Subtitle",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Inetref",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Season",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Episode",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "GrabberType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AllowGeneric",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "VideoLookupList": {
+                      "$ref": "#/components/schemas/VideoLookupList"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/RemoveVideoFromDB": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RemoveVideoFromDBResponse": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/SetLastPlayPos": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "SetLastPlayPosResponse": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/SetSavedBookmark": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "SetSavedBookmarkResponse": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/UpdateVideoMetadata": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SubTitle",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "TagLine",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Director",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Studio",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Plot",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Rating",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Inetref",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CollectionRef",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "HomePage",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Year",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ReleaseDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "UserRating",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "Length",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PlayCount",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Season",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Episode",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ShowLevel",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "FileName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Hash",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CoverFile",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ChildID",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Browse",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Watched",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Processed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "PlayCommand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Category",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Trailer",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Host",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Screenshot",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Banner",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Fanart",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "InsertDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "ContentType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Genres",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Cast",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Countries",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "UpdateVideoMetadataResponse": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Video/UpdateVideoWatchedStatus": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Watched",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "UpdateVideoWatchedStatusResponse": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnonType_1": {
+        "type": "object",
+        "properties": {
+          "FileName": {
+            "type": "string"
+          },
+          "HostName": {
+            "type": "string"
+          }
+        }
+      },
+      "BlurayInfo": {
+        "type": "object",
+        "properties": {
+          "Path": {
+            "type": "string"
+          },
+          "Title": {
+            "type": "string"
+          },
+          "AltTitle": {
+            "type": "string"
+          },
+          "DiscLang": {
+            "type": "string"
+          },
+          "DiscNum": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalDiscNum": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TitleCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ThumbCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ThumbPath": {
+            "type": "string"
+          },
+          "TopMenuSupported": {
+            "type": "boolean"
+          },
+          "FirstPlaySupported": {
+            "type": "boolean"
+          },
+          "NumHDMVTitles": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NumBDJTitles": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NumUnsupportedTitles": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AACSDetected": {
+            "type": "boolean"
+          },
+          "LibAACSDetected": {
+            "type": "boolean"
+          },
+          "AACSHandled": {
+            "type": "boolean"
+          },
+          "BDPlusDetected": {
+            "type": "boolean"
+          },
+          "LibBDPlusDetected": {
+            "type": "boolean"
+          },
+          "BDPlusHandled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "VideoCategory": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Name": {
+            "type": "string"
+          }
+        }
+      },
+      "VideoStreamInfo": {
+        "type": "object",
+        "properties": {
+          "CodecType": {
+            "type": "string"
+          },
+          "CodecName": {
+            "type": "string"
+          },
+          "Width": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AspectRatio": {
+            "type": "number"
+          },
+          "FieldOrder": {
+            "type": "string"
+          },
+          "FrameRate": {
+            "type": "number"
+          },
+          "AvgFrameRate": {
+            "type": "number"
+          },
+          "Channels": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Duration": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ArrayOfVideoStreamInfo": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/VideoStreamInfo"
+        }
+      },
+      "VideoStreamInfoList": {
+        "type": "object",
+        "properties": {
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AsOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "ProtoVer": {
+            "type": "string"
+          },
+          "ErrorCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ErrorMsg": {
+            "type": "string"
+          },
+          "VideoStreamInfos": {
+            "$ref": "#/components/schemas/ArrayOfVideoStreamInfo"
+          }
+        }
+      },
+      "ArtworkInfo": {
+        "type": "object",
+        "properties": {
+          "URL": {
+            "type": "string"
+          },
+          "FileName": {
+            "type": "string"
+          },
+          "StorageGroup": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfArtworkInfo": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ArtworkInfo"
+        }
+      },
+      "ArtworkInfoList": {
+        "type": "object",
+        "properties": {
+          "ArtworkInfos": {
+            "$ref": "#/components/schemas/ArrayOfArtworkInfo"
+          }
+        }
+      },
+      "CastMember": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "CharacterName": {
+            "type": "string"
+          },
+          "Role": {
+            "type": "string"
+          },
+          "TranslatedRole": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfCastMember": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CastMember"
+        }
+      },
+      "CastMemberList": {
+        "type": "object",
+        "properties": {
+          "CastMembers": {
+            "$ref": "#/components/schemas/ArrayOfCastMember"
+          }
+        }
+      },
+      "Genre": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfGenre": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Genre"
+        }
+      },
+      "GenreList": {
+        "type": "object",
+        "properties": {
+          "GenreList": {
+            "$ref": "#/components/schemas/ArrayOfGenre"
+          }
+        }
+      },
+      "VideoMetadataInfo": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Title": {
+            "type": "string"
+          },
+          "SubTitle": {
+            "type": "string"
+          },
+          "Tagline": {
+            "type": "string"
+          },
+          "Director": {
+            "type": "string"
+          },
+          "Studio": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Certification": {
+            "type": "string"
+          },
+          "Inetref": {
+            "type": "string"
+          },
+          "Collectionref": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "HomePage": {
+            "type": "string"
+          },
+          "ReleaseDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "AddDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "UserRating": {
+            "type": "number"
+          },
+          "ChildID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Length": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "PlayCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Season": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Episode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ParentalLevel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Visible": {
+            "type": "boolean"
+          },
+          "Watched": {
+            "type": "boolean"
+          },
+          "Processed": {
+            "type": "boolean"
+          },
+          "ContentType": {
+            "type": "string"
+          },
+          "FileName": {
+            "type": "string"
+          },
+          "Hash": {
+            "type": "string"
+          },
+          "HostName": {
+            "type": "string"
+          },
+          "Coverart": {
+            "type": "string"
+          },
+          "Fanart": {
+            "type": "string"
+          },
+          "Banner": {
+            "type": "string"
+          },
+          "Screenshot": {
+            "type": "string"
+          },
+          "Trailer": {
+            "type": "string"
+          },
+          "Category": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Artwork": {
+            "$ref": "#/components/schemas/ArtworkInfoList"
+          },
+          "Cast": {
+            "$ref": "#/components/schemas/CastMemberList"
+          },
+          "Genres": {
+            "$ref": "#/components/schemas/GenreList"
+          }
+        }
+      },
+      "Cutting": {
+        "type": "object",
+        "properties": {
+          "Mark": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Offset": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ArrayOfVideoMetadataInfo": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/VideoMetadataInfo"
+        }
+      },
+      "VideoMetadataInfoList": {
+        "type": "object",
+        "properties": {
+          "StartIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CurrentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalAvailable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AsOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "ProtoVer": {
+            "type": "string"
+          },
+          "VideoMetadataInfos": {
+            "$ref": "#/components/schemas/ArrayOfVideoMetadataInfo"
+          }
+        }
+      },
+      "ArrayOfString": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "ArtworkItem": {
+        "type": "object",
+        "properties": {
+          "Type": {
+            "type": "string"
+          },
+          "Url": {
+            "type": "string"
+          },
+          "Thumbnail": {
+            "type": "string"
+          },
+          "Width": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Height": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ArrayOfArtworkItem": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ArtworkItem"
+        }
+      },
+      "VideoLookup": {
+        "type": "object",
+        "properties": {
+          "Title": {
+            "type": "string"
+          },
+          "SubTitle": {
+            "type": "string"
+          },
+          "Season": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Episode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Tagline": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Certification": {
+            "type": "string"
+          },
+          "Inetref": {
+            "type": "string"
+          },
+          "Collectionref": {
+            "type": "string"
+          },
+          "HomePage": {
+            "type": "string"
+          },
+          "ReleaseDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "UserRating": {
+            "type": "number"
+          },
+          "Length": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Language": {
+            "type": "string"
+          },
+          "Countries": {
+            "$ref": "#/components/schemas/ArrayOfString"
+          },
+          "Popularity": {
+            "type": "number"
+          },
+          "Budget": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Revenue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "IMDB": {
+            "type": "string"
+          },
+          "TMSRef": {
+            "type": "string"
+          },
+          "Artwork": {
+            "$ref": "#/components/schemas/ArrayOfArtworkItem"
+          }
+        }
+      },
+      "ArrayOfVideoLookup": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/VideoLookup"
+        }
+      },
+      "VideoLookupList": {
+        "type": "object",
+        "properties": {
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AsOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "ProtoVer": {
+            "type": "string"
+          },
+          "VideoLookups": {
+            "$ref": "#/components/schemas/ArrayOfVideoLookup"
+          }
+        }
+      }
+    }
+  }
+}

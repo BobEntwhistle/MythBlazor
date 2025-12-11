@@ -1,0 +1,97 @@
+@using Microsoft.Kiota.Abstractions.Authentication
+@using Microsoft.Kiota.Abstractions.Serialization
+@using MythBlazor.Factories
+@using MythTvApi.Content
+@using MythTvApi.Content.Content.GetPreviewImage
+@using Microsoft.Kiota.Http.HttpClientLibrary
+@using MythTvApi.Dvr.Models
+@using static MythTvApi.Content.Content.GetPreviewImage.GetPreviewImageRequestBuilder
+@using Program = MythTvApi.Dvr.Models.Program
+@using MythBlazor.Services
+@using MythBlazor.Utils
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@inject ApiClientFactory ApiFactory
+
+@if (SelectedRecording != null)
+{
+    <div class="row">
+        <div class="col-3">
+            @if (!string.IsNullOrEmpty(_thumbnailUrl))
+            {
+                <img src="@_thumbnailUrl" class="img-fluid rounded" alt="thumbnail" />
+            }
+            else if (_loading)
+            {
+                <div class="d-flex align-items-center justify-content-center" style="height:160px;">
+                    Loading...
+                </div>
+            }
+            else
+            {
+                <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height:160px;">
+                    No Image
+                </div>
+            }
+        </div>
+        <div class="col-9">
+            <h4>@SelectedRecording.Title</h4>
+            <h6 class="text-muted">@SelectedRecording.SubTitle</h6>
+            <p><strong>Channel:</strong> @SelectedRecording.Channel?.ChannelName</p>
+            <p><strong>Air:</strong> @DateTimeHelpers.ToLocalDateTimeString(SelectedRecording.StartTime)</p>
+            <p><strong>Duration:</strong> @DateTimeHelpers.FormatDurationMinutes(SelectedRecording.StartTime ?? SelectedRecording.Recording?.StartTs, SelectedRecording.EndTime ?? SelectedRecording.Recording?.EndTs)</p>
+            <p>@SelectedRecording.Description</p>
+            <p class="small text-muted">File: @SelectedRecording.Recording?.FileName</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-muted">Select a recording to view details.</div>
+}
+
+@code {
+    [Parameter]
+    public Program? SelectedRecording { get; set; }
+
+    private string? _thumbnailUrl;
+    private bool _loading;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadThumbnailAsync();
+    }
+
+    private async Task LoadThumbnailAsync()
+    {
+        _thumbnailUrl = null;
+        if (SelectedRecording == null)
+        {
+            return;
+        }
+
+        _loading = true;
+        StateHasChanged();
+
+        try
+        {
+            int? recordedId = SelectedRecording.Recording?.RecordedId;
+            int? chanId = SelectedRecording.Channel?.ChanId;
+            var start = SelectedRecording.StartTime;
+
+            var bytes = await ContentService.GetPreviewImageBytesAsync(recordedId, chanId, start, width: 640, height: 360, secsIn: 180);
+            if (bytes != null && bytes.Length > 0)
+            {
+                _thumbnailUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(bytes)}";
+            }
+        }
+        catch
+        {
+            // swallow: component should not break parent
+        }
+        finally
+        {
+            _loading = false;
+            StateHasChanged();
+        }
+    }
+}
