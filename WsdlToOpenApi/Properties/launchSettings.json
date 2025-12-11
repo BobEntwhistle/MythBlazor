@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WsdlToOpenApi": {
+      "commandName": "Project",
+      "commandLineArgs": "http://192.168.7.132:6544/Video/wsdl?raw=1"
+    }
+  }
+}

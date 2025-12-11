@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://mythtv.org" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://mythtv.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="VideoStreamInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CodecType" type="xs:string" />
+      <xs:element minOccurs="0" name="CodecName" type="xs:string" />
+      <xs:element minOccurs="0" name="Width" type="xs:int" />
+      <xs:element minOccurs="0" name="Height" type="xs:int" />
+      <xs:element minOccurs="0" name="AspectRatio" type="xs:float" />
+      <xs:element minOccurs="0" name="FieldOrder" type="xs:string" />
+      <xs:element minOccurs="0" name="FrameRate" type="xs:float" />
+      <xs:element minOccurs="0" name="AvgFrameRate" type="xs:float" />
+      <xs:element minOccurs="0" name="Channels" type="xs:int" />
+      <xs:element minOccurs="0" name="Duration" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VideoStreamInfo" nillable="true" type="tns:VideoStreamInfo" />
+</xs:schema>

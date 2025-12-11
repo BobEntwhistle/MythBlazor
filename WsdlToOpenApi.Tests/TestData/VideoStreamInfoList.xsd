@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://mythtv.org" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://mythtv.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="ArrayOfVideoStreamInfo.xsd" />
+  <xs:complexType name="VideoStreamInfoList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Count" type="xs:int" />
+      <xs:element minOccurs="0" name="AsOf" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Version" type="xs:string" />
+      <xs:element minOccurs="0" name="ProtoVer" type="xs:string" />
+      <xs:element minOccurs="0" name="ErrorCode" type="xs:int" />
+      <xs:element minOccurs="0" name="ErrorMsg" type="xs:string" />
+      <xs:element minOccurs="0" name="VideoStreamInfos" type="tns:ArrayOfVideoStreamInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VideoStreamInfoList" nillable="true" type="tns:VideoStreamInfoList" />
+</xs:schema>
