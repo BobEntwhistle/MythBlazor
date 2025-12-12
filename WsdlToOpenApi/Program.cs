@@ -1,8 +1,16 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 using System.Web.Services.Description;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Linq;
+using Microsoft.OpenApi;
+
 
 namespace WsdlToOpenApi
 {
@@ -45,7 +53,7 @@ namespace WsdlToOpenApi
     /// - If a complex element is only a wrapper that contains a single sequence child, the wrapper is ignored and the
     ///   inner sequence is transformed into an array in the OpenAPI schema (outer wrapper is not generated as a component).
     /// - Supports file:// URLs for local WSDL/XSD files.
-    /// - Centralized schema/type handling helpers to remove duplicated logic.
+    /// - Uses Microsoft.OpenApi (OpenAPI.NET) to construct and serialize the OpenAPI document.
     /// </summary>
     internal class WsdlToOpenApiConverter
     {
@@ -70,50 +78,49 @@ namespace WsdlToOpenApi
 
             schemaSet.Compile();
 
-            var doc = new Dictionary<string, object?>
+            // Create OpenAPI document using Microsoft.OpenApi models
+            var doc = new OpenApiDocument
             {
-                ["openapi"] = "3.0.3",
-                ["info"] = new Dictionary<string, object?>
+                Info = new OpenApiInfo
                 {
-                    ["title"] = sd.Name ?? "wsdl-conversion",
-                    ["version"] = "1.0.0"
+                    Title = sd.Name ?? "wsdl-conversion",
+                    Version = "1.0.0"
                 },
-                ["paths"] = new Dictionary<string, object>(),
-                ["components"] = new Dictionary<string, object?>
-                {
-                    ["schemas"] = new Dictionary<string, object?>()
-                }
+                Paths = new OpenApiPaths(),
+                Components = new OpenApiComponents { Schemas = new Dictionary<string, IOpenApiSchema>() }
             };
 
-            var components = (Dictionary<string, object?>)doc["components"]!;
-            var schemas = (Dictionary<string, object?>)components["schemas"]!;
+            // Map of processed complex types to component names
             var processedComplex = new Dictionary<XmlQualifiedName, string>();
 
             foreach (PortType portType in sd.PortTypes)
             {
                 foreach (Operation op in portType.Operations)
                 {
-                    var path = $"/{Sanitize(portType.Name)}/{Sanitize(op.Name)}";
-                    var pathItem = new Dictionary<string, object?>();
+                    var pathKey = $"/{Sanitize(portType.Name)}/{Sanitize(op.Name)}";
+                    var pathItem = new OpenApiPathItem();
                     var method = "get";
 
                     var inputMessage = op.Messages.Input?.Message;
                     var outputMessage = op.Messages.Output?.Message;
 
-                    var parameters = new List<Dictionary<string, object?>>();
-                    Dictionary<string, object?>? requestBody = null;
-                    Dictionary<string, object?> responses = new Dictionary<string, object?>();
+                    var operation = new OpenApiOperation
+                    {
+                        Summary = op.Documentation,
+                        Parameters = new List<OpenApiParameter>().OfType<IOpenApiParameter>().ToList(),
+                        Responses = new OpenApiResponses()
+                    };
+
+                    OpenApiRequestBody? requestBody = null;
+                    bool requiresBody = false;
 
                     if (inputMessage != null)
                     {
                         var wsdlMsg = sd.Messages.Cast<Message>().FirstOrDefault(m => m.Name == inputMessage.Name);
                         if (wsdlMsg != null)
                         {
-                            bool requiresBody = false;
-
                             foreach (MessagePart part in wsdlMsg.Parts)
                             {
-                                // unify resolution of element/type
                                 XmlSchemaElement? element = null;
                                 XmlSchemaType? resolvedType = null;
 
@@ -133,39 +140,35 @@ namespace WsdlToOpenApi
                                 // If element is present and repeated -> parameter is an array of item schema
                                 if (element != null && element.MaxOccurs > 1m)
                                 {
-                                    var itemSchema = CreateSchemaForType(resolvedType, schemaSet, schemas, processedComplex);
-                                    var arraySchema = CreateArraySchema(itemSchema);
-                                    parameters.Add(CreateQueryParameter(part.Name ?? element.Name, arraySchema));
+                                    var itemSchema = CreateOpenApiSchemaForType(resolvedType, schemaSet, doc.Components, processedComplex);
+                                    var arraySchema = new OpenApiSchema { Type = JsonSchemaType.Array, Items = itemSchema };
+                                    operation.Parameters.Add(CreateOpenApiQueryParameter(part.Name ?? element.Name, arraySchema));
                                     continue;
                                 }
 
-                                // If resolvedType is a wrapper around a single sequence child, CreateSchemaForType will return an array schema
-                                var schemaForPart = CreateSchemaForType(resolvedType, schemaSet, schemas, processedComplex);
+                                var schemaForPart = CreateOpenApiSchemaForType(resolvedType, schemaSet, doc.Components, processedComplex);
 
-                                // Decide whether we can use query params (simple or flattened shallow) or should use requestBody
                                 if (IsSimpleType(resolvedType))
                                 {
-                                    parameters.Add(CreateQueryParameter(part.Name ?? element?.Name ?? part.Name, schemaForPart));
+                                    operation.Parameters.Add(CreateOpenApiQueryParameter(part.Name ?? element?.Name ?? part.Name, schemaForPart));
                                 }
                                 else
                                 {
                                     var depth = ComputeDepth(resolvedType, schemaSet, 0);
                                     if (depth <= 1)
                                     {
-                                        // flatten child elements as query parameters
                                         var fields = GetChildFields(resolvedType, schemaSet);
                                         foreach (var f in fields)
                                         {
-                                            parameters.Add(CreateQueryParameter($"{f.name}".TrimStart('.'), MapSimpleTypeToOpenApi(f.type)));
+                                            operation.Parameters.Add(CreateOpenApiQueryParameter(f.name, MapSimpleTypeToOpenApiSchema(f.type)));
                                         }
                                     }
                                     else
                                     {
                                         requiresBody = true;
-                                        // if schemaForPart is an array or $ref or object schema, use as requestBody
                                         if (schemaForPart != null)
                                         {
-                                            requestBody = CreateRequestBodyFromSchema(schemaForPart);
+                                            requestBody = CreateOpenApiRequestBodyFromSchema(schemaForPart);
                                         }
                                     }
                                 }
@@ -174,7 +177,7 @@ namespace WsdlToOpenApi
                             if (requiresBody)
                             {
                                 method = "post";
-                                requestBody ??= DefaultRequestBody();
+                                requestBody ??= CreateDefaultOpenApiRequestBody();
                             }
                         }
                     }
@@ -182,86 +185,110 @@ namespace WsdlToOpenApi
                     if (string.Equals(op.Documentation?.Trim(), "POST", StringComparison.OrdinalIgnoreCase))
                     {
                         method = "post";
-                        requestBody ??= DefaultRequestBody();
+                        requestBody ??= CreateDefaultOpenApiRequestBody();
                     }
 
+                    // Output handling
                     if (outputMessage != null)
                     {
                         var wsdlOut = sd.Messages.Cast<Message>().FirstOrDefault(m => m.Name == outputMessage.Name);
                         if (wsdlOut != null && wsdlOut.Parts.Count > 0)
                         {
                             var outPart = wsdlOut.Parts[0];
-                            var responseSchema = BuildSchemaForMessagePart(outPart, schemaSet, schemas, processedComplex);
-                            responses["200"] = CreateSimpleResponse(responseSchema);
+                            var responseSchema = BuildOpenApiSchemaForMessagePart(outPart, schemaSet, doc.Components, processedComplex);
+                            operation.Responses["200"] = new OpenApiResponse
+                            {
+                                Description = "Successful response",
+                                Content = new Dictionary<string, IOpenApiMediaType>
+                                {
+                                    { "application/json", new OpenApiMediaType { Schema = responseSchema } }
+                                }
+                            };
                         }
                         else
                         {
-                            responses["200"] = new Dictionary<string, object?> { ["description"] = "No content" };
+                            operation.Responses["200"] = new OpenApiResponse { Description = "No content" };
                         }
                     }
                     else
                     {
-                        responses["200"] = new Dictionary<string, object?> { ["description"] = "No output message" };
+                        operation.Responses["200"] = new OpenApiResponse { Description = "No output message" };
                     }
-
-                    var operationObj = new Dictionary<string, object?>
-                    {
-                        ["summary"] = op.Documentation,
-                        ["parameters"] = parameters,
-                        ["responses"] = responses
-                    };
 
                     if (requestBody != null)
                     {
-                        operationObj["requestBody"] = requestBody;
+                        operation.RequestBody = requestBody;
                     }
 
-                    pathItem[method] = operationObj;
-                    ((Dictionary<string, object>)doc["paths"]!)[path] = pathItem;
+                    // assign operation to path item using the selected method
+                    // Ensure Operations dictionary is initialized (key type used by earlier API is HttpMethod)
+                    if (pathItem.Operations == null)
+                    {
+                        pathItem.Operations = new Dictionary<System.Net.Http.HttpMethod, OpenApiOperation>();
+                    }
+
+                    switch (method.ToLowerInvariant())
+                    {
+                        case "get":
+                            pathItem.AddOperation(HttpMethod.Get, operation);
+                            break;
+                        case "post":
+                            pathItem.AddOperation(HttpMethod.Post, operation);
+                            break;
+                        default:
+                            pathItem.AddOperation(HttpMethod.Get, operation);
+                            break;
+                    }
+
+                    doc.Paths[pathKey] = pathItem;
                 }
             }
 
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            return JsonSerializer.Serialize(doc, options);
+            // Serialize using OpenAPI.NET
+            using var sw = new StringWriter();
+            var writer = new OpenApiJsonWriter(sw);
+            doc.SerializeAsV3(writer);
+            await writer.FlushAsync();
+            return sw.ToString();
         }
 
-        // Centralized helpers
+        // --- OpenAPI.NET helpers (create schemas, parameters, request bodies) ---
 
-        private static Dictionary<string, object?> DefaultRequestBody()
+        private static OpenApiRequestBody CreateDefaultOpenApiRequestBody()
         {
-            return new Dictionary<string, object?>
+            return new OpenApiRequestBody
             {
-                ["content"] = new Dictionary<string, object?>
+                Content = new Dictionary<string, IOpenApiMediaType>
                 {
-                    ["application/json"] = new Dictionary<string, object?>
-                    {
-                        ["schema"] = new Dictionary<string, object?> { ["type"] = "object" }
-                    }
+                    { "application/json", new OpenApiMediaType { Schema = new OpenApiSchema { Type = JsonSchemaType.Object } } }
                 }
             };
         }
 
-        private static Dictionary<string, object?> CreateRequestBodyFromSchema(Dictionary<string, object?> schema)
+        private static OpenApiRequestBody CreateOpenApiRequestBodyFromSchema(IOpenApiSchema schema)
         {
-            return new Dictionary<string, object?>
+            return new OpenApiRequestBody
             {
-                ["content"] = new Dictionary<string, object?>
+                Content = new Dictionary<string, IOpenApiMediaType>
                 {
-                    ["application/json"] = new Dictionary<string, object?>
-                    {
-                        ["schema"] = schema
-                    }
+                    { "application/json", new OpenApiMediaType { Schema = schema } }
                 }
             };
         }
 
-        private static Dictionary<string, object?> CreateArraySchema(Dictionary<string, object?> itemSchema)
+        private static OpenApiParameter CreateOpenApiQueryParameter(string name, IOpenApiSchema schema)
         {
-            return new Dictionary<string, object?> { ["type"] = "array", ["items"] = itemSchema };
+            return new OpenApiParameter
+            {
+                Name = name,
+                In = ParameterLocation.Query,
+                Required = false,
+                Schema = schema
+            };
         }
 
-        // Build schema for a MessagePart's returned type using centralized logic
-        private static Dictionary<string, object?> BuildSchemaForMessagePart(MessagePart part, XmlSchemaSet set, Dictionary<string, object?> schemas, Dictionary<XmlQualifiedName, string> processed)
+        // Build OpenApi schema for a MessagePart (delegates to CreateOpenApiSchemaForType)
+        private static IOpenApiSchema BuildOpenApiSchemaForMessagePart(MessagePart part, XmlSchemaSet set, OpenApiComponents components, Dictionary<XmlQualifiedName, string> processed)
         {
             try
             {
@@ -270,12 +297,11 @@ namespace WsdlToOpenApi
                     var element = FindGlobalElement(set, part.Element);
                     if (element != null)
                     {
-                        // If element repeats -> array of element type
                         var elementType = ResolveElementType(element, set);
-                        var baseSchema = CreateSchemaForType(elementType, set, schemas, processed);
+                        var baseSchema = CreateOpenApiSchemaForType(elementType, set, components, processed);
                         if (element.MaxOccurs > 1m)
                         {
-                            return CreateArraySchema(baseSchema);
+                            return new OpenApiSchema { Type = JsonSchemaType.Array, Items = baseSchema };
                         }
                         return baseSchema;
                     }
@@ -285,7 +311,7 @@ namespace WsdlToOpenApi
                     var xmlType = ResolveXmlSchemaType(part.Type, set);
                     if (xmlType != null)
                     {
-                        return CreateSchemaForType(xmlType, set, schemas, processed);
+                        return CreateOpenApiSchemaForType(xmlType, set, components, processed);
                     }
                 }
             }
@@ -294,48 +320,187 @@ namespace WsdlToOpenApi
                 // fall through
             }
 
-            return new Dictionary<string, object?> { ["type"] = "string" };
+            return new OpenApiSchema { Type = JsonSchemaType.String };
         }
 
-        // Create schema for a type: simple -> simple mapping; complex wrapper with single sequence child -> array of inner;
-        // otherwise ensure component $ref is created and returned
-        private static Dictionary<string, object?> CreateSchemaForType(XmlSchemaType? type, XmlSchemaSet set, Dictionary<string, object?> schemas, Dictionary<XmlQualifiedName, string> processed)
+        // Create an OpenApiSchema for an XmlSchemaType. For complex types it registers a component schema and returns a $ref schema.
+        private static IOpenApiSchema CreateOpenApiSchemaForType(XmlSchemaType? type, XmlSchemaSet set, OpenApiComponents components, Dictionary<XmlQualifiedName, string> processed)
         {
             if (type == null)
             {
-                return new Dictionary<string, object?> { ["type"] = "string" };
+                return new OpenApiSchema { Type = JsonSchemaType.String };
             }
 
-            // simple types
             if (IsSimpleType(type))
             {
-                return MapSimpleTypeToOpenApi(type);
+                return MapSimpleTypeToOpenApiSchema(type);
             }
 
-            // complex types: check wrapper pattern (single sequence child)
             if (type is XmlSchemaComplexType ct)
             {
+                // wrapper pattern: single sequence child -> array of inner type
                 var inner = GetSingleSequenceChild(ct);
                 if (inner != null)
                 {
                     var innerType = inner.ElementSchemaType ?? ResolveXmlSchemaType(inner.SchemaTypeName, set);
                     if (innerType != null)
                     {
-                        var itemSchema = CreateSchemaForType(innerType, set, schemas, processed);
-                        return CreateArraySchema(itemSchema);
+                        var itemSchema = CreateOpenApiSchemaForType(innerType, set, components, processed);
+                        return new OpenApiSchema { Type = JsonSchemaType.Array, Items = itemSchema };
                     }
                 }
 
-                // fallback: create component for complex type
-                var compName = EnsureComponentForType(type, set, schemas, processed);
-                return new Dictionary<string, object?> { ["$ref"] = $"#/components/schemas/{compName}" };
+                // otherwise create/ensure a component schema and return a reference schema
+                var compName = EnsureComponentForTypeOpenApi(type, set, components, processed);
+                return new OpenApiSchemaReference(compName);
             }
 
             // fallback
-            return new Dictionary<string, object?> { ["type"] = "string" };
+            return new OpenApiSchema { Type = JsonSchemaType.String };
         }
 
-        // Loads WSDLs (supports file://), merges descriptions and returns grouped schemas
+        // Ensure a component schema exists for a complex XmlSchemaType. Returns the component name.
+        // Registers the generated OpenApiSchema into components.Schemas.
+        private static string EnsureComponentForTypeOpenApi(XmlSchemaType type, XmlSchemaSet set, OpenApiComponents components, Dictionary<XmlQualifiedName, string> processed)
+        {
+            var qn = type.QualifiedName;
+            var compName = !qn.IsEmpty ? qn.Name : $"AnonType_{processed.Count + 1}";
+
+            if (processed.TryGetValue(qn, out var existing)) return existing;
+
+            var schema = new OpenApiSchema { Type = JsonSchemaType.Object, Properties = new Dictionary<string, IOpenApiSchema>() };
+
+            // Ensure components.Schemas dictionary is initialized before adding entries
+            if (components.Schemas == null)
+            {
+                components.Schemas = new Dictionary<string, IOpenApiSchema>();
+            }
+
+            // handle complex content extension -> include base refs and extension properties
+            if (type is XmlSchemaComplexType ct)
+            {
+                if (ct.ContentModel is XmlSchemaComplexContent complexContent && complexContent.Content is XmlSchemaComplexContentExtension extension)
+                {
+                    if (!extension.BaseTypeName.IsEmpty)
+                    {
+                        var baseType = ResolveXmlSchemaType(extension.BaseTypeName, set);
+                        if (baseType != null && !IsSimpleType(baseType))
+                        {
+                            var baseName = EnsureComponentForTypeOpenApi(baseType, set, components, processed);
+                            // include by adding an extension property that is a $ref to base (keeps behavior similar to previous implementation)
+                            schema.Properties[$"_extends_{extension.BaseTypeName.Name}"] = new OpenApiSchemaReference(baseName);
+                        }
+                    }
+
+                    if (extension.Particle is XmlSchemaSequence extSeq)
+                    {
+                        foreach (XmlSchemaObject item in extSeq.Items)
+                        {
+                            if (item is XmlSchemaElement child)
+                            {
+                                AddPropertyForChildOpenApi(child, set, schema.Properties, components, processed);
+                            }
+                        }
+                    }
+                }
+                else if (ct.Particle is XmlSchemaSequence seq)
+                {
+                    foreach (XmlSchemaObject item in seq.Items)
+                    {
+                        if (item is XmlSchemaElement child)
+                        {
+                            AddPropertyForChildOpenApi(child, set, schema.Properties, components, processed);
+                        }
+                    }
+                }
+                else if (ct.Particle is XmlSchemaChoice choice)
+                {
+                    foreach (XmlSchemaObject item in choice.Items)
+                    {
+                        if (item is XmlSchemaElement child)
+                        {
+                            AddPropertyForChildOpenApi(child, set, schema.Properties, components, processed);
+                        }
+                    }
+                }
+            }
+
+            components.Schemas[compName] = schema;
+            processed[qn] = compName;
+            return compName;
+        }
+
+        private static void AddPropertyForChildOpenApi(XmlSchemaElement child, XmlSchemaSet set, IDictionary<string, IOpenApiSchema> props, OpenApiComponents components, Dictionary<XmlQualifiedName, string> processed)
+        {
+            var childType = child.ElementSchemaType ?? ResolveXmlSchemaType(child.SchemaTypeName, set) ?? child.ElementSchemaType!;
+            if (IsSimpleType(childType))
+            {
+                props[child.Name ?? child.QualifiedName.Name] = MapSimpleTypeToOpenApiSchema(childType);
+            }
+            else
+            {
+                var nestedName = EnsureComponentForTypeOpenApi(childType, set, components, processed);
+                props[child.Name ?? child.QualifiedName.Name] = new OpenApiSchemaReference(nestedName);
+            }
+        }
+
+        private static OpenApiSchema MapSimpleTypeToOpenApiSchema(XmlSchemaType? type)
+        {
+            var res = new OpenApiSchema { Type = JsonSchemaType.String };
+
+            if (type == null) return res;
+
+            var qn = type.QualifiedName;
+            if (qn.Namespace == XmlSchema.Namespace)
+            {
+                switch (qn.Name)
+                {
+                    case "string":
+                    case "normalizedString":
+                        res.Type = JsonSchemaType.String;
+                        break;
+                    case "boolean":
+                        res.Type = JsonSchemaType.Boolean;
+                        break;
+                    case "int":
+                    case "integer":
+                    case "short":
+                    case "byte":
+                        res.Type = JsonSchemaType.Integer;
+                        res.Format = "int32";
+                        break;
+                    case "long":
+                        res.Type = JsonSchemaType.Integer;
+                        res.Format = "int64";
+                        break;
+                    case "decimal":
+                    case "double":
+                    case "float":
+                        res.Type = JsonSchemaType.Number;
+                        break;
+                    case "dateTime":
+                        res.Type = JsonSchemaType.String;
+                        res.Format = "date-time";
+                        break;
+                    case "date":
+                        res.Type = JsonSchemaType.String;
+                        res.Format = "date";
+                        break;
+                    case "base64Binary":
+                        res.Type = JsonSchemaType.String;
+                        res.Format = "byte";
+                        break;
+                    default:
+                        res.Type = JsonSchemaType.String;
+                        break;
+                }
+            }
+
+            return res;
+        }
+
+        // --- existing WSDL/XSD helpers (unchanged behavior) ---
+
         private async Task<(ServiceDescription merged, Dictionary<Uri, List<XmlSchema>> schemasByBase)> LoadAndMergeServiceDescriptionsAsync(string wsdlUrl)
         {
             var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -437,7 +602,6 @@ namespace WsdlToOpenApi
             return (merged, schemasByBase);
         }
 
-        // Read text from a uri (file:// or http(s) supported)
         private static async Task<string> ReadTextFromUriAsync(Uri uri)
         {
             if (uri.IsFile)
@@ -447,7 +611,6 @@ namespace WsdlToOpenApi
             return await HttpClient.GetStringAsync(uri);
         }
 
-        // Add schema and resolve includes/imports recursively using schemaLocation resolved against baseUri.
         private async Task AddSchemaAndResolveIncludesAsync(XmlSchema schema, Uri baseUri, XmlSchemaSet set, HashSet<string> visitedSchemaUris)
         {
             var schemaKey = !string.IsNullOrWhiteSpace(schema.SourceUri) ? schema.SourceUri : $"{baseUri.AbsoluteUri}#{schema.TargetNamespace}";
@@ -484,29 +647,15 @@ namespace WsdlToOpenApi
             }
         }
 
-        private static Dictionary<string, object?> CreateSimpleResponse(Dictionary<string, object?> schema)
+        private static OpenApiResponse CreateSimpleResponse(OpenApiSchema schema)
         {
-            return new Dictionary<string, object?>
+            return new OpenApiResponse
             {
-                ["description"] = "Successful response",
-                ["content"] = new Dictionary<string, object?>
+                Description = "Successful response",
+                Content = new Dictionary<string, IOpenApiMediaType>
                 {
-                    ["application/json"] = new Dictionary<string, object?>
-                    {
-                        ["schema"] = schema
-                    }
+                    { "application/json", new OpenApiMediaType { Schema = schema } }
                 }
-            };
-        }
-
-        private static Dictionary<string, object?> CreateQueryParameter(string name, Dictionary<string, object?> schema)
-        {
-            return new Dictionary<string, object?>
-            {
-                ["name"] = name,
-                ["in"] = "query",
-                ["required"] = false,
-                ["schema"] = schema
             };
         }
 
@@ -627,90 +776,6 @@ namespace WsdlToOpenApi
             return list;
         }
 
-        private static string EnsureComponentForType(XmlSchemaType type, XmlSchemaSet set, Dictionary<string, object?> schemas, Dictionary<XmlQualifiedName, string> processed)
-        {
-            var qn = type.QualifiedName;
-            // If anonymous type, generate a name based on its content
-            var compName = !qn.IsEmpty ? qn.Name : $"AnonType_{processed.Count + 1}";
-
-            if (processed.TryGetValue(qn, out var existing)) return existing;
-
-            var schemaObj = new Dictionary<string, object?>();
-            schemaObj["type"] = "object";
-            var props = new Dictionary<string, object?>();
-
-            // Handle complex type sequences, choices and extensions
-            if (type is XmlSchemaComplexType ct)
-            {
-                // If complexContent with extension, process base and extension items
-                if (ct.ContentModel is XmlSchemaComplexContent complexContent && complexContent.Content is XmlSchemaComplexContentExtension extension)
-                {
-                    // process base type first
-                    if (!extension.BaseTypeName.IsEmpty)
-                    {
-                        var baseType = ResolveXmlSchemaType(extension.BaseTypeName, set);
-                        if (baseType != null && !IsSimpleType(baseType))
-                        {
-                            var baseName = EnsureComponentForType(baseType, set, schemas, processed);
-                            // include base properties by reference (simplified)
-                            props[$"_extends_{extension.BaseTypeName.Name}"] = new Dictionary<string, object?> { ["$ref"] = $"#/components/schemas/{baseName}" };
-                        }
-                    }
-
-                    if (extension.Particle is XmlSchemaSequence extSeq)
-                    {
-                        foreach (XmlSchemaObject item in extSeq.Items)
-                        {
-                            if (item is XmlSchemaElement child)
-                            {
-                                AddPropertyForChild(child, set, props, schemas, processed);
-                            }
-                        }
-                    }
-                }
-                else if (ct.Particle is XmlSchemaSequence seq)
-                {
-                    foreach (XmlSchemaObject item in seq.Items)
-                    {
-                        if (item is XmlSchemaElement child)
-                        {
-                            AddPropertyForChild(child, set, props, schemas, processed);
-                        }
-                    }
-                }
-                else if (ct.Particle is XmlSchemaChoice choice)
-                {
-                    // represent choice as optional properties (best-effort)
-                    foreach (XmlSchemaObject item in choice.Items)
-                    {
-                        if (item is XmlSchemaElement child)
-                        {
-                            AddPropertyForChild(child, set, props, schemas, processed);
-                        }
-                    }
-                }
-            }
-
-            schemaObj["properties"] = props;
-            schemas[compName] = schemaObj;
-            processed[qn] = compName;
-            return compName;
-        }
-
-        private static void AddPropertyForChild(XmlSchemaElement child, XmlSchemaSet set, Dictionary<string, object?> props, Dictionary<string, object?> schemas, Dictionary<XmlQualifiedName, string> processed)
-        {
-            var childType = child.ElementSchemaType ?? ResolveXmlSchemaType(child.SchemaTypeName, set) ?? child.ElementSchemaType!;
-            if (IsSimpleType(childType))
-            {
-                props[child.Name ?? child.QualifiedName.Name] = MapSimpleTypeToOpenApi(childType);
-            }
-            else
-            {
-                var nestedName = EnsureComponentForType(childType, set, schemas, processed);
-                props[child.Name ?? child.QualifiedName.Name] = new Dictionary<string, object?> { ["$ref"] = $"#/components/schemas/{nestedName}" };
-            }
-        }
-
         private static XmlSchemaElement? GetSingleSequenceChild(XmlSchemaComplexType ct)
         {
             if (ct == null) return null;
@@ -729,61 +794,6 @@ namespace WsdlToOpenApi
             }
 
             return null;
-        }
-
-        private static Dictionary<string, object?> MapSimpleTypeToOpenApi(XmlSchemaType? type)
-        {
-            var res = new Dictionary<string, object?> { ["type"] = "string" };
-
-            if (type == null) return res;
-
-            var qn = type.QualifiedName;
-            if (qn.Namespace == XmlSchema.Namespace)
-            {
-                switch (qn.Name)
-                {
-                    case "string":
-                    case "normalizedString":
-                        res["type"] = "string";
-                        break;
-                    case "boolean":
-                        res["type"] = "boolean";
-                        break;
-                    case "int":
-                    case "integer":
-                    case "short":
-                    case "byte":
-                        res["type"] = "integer";
-                        res["format"] = "int32";
-                        break;
-                    case "long":
-                        res["type"] = "integer";
-                        res["format"] = "int64";
-                        break;
-                    case "decimal":
-                    case "double":
-                    case "float":
-                        res["type"] = "number";
-                        break;
-                    case "dateTime":
-                        res["type"] = "string";
-                        res["format"] = "date-time";
-                        break;
-                    case "date":
-                        res["type"] = "string";
-                        res["format"] = "date";
-                        break;
-                    case "base64Binary":
-                        res["type"] = "string";
-                        res["format"] = "byte";
-                        break;
-                    default:
-                        res["type"] = "string";
-                        break;
-                }
-            }
-
-            return res;
         }
 
         private static string Sanitize(string? name)
