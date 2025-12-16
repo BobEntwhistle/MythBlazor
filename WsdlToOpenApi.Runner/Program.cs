@@ -1,5 +1,7 @@
+
 using System.CommandLine;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using WsdlToOpenApi;
 
@@ -29,7 +31,9 @@ internal class Program
             var urls = JsonSerializer.Deserialize<string[]>(await File.ReadAllTextAsync(cfg.FullName)) ?? Array.Empty<string>();
             var converter = new WsdlToOpenApiConverter();
 
-            var runnerDir = AppContext.BaseDirectory;
+            // determine project root (walk up from AppContext.BaseDirectory looking for the runner .csproj)
+            var projectRoot = FindProjectRoot("MythTvApi.csproj") ?? Directory.GetCurrentDirectory();
+
             var stateFile = Path.Combine(outDir.FullName, "kiota-state.json");
             var state = File.Exists(stateFile) ? JsonSerializer.Deserialize<Dictionary<string, string>>(await File.ReadAllTextAsync(stateFile)) ?? new() : new();
 
@@ -40,8 +44,13 @@ internal class Program
                     Console.WriteLine($"Processing {url}...");
                     var json = await converter.GenerateOpenApiFromWsdlAsync(url);
                     var uri = new Uri(url);
-                    var firstSegment = uri.Segments.Length > 1 ? uri.Segments[1].Trim('/').Split('.').FirstOrDefault() ?? "schema" : "schema";
-                    var outFile = Path.Combine(outDir.FullName, firstSegment + ".openapi.json");
+
+                    // use the first non-empty path segment (e.g. /Video/wsdl -> "Video")
+                    var segs = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+                    var firstSegment = segs.Length > 0 ? segs[0].Trim('/').Split('.').FirstOrDefault() ?? "schema" : "schema";
+                    var safeName = SanitizeIdentifier(firstSegment);
+
+                    var outFile = Path.Combine(outDir.FullName, safeName + ".openapi.json");
                     await File.WriteAllTextAsync(outFile, json);
 
                     // compute md5
@@ -50,14 +59,33 @@ internal class Program
                     var hash = BitConverter.ToString(md5.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();
 
                     var existingHash = state.ContainsKey(outFile) ? state[outFile] : null;
-                    var clientDir = Path.Combine(outDir.FullName, firstSegment + "_client");
+
+                    // client output folder under project root, named {clientName}.client
+                    var clientDir = Path.Combine(projectRoot, safeName + ".client");
 
                     var needKiota = existingHash != hash || !Directory.Exists(clientDir);
                     if (needKiota)
                     {
                         Console.WriteLine($"Running kiota for {outFile} -> {clientDir}");
-                        // run kiota as external process (assumes kiota is available on PATH)
-                        var psi = new System.Diagnostics.ProcessStartInfo("kiota", $"generate -l csharp -d \"{outFile}\" -o \"{clientDir}\"") { RedirectStandardOutput = true, RedirectStandardError = true };
+                        // ensure target folder exists (kiota will create, but ensure parent exists)
+                        Directory.CreateDirectory(clientDir);
+
+                        // Build kiota CLI args:
+                        // - generate C# client
+                        // - put output in project root {client}.client
+                        // - set namespace to MythTvApi.{clientName}
+                        // - use HttpClient and System.Text.Json (suitable for Blazor)
+                        var namespaceArg = $"MythTvApi.{safeName}";
+                        var argsStr = $"generate -l csharp -d \"{outFile}\" -o \"{clientDir}\" --namespace-name \"{namespaceArg}\" --http-client HttpClient --serializer SystemTextJson --clear-output-folder";
+
+                        var psi = new System.Diagnostics.ProcessStartInfo("kiota", argsStr)
+                        {
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true,
+                            UseShellExecute = false,
+                            CreateNoWindow = true
+                        };
+
                         var p = System.Diagnostics.Process.Start(psi)!;
                         var stdout = await p.StandardOutput.ReadToEndAsync();
                         var stderr = await p.StandardError.ReadToEndAsync();
@@ -70,6 +98,7 @@ internal class Program
                         }
                         else
                         {
+                            // update state on success
                             state[outFile] = hash;
                             await File.WriteAllTextAsync(stateFile, JsonSerializer.Serialize(state, new JsonSerializerOptions { WriteIndented = true }));
                         }
@@ -88,5 +117,61 @@ internal class Program
 
         ParseResult parseResult = root.Parse(args);
         return await parseResult.InvokeAsync();
+    }
+
+    // Try to find the project root by looking for the given project file name in parent folders
+    private static string? FindProjectRoot(string projectFileName)
+    {
+        try
+        {
+            var dir = new DirectoryInfo(AppContext.BaseDirectory);
+            for (int i = 0; i < 8 && dir != null; i++)
+            {
+                var candidate = Path.Combine(dir.FullName, projectFileName);
+                if (File.Exists(candidate))
+                {
+                    return dir.FullName;
+                }
+                dir = dir.Parent;
+            }
+
+            // fallback: look for a .sln file
+            dir = new DirectoryInfo(AppContext.BaseDirectory);
+            for (int i = 0; i < 8 && dir != null; i++)
+            {
+                if (Directory.EnumerateFiles(dir.FullName, "*.sln").Any())
+                    return dir.FullName;
+                dir = dir.Parent;
+            }
+        }
+        catch
+        {
+        }
+        return null;
+    }
+
+    private static string SanitizeIdentifier(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return "Schema";
+        var sb = new StringBuilder();
+        foreach (var ch in name)
+        {
+            if (char.IsLetterOrDigit(ch) || ch == '_')
+            {
+                sb.Append(ch);
+            }
+            else if (ch == '-' || ch == ' ')
+            {
+                sb.Append('_');
+            }
+        }
+        var outName = sb.ToString();
+        // ensure it starts with a letter or underscore
+        if (string.IsNullOrEmpty(outName)) return "Schema";
+        if (!char.IsLetter(outName[0]) && outName[0] != '_')
+        {
+            outName = "_" + outName;
+        }
+        return outName;
     }
 }
