@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="MythBlazor/MythBlazor.csproj" />
+  <Project Path="WsdlToOpenApi.Runner/WsdlToOpenApi.Runner.csproj" />
   <Project Path="WsdlToOpenApi.Tests/WsdlToOpenApi.Tests.csproj" />
   <Project Path="WsdlToOpenApi/WsdlToOpenApi.csproj" />
 </Solution>
