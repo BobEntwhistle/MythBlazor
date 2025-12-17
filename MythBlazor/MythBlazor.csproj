@@ -10,6 +10,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
+    <!-- Kiota HTTP adapter used by the generated client -->
+    <PackageReference Include="Microsoft.Kiota.Http.HttpClient" Version="1.21.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Reference the generated MythTvApi project to use the Dvr client -->
+    <ProjectReference Include="..\MythTvApi\WsdlToOpenApi.Runner.csproj" />
   </ItemGroup>
 
 </Project>
