@@ -1,0 +1,4652 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "DvrServices",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/Dvr/AddDontRecordSchedule": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "NeverRecord",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/AddPlayGroup": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "TitleMatch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SkipAhead",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "SkipBack",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "TimeStretch",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Jump",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/AddPowerPriority": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "PriorityName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecPriority",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "SelectClause",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/AddRecordSchedule": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Subtitle",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "SeriesId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ProgramId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Station",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "FindDay",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "FindTime",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ParentId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Inactive",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Season",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Episode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Inetref",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SearchType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecPriority",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PreferredInput",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "StartOffset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "EndOffset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "LastRecorded",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "DupMethod",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DupIn",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "NewEpisOnly",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecProfile",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "StorageGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PlayGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AutoExpire",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "MaxEpisodes",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "MaxNewest",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoCommflag",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoTranscode",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoMetaLookup",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoUserJob1",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoUserJob2",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoUserJob3",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoUserJob4",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Transcoder",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AutoExtend",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/AddRecordedCredits": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Cast",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/AddRecordedProgram": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Program",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/AllowReRecord": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/CheckPowerQuery": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "SelectClause",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/DeleteRecording": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "ForceDelete",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AllowRerecord",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/DisableRecordSchedule": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/DupInToDescription": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "DupIn",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/DupInToString": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "DupIn",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/DupMethodToDescription": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "DupMethod",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/DupMethodToString": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "DupMethod",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/EnableRecordSchedule": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetConflictList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "StartIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgramList"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetEncoderList": {
+      "get": {
+        "summary": "GET ",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Encoder"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetExpiringList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "StartIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgramList"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetInputList": {
+      "get": {
+        "summary": "GET ",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Input"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetLastPlayPos": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "OffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetOldRecordedList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Descending",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "StartIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "TitleRegEx",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SubtitleRegEx",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SeriesId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgramList"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetPlayGroup": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlayGroup"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetPlayGroupList": {
+      "get": {
+        "summary": "GET ",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetPowerPriorityList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "PriorityName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PowerPriority"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetProgramCategories": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "OnlyRecorded",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecGroupList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "UsedBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecRuleFilterList": {
+      "get": {
+        "summary": "GET ",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecRuleFilterList"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecStorageGroupList": {
+      "get": {
+        "summary": "GET ",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecordSchedule": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Template",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "MakeOverride",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecRule"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecordScheduleList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "StartIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Descending",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecRuleList"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecorded": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Program"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecordedCommBreak": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "OffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "IncludeFps",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Cutting"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecordedCutList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "OffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "IncludeFps",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Cutting"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecordedList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Descending",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "StartIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "TitleRegEx",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "StorageGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "IgnoreLiveTV",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "IgnoreDeleted",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "IncChannel",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Details",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "IncCast",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "IncArtWork",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "IncRecording",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgramList"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecordedMarkup": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MarkupList"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetRecordedSeek": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "OffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Cutting"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetSavedBookmark": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "OffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetTitleInfoList": {
+      "get": {
+        "summary": "GET ",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TitleInfo"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetTitleList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/GetUpcomingList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "StartIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ShowAll",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "RecStatus",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgramList"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/ManageJobQueue": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Action",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "JobName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "JobId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "JobStartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "RemoteHost",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "JobArgs",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/ReactivateRecording": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RecStatusToDescription": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecStatus",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecType",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RecStatusToString": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecStatus",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RecTypeToDescription": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RecTypeToString": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "RecType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RecordedIdForKey": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RecordedIdForPathname": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Pathname",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RemoveOldRecorded": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Reschedule",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RemovePlayGroup": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RemovePowerPriority": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "PriorityName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RemoveRecordSchedule": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RemoveRecorded": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "ForceDelete",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AllowRerecord",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/RescheduleRecordings": {
+      "post": {
+        "summary": "POST ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/SetLastPlayPos": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "OffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/SetRecordedMarkup": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "MarkupList",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/SetSavedBookmark": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "OffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/StopRecording": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/UnDeleteRecording": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/UpdateOldRecorded": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Duplicate",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Reschedule",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/UpdatePlayGroup": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "TitleMatch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SkipAhead",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "SkipBack",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "TimeStretch",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Jump",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/UpdatePowerPriority": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "PriorityName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecPriority",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "SelectClause",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/UpdateRecordSchedule": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Subtitle",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "SeriesId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ProgramId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Station",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "FindDay",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "FindTime",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Inactive",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Season",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Episode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Inetref",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SearchType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecPriority",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PreferredInput",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "StartOffset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "EndOffset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "DupMethod",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DupIn",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "NewEpisOnly",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecProfile",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RecGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "StorageGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PlayGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AutoExpire",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "MaxEpisodes",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "MaxNewest",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoCommflag",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoTranscode",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoMetaLookup",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoUserJob1",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoUserJob2",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoUserJob3",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AutoUserJob4",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Transcoder",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AutoExtend",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/UpdateRecordedMetadata": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "AutoExpire",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "BookmarkOffset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "BookmarkOffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Damaged",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Episode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Inetref",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "LastPlayOffset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "LastPlayOffsetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "OriginalAirDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "Preserve",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Season",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Stars",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SubTitle",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Watched",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "RecGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Dvr/UpdateRecordedWatchedStatus": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "RecordedId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Watched",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnonType_1": {
+        "type": "object",
+        "properties": {
+          "ChanId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "StartTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "NeverRecord": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ChannelInfo": {
+        "type": "object",
+        "properties": {
+          "ChanId": {
+            "type": "string"
+          },
+          "ChanNum": {
+            "type": "string"
+          },
+          "CallSign": {
+            "type": "string"
+          },
+          "IconURL": {
+            "type": "string"
+          },
+          "Icon": {
+            "type": "string"
+          },
+          "ChannelName": {
+            "type": "string"
+          },
+          "MplexId": {
+            "type": "string"
+          },
+          "ServiceId": {
+            "type": "string"
+          },
+          "ATSCMajorChan": {
+            "type": "string"
+          },
+          "ATSCMinorChan": {
+            "type": "string"
+          },
+          "Format": {
+            "type": "string"
+          },
+          "FrequencyId": {
+            "type": "string"
+          },
+          "FineTune": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ChanFilters": {
+            "type": "string"
+          },
+          "SourceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "InputId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CommFree": {
+            "type": "boolean"
+          },
+          "UseEIT": {
+            "type": "boolean"
+          },
+          "Visible": {
+            "type": "boolean"
+          },
+          "ExtendedVisible": {
+            "type": "string"
+          },
+          "XMLTVID": {
+            "type": "string"
+          },
+          "DefaultAuth": {
+            "type": "string"
+          },
+          "ChannelGroups": {
+            "type": "string"
+          },
+          "Inputs": {
+            "type": "string"
+          },
+          "ServiceType": {
+            "type": "string"
+          },
+          "RecPriority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TimeOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CommMethod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Programs": {
+            "$ref": "#/components/schemas/ArrayOfProgram"
+          }
+        }
+      },
+      "RecordingInfo": {
+        "type": "object",
+        "properties": {
+          "RecordedId": {
+            "type": "string"
+          },
+          "Status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "StatusName": {
+            "type": "string"
+          },
+          "RecTypeStatus": {
+            "type": "string"
+          },
+          "Priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "StartTs": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EndTs": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "FileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "FileName": {
+            "type": "string"
+          },
+          "HostName": {
+            "type": "string"
+          },
+          "LastModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "RecordId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "RecGroup": {
+            "type": "string"
+          },
+          "StorageGroup": {
+            "type": "string"
+          },
+          "PlayGroup": {
+            "type": "string"
+          },
+          "RecType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DupInType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DupMethod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "EncoderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "EncoderName": {
+            "type": "string"
+          },
+          "Profile": {
+            "type": "string"
+          }
+        }
+      },
+      "ArtworkInfo": {
+        "type": "object",
+        "properties": {
+          "URL": {
+            "type": "string"
+          },
+          "FileName": {
+            "type": "string"
+          },
+          "StorageGroup": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfArtworkInfo": {
+        "type": "object",
+        "properties": {
+          "ArtworkInfo": {
+            "$ref": "#/components/schemas/ArtworkInfo"
+          }
+        }
+      },
+      "ArtworkInfoList": {
+        "type": "object",
+        "properties": {
+          "ArtworkInfos": {
+            "$ref": "#/components/schemas/ArrayOfArtworkInfo"
+          }
+        }
+      },
+      "CastMember": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "CharacterName": {
+            "type": "string"
+          },
+          "Role": {
+            "type": "string"
+          },
+          "TranslatedRole": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfCastMember": {
+        "type": "object",
+        "properties": {
+          "CastMember": {
+            "$ref": "#/components/schemas/CastMember"
+          }
+        }
+      },
+      "CastMemberList": {
+        "type": "object",
+        "properties": {
+          "CastMembers": {
+            "$ref": "#/components/schemas/ArrayOfCastMember"
+          }
+        }
+      },
+      "Program": {
+        "type": "object",
+        "properties": {
+          "StartTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EndTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Title": {
+            "type": "string"
+          },
+          "SubTitle": {
+            "type": "string"
+          },
+          "Category": {
+            "type": "string"
+          },
+          "CatType": {
+            "type": "string"
+          },
+          "Repeat": {
+            "type": "boolean"
+          },
+          "SeriesId": {
+            "type": "string"
+          },
+          "ProgramId": {
+            "type": "string"
+          },
+          "Stars": {
+            "type": "number"
+          },
+          "LastModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ProgramFlags": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ProgramFlagNames": {
+            "type": "string"
+          },
+          "VideoProps": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "VideoPropNames": {
+            "type": "string"
+          },
+          "AudioProps": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AudioPropNames": {
+            "type": "string"
+          },
+          "SubProps": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SubPropNames": {
+            "type": "string"
+          },
+          "Airdate": {
+            "type": "string",
+            "format": "date"
+          },
+          "ReleaseYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Inetref": {
+            "type": "string"
+          },
+          "Season": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Episode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalEpisodes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "FileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "FileName": {
+            "type": "string"
+          },
+          "HostName": {
+            "type": "string"
+          },
+          "Channel": {
+            "$ref": "#/components/schemas/ChannelInfo"
+          },
+          "Recording": {
+            "$ref": "#/components/schemas/RecordingInfo"
+          },
+          "Artwork": {
+            "$ref": "#/components/schemas/ArtworkInfoList"
+          },
+          "Cast": {
+            "$ref": "#/components/schemas/CastMemberList"
+          }
+        }
+      },
+      "ArrayOfProgram": {
+        "type": "object",
+        "properties": {
+          "Program": {
+            "$ref": "#/components/schemas/Program"
+          }
+        }
+      },
+      "ProgramList": {
+        "type": "object",
+        "properties": {
+          "StartIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalAvailable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AsOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "ProtoVer": {
+            "type": "string"
+          },
+          "Programs": {
+            "$ref": "#/components/schemas/ArrayOfProgram"
+          }
+        }
+      },
+      "Input": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string"
+          },
+          "CardId": {
+            "type": "string"
+          },
+          "SourceId": {
+            "type": "string"
+          },
+          "InputName": {
+            "type": "string"
+          },
+          "DisplayName": {
+            "type": "string"
+          },
+          "QuickTune": {
+            "type": "boolean"
+          },
+          "RecPriority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ScheduleOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "LiveTVOrder": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ArrayOfInput": {
+        "type": "object",
+        "properties": {
+          "Input": {
+            "$ref": "#/components/schemas/Input"
+          }
+        }
+      },
+      "Encoder": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "HostName": {
+            "type": "string"
+          },
+          "Local": {
+            "type": "boolean"
+          },
+          "Connected": {
+            "type": "boolean"
+          },
+          "State": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SleepStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "LowOnFreeSpace": {
+            "type": "boolean"
+          },
+          "Recording": {
+            "$ref": "#/components/schemas/Program"
+          },
+          "Inputs": {
+            "$ref": "#/components/schemas/ArrayOfInput"
+          }
+        }
+      },
+      "PlayGroup": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "TitleMatch": {
+            "type": "string"
+          },
+          "SkipAhead": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SkipBack": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TimeStretch": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Jump": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PowerPriority": {
+        "type": "object",
+        "properties": {
+          "PriorityName": {
+            "type": "string"
+          },
+          "RecPriority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SelectClause": {
+            "type": "string"
+          }
+        }
+      },
+      "RecRuleFilter": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Description": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfRecRuleFilter": {
+        "type": "object",
+        "properties": {
+          "RecRuleFilter": {
+            "$ref": "#/components/schemas/RecRuleFilter"
+          }
+        }
+      },
+      "RecRuleFilterList": {
+        "type": "object",
+        "properties": {
+          "StartIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalAvailable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AsOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "ProtoVer": {
+            "type": "string"
+          },
+          "RecRuleFilters": {
+            "$ref": "#/components/schemas/ArrayOfRecRuleFilter"
+          }
+        }
+      },
+      "RecRule": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ParentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Inactive": {
+            "type": "boolean"
+          },
+          "Title": {
+            "type": "string"
+          },
+          "SubTitle": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Season": {
+            "type": "string"
+          },
+          "Episode": {
+            "type": "string"
+          },
+          "Category": {
+            "type": "string"
+          },
+          "StartTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EndTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "SeriesId": {
+            "type": "string"
+          },
+          "ProgramId": {
+            "type": "string"
+          },
+          "Inetref": {
+            "type": "string"
+          },
+          "ChanId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CallSign": {
+            "type": "string"
+          },
+          "FindDay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "FindTime": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          },
+          "SearchType": {
+            "type": "string"
+          },
+          "RecPriority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "PreferredInput": {
+            "type": "string"
+          },
+          "StartOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "EndOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DupMethod": {
+            "type": "string"
+          },
+          "DupIn": {
+            "type": "string"
+          },
+          "NewEpisOnly": {
+            "type": "boolean"
+          },
+          "Filter": {
+            "type": "string"
+          },
+          "RecProfile": {
+            "type": "string"
+          },
+          "RecGroup": {
+            "type": "string"
+          },
+          "StorageGroup": {
+            "type": "string"
+          },
+          "PlayGroup": {
+            "type": "string"
+          },
+          "AutoExpire": {
+            "type": "boolean"
+          },
+          "MaxEpisodes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "MaxNewest": {
+            "type": "boolean"
+          },
+          "AutoCommflag": {
+            "type": "boolean"
+          },
+          "AutoTranscode": {
+            "type": "boolean"
+          },
+          "AutoMetaLookup": {
+            "type": "boolean"
+          },
+          "AutoUserJob1": {
+            "type": "boolean"
+          },
+          "AutoUserJob2": {
+            "type": "boolean"
+          },
+          "AutoUserJob3": {
+            "type": "boolean"
+          },
+          "AutoUserJob4": {
+            "type": "boolean"
+          },
+          "Transcoder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NextRecording": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "LastRecorded": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "LastDeleted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "AverageDelay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AutoExtend": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfRecRule": {
+        "type": "object",
+        "properties": {
+          "RecRule": {
+            "$ref": "#/components/schemas/RecRule"
+          }
+        }
+      },
+      "RecRuleList": {
+        "type": "object",
+        "properties": {
+          "StartIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalAvailable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AsOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "ProtoVer": {
+            "type": "string"
+          },
+          "RecRules": {
+            "$ref": "#/components/schemas/ArrayOfRecRule"
+          }
+        }
+      },
+      "Cutting": {
+        "type": "object",
+        "properties": {
+          "Mark": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Offset": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Markup": {
+        "type": "object",
+        "properties": {
+          "Type": {
+            "type": "string"
+          },
+          "Frame": {
+            "type": "string"
+          },
+          "Data": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfMarkup": {
+        "type": "object",
+        "properties": {
+          "Markup": {
+            "$ref": "#/components/schemas/Markup"
+          }
+        }
+      },
+      "MarkupList": {
+        "type": "object",
+        "properties": {
+          "Mark": {
+            "$ref": "#/components/schemas/ArrayOfMarkup"
+          },
+          "Seek": {
+            "$ref": "#/components/schemas/ArrayOfMarkup"
+          }
+        }
+      },
+      "TitleInfo": {
+        "type": "object",
+        "properties": {
+          "Title": {
+            "type": "string"
+          },
+          "Inetref": {
+            "type": "string"
+          },
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    }
+  }
+}

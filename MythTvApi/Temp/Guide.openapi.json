@@ -1,0 +1,1099 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "GuideServices",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/Guide/AddChannelGroup": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/AddToChannelGroup": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "ChannelGroupId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/GetCategoryList": {
+      "get": {
+        "summary": "GET ",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/GetChannelGroupList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "IncludeEmpty",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ChannelGroup"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/GetChannelIcon": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Width",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Height",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "FileName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/GetProgramDetails": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Program"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/GetProgramGuide": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Details",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "ChannelGroupId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "WithInvisible",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgramGuide"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/GetProgramList": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "StartIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "TitleFilter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CategoryFilter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PersonFilter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "KeywordFilter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "OnlyNew",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Details",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Descending",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "WithInvisible",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "CatType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "GroupBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgramList"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/GetStoredSearches": {
+      "get": {
+        "summary": "GET ",
+        "parameters": [
+          {
+            "name": "Type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/RemoveChannelGroup": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/RemoveFromChannelGroup": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "ChannelGroupId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ChanId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Guide/UpdateChannelGroup": {
+      "post": {
+        "summary": "POST ",
+        "parameters": [
+          {
+            "name": "OldName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "NewName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnonType_1": {
+        "type": "object",
+        "properties": {
+          "ChannelGroupId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ChanId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ChannelGroup": {
+        "type": "object",
+        "properties": {
+          "GroupId": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfProgram": {
+        "type": "object",
+        "properties": {
+          "Program": {
+            "$ref": "#/components/schemas/Program"
+          }
+        }
+      },
+      "ChannelInfo": {
+        "type": "object",
+        "properties": {
+          "ChanId": {
+            "type": "string"
+          },
+          "ChanNum": {
+            "type": "string"
+          },
+          "CallSign": {
+            "type": "string"
+          },
+          "IconURL": {
+            "type": "string"
+          },
+          "Icon": {
+            "type": "string"
+          },
+          "ChannelName": {
+            "type": "string"
+          },
+          "MplexId": {
+            "type": "string"
+          },
+          "ServiceId": {
+            "type": "string"
+          },
+          "ATSCMajorChan": {
+            "type": "string"
+          },
+          "ATSCMinorChan": {
+            "type": "string"
+          },
+          "Format": {
+            "type": "string"
+          },
+          "FrequencyId": {
+            "type": "string"
+          },
+          "FineTune": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ChanFilters": {
+            "type": "string"
+          },
+          "SourceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "InputId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CommFree": {
+            "type": "boolean"
+          },
+          "UseEIT": {
+            "type": "boolean"
+          },
+          "Visible": {
+            "type": "boolean"
+          },
+          "ExtendedVisible": {
+            "type": "string"
+          },
+          "XMLTVID": {
+            "type": "string"
+          },
+          "DefaultAuth": {
+            "type": "string"
+          },
+          "ChannelGroups": {
+            "type": "string"
+          },
+          "Inputs": {
+            "type": "string"
+          },
+          "ServiceType": {
+            "type": "string"
+          },
+          "RecPriority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TimeOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CommMethod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Programs": {
+            "$ref": "#/components/schemas/ArrayOfProgram"
+          }
+        }
+      },
+      "RecordingInfo": {
+        "type": "object",
+        "properties": {
+          "RecordedId": {
+            "type": "string"
+          },
+          "Status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "StatusName": {
+            "type": "string"
+          },
+          "RecTypeStatus": {
+            "type": "string"
+          },
+          "Priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "StartTs": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EndTs": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "FileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "FileName": {
+            "type": "string"
+          },
+          "HostName": {
+            "type": "string"
+          },
+          "LastModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "RecordId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "RecGroup": {
+            "type": "string"
+          },
+          "StorageGroup": {
+            "type": "string"
+          },
+          "PlayGroup": {
+            "type": "string"
+          },
+          "RecType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DupInType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DupMethod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "EncoderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "EncoderName": {
+            "type": "string"
+          },
+          "Profile": {
+            "type": "string"
+          }
+        }
+      },
+      "ArtworkInfo": {
+        "type": "object",
+        "properties": {
+          "URL": {
+            "type": "string"
+          },
+          "FileName": {
+            "type": "string"
+          },
+          "StorageGroup": {
+            "type": "string"
+          },
+          "Type": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfArtworkInfo": {
+        "type": "object",
+        "properties": {
+          "ArtworkInfo": {
+            "$ref": "#/components/schemas/ArtworkInfo"
+          }
+        }
+      },
+      "ArtworkInfoList": {
+        "type": "object",
+        "properties": {
+          "ArtworkInfos": {
+            "$ref": "#/components/schemas/ArrayOfArtworkInfo"
+          }
+        }
+      },
+      "CastMember": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "CharacterName": {
+            "type": "string"
+          },
+          "Role": {
+            "type": "string"
+          },
+          "TranslatedRole": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayOfCastMember": {
+        "type": "object",
+        "properties": {
+          "CastMember": {
+            "$ref": "#/components/schemas/CastMember"
+          }
+        }
+      },
+      "CastMemberList": {
+        "type": "object",
+        "properties": {
+          "CastMembers": {
+            "$ref": "#/components/schemas/ArrayOfCastMember"
+          }
+        }
+      },
+      "Program": {
+        "type": "object",
+        "properties": {
+          "StartTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EndTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Title": {
+            "type": "string"
+          },
+          "SubTitle": {
+            "type": "string"
+          },
+          "Category": {
+            "type": "string"
+          },
+          "CatType": {
+            "type": "string"
+          },
+          "Repeat": {
+            "type": "boolean"
+          },
+          "SeriesId": {
+            "type": "string"
+          },
+          "ProgramId": {
+            "type": "string"
+          },
+          "Stars": {
+            "type": "number"
+          },
+          "LastModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ProgramFlags": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ProgramFlagNames": {
+            "type": "string"
+          },
+          "VideoProps": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "VideoPropNames": {
+            "type": "string"
+          },
+          "AudioProps": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AudioPropNames": {
+            "type": "string"
+          },
+          "SubProps": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SubPropNames": {
+            "type": "string"
+          },
+          "Airdate": {
+            "type": "string",
+            "format": "date"
+          },
+          "ReleaseYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Inetref": {
+            "type": "string"
+          },
+          "Season": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Episode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalEpisodes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "FileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "FileName": {
+            "type": "string"
+          },
+          "HostName": {
+            "type": "string"
+          },
+          "Channel": {
+            "$ref": "#/components/schemas/ChannelInfo"
+          },
+          "Recording": {
+            "$ref": "#/components/schemas/RecordingInfo"
+          },
+          "Artwork": {
+            "$ref": "#/components/schemas/ArtworkInfoList"
+          },
+          "Cast": {
+            "$ref": "#/components/schemas/CastMemberList"
+          }
+        }
+      },
+      "ArrayOfChannelInfo": {
+        "type": "object",
+        "properties": {
+          "ChannelInfo": {
+            "$ref": "#/components/schemas/ChannelInfo"
+          }
+        }
+      },
+      "ProgramGuide": {
+        "type": "object",
+        "properties": {
+          "StartTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EndTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Details": {
+            "type": "boolean"
+          },
+          "StartIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalAvailable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AsOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "ProtoVer": {
+            "type": "string"
+          },
+          "Channels": {
+            "$ref": "#/components/schemas/ArrayOfChannelInfo"
+          }
+        }
+      },
+      "ProgramList": {
+        "type": "object",
+        "properties": {
+          "StartIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalAvailable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AsOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Version": {
+            "type": "string"
+          },
+          "ProtoVer": {
+            "type": "string"
+          },
+          "Programs": {
+            "$ref": "#/components/schemas/ArrayOfProgram"
+          }
+        }
+      }
+    }
+  }
+}

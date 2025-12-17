@@ -9,9 +9,12 @@ internal class Program
 {
     private static async Task<int> Main(string[] args)
     {
+        // determine project root (walk up from AppContext.BaseDirectory looking for the runner .csproj)
+        var projectRoot = FindProjectRoot("MythTvApi.csproj") ?? Directory.GetCurrentDirectory();
+
         var root = new RootCommand("WsdlToOpenApi runner: generate OpenAPI files from WSDL URLs and run Kiota when needed.");
-        Option<FileInfo?> fileOption = new("--config", "-c") { DefaultValueFactory = fileName => new FileInfo("wsdls.json"), Description = "JSON file containing array of WSDL URLs" };
-        Option<DirectoryInfo?> outDirOption = new("--out", "-o") { DefaultValueFactory = outFolder => new DirectoryInfo("Temp"), Description = "Output directory for OpenAPI files (relative to project)" };
+        Option<FileInfo?> fileOption = new("--config", "-c") { DefaultValueFactory = fileName => new FileInfo(Path.Combine(projectRoot, "wsdls.json")), Description = "JSON file containing array of WSDL URLs" };
+        Option<DirectoryInfo?> outDirOption = new("--out", "-o") { DefaultValueFactory = outFolder => new DirectoryInfo(Path.Combine(projectRoot, "Temp")), Description = "Output directory for OpenAPI files (relative to project)" };
         root.Add(fileOption);
         root.Add(outDirOption);
 
@@ -19,6 +22,7 @@ internal class Program
         {
             var cfg = parseResult.GetValue(fileOption) ?? new FileInfo("wsdls.json");
             var outDir = parseResult.GetValue(outDirOption) ?? new DirectoryInfo("Temp");
+
 
             if (!cfg.Exists)
             {
@@ -31,8 +35,6 @@ internal class Program
             var urls = JsonSerializer.Deserialize<string[]>(await File.ReadAllTextAsync(cfg.FullName)) ?? Array.Empty<string>();
             var converter = new WsdlToOpenApiConverter();
 
-            // determine project root (walk up from AppContext.BaseDirectory looking for the runner .csproj)
-            var projectRoot = FindProjectRoot("MythTvApi.csproj") ?? Directory.GetCurrentDirectory();
 
             var stateFile = Path.Combine(outDir.FullName, "kiota-state.json");
             var state = File.Exists(stateFile) ? JsonSerializer.Deserialize<Dictionary<string, string>>(await File.ReadAllTextAsync(stateFile)) ?? new() : new();
@@ -76,7 +78,7 @@ internal class Program
                         // - set namespace to MythTvApi.{clientName}
                         // - use HttpClient and System.Text.Json (suitable for Blazor)
                         var namespaceArg = $"MythTvApi.{safeName}";
-                        var argsStr = $"generate -l csharp -d \"{outFile}\" -o \"{clientDir}\" --namespace-name \"{namespaceArg}\" --http-client HttpClient --serializer SystemTextJson --clear-output-folder";
+                        var argsStr = $"generate -l csharp -d \"{outFile}\" -o \"{clientDir}\" --namespace-name \"{namespaceArg}\"";
 
                         var psi = new System.Diagnostics.ProcessStartInfo("kiota", argsStr)
                         {
