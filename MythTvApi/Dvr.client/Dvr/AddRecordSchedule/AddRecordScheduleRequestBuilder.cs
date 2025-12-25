@@ -35,23 +35,43 @@ namespace MythTvApi.Dvr.Dvr.AddRecordSchedule
         /// <summary>
         /// POST 
         /// </summary>
-        /// <returns>A List&lt;string&gt;</returns>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostResponse"/></returns>
         /// <param name="body">The request body</param>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<string>?> PostAsync(global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleRequestBuilder.AddRecordScheduleRequestBuilderPostQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostResponse?> PostAsAddRecordSchedulePostResponseAsync(global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleRequestBuilder.AddRecordScheduleRequestBuilderPostQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<string>> PostAsync(global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleRequestBuilder.AddRecordScheduleRequestBuilderPostQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostResponse> PostAsAddRecordSchedulePostResponseAsync(global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleRequestBuilder.AddRecordScheduleRequestBuilderPostQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
-            var collectionResult = await RequestAdapter.SendPrimitiveCollectionAsync<string>(requestInfo, default, cancellationToken).ConfigureAwait(false);
-            return collectionResult?.AsList();
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// POST 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleResponse"/></returns>
+        /// <param name="body">The request body</param>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use PostAsAddRecordSchedulePostResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleResponse?> PostAsync(global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleRequestBuilder.AddRecordScheduleRequestBuilderPostQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleResponse> PostAsync(global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleRequestBuilder.AddRecordScheduleRequestBuilderPostQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
+            var requestInfo = ToPostRequestInformation(body, requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordScheduleResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// POST 

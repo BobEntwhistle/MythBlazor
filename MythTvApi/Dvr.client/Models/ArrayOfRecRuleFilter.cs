@@ -17,10 +17,10 @@ namespace MythTvApi.Dvr.Models
         /// <summary>The RecRuleFilter property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Dvr.Models.RecRuleFilter? RecRuleFilter { get; set; }
+        public List<global::MythTvApi.Dvr.Models.RecRuleFilter>? RecRuleFilter { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Dvr.Models.RecRuleFilter RecRuleFilter { get; set; }
+        public List<global::MythTvApi.Dvr.Models.RecRuleFilter> RecRuleFilter { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Dvr.Models.ArrayOfRecRuleFilter"/> and sets the default values.
@@ -47,7 +47,7 @@ namespace MythTvApi.Dvr.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "RecRuleFilter", n => { RecRuleFilter = n.GetObjectValue<global::MythTvApi.Dvr.Models.RecRuleFilter>(global::MythTvApi.Dvr.Models.RecRuleFilter.CreateFromDiscriminatorValue); } },
+                { "RecRuleFilter", n => { RecRuleFilter = n.GetCollectionOfObjectValues<global::MythTvApi.Dvr.Models.RecRuleFilter>(global::MythTvApi.Dvr.Models.RecRuleFilter.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace MythTvApi.Dvr.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<global::MythTvApi.Dvr.Models.RecRuleFilter>("RecRuleFilter", RecRuleFilter);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Dvr.Models.RecRuleFilter>("RecRuleFilter", RecRuleFilter);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

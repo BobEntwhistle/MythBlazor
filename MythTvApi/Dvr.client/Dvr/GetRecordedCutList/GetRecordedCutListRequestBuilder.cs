@@ -35,20 +35,39 @@ namespace MythTvApi.Dvr.Dvr.GetRecordedCutList
         /// <summary>
         /// GET 
         /// </summary>
-        /// <returns>A <see cref="UntypedNode"/></returns>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListGetResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<UntypedNode?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListRequestBuilder.GetRecordedCutListRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListGetResponse?> GetAsGetRecordedCutListGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListRequestBuilder.GetRecordedCutListRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<UntypedNode> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListRequestBuilder.GetRecordedCutListRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListGetResponse> GetAsGetRecordedCutListGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListRequestBuilder.GetRecordedCutListRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<UntypedNode>(requestInfo, UntypedNode.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListGetResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListGetResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// GET 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use GetAsGetRecordedCutListGetResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListResponse?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListRequestBuilder.GetRecordedCutListRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListResponse> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListRequestBuilder.GetRecordedCutListRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.GetRecordedCutList.GetRecordedCutListResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// GET 

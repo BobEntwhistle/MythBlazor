@@ -9,12 +9,15 @@ internal class Program
 {
     private static async Task<int> Main(string[] args)
     {
+        const string apiProject = "MythTvApi";
+        const string thisProject = "WsdlToOpenApi.Runner";
         // determine project root (walk up from AppContext.BaseDirectory looking for the runner .csproj)
-        var projectRoot = FindProjectRoot("MythTvApi.csproj") ?? Directory.GetCurrentDirectory();
+        var apiFolder = FindProjectRoot($"{apiProject}") ?? Directory.GetCurrentDirectory();
+        var projectFolder = FindProjectRoot(thisProject) ?? Directory.GetCurrentDirectory();
 
         var root = new RootCommand("WsdlToOpenApi runner: generate OpenAPI files from WSDL URLs and run Kiota when needed.");
-        Option<FileInfo?> fileOption = new("--config", "-c") { DefaultValueFactory = fileName => new FileInfo(Path.Combine(projectRoot, "wsdls.json")), Description = "JSON file containing array of WSDL URLs" };
-        Option<DirectoryInfo?> outDirOption = new("--out", "-o") { DefaultValueFactory = outFolder => new DirectoryInfo(Path.Combine(projectRoot, "Temp")), Description = "Output directory for OpenAPI files (relative to project)" };
+        Option<FileInfo?> fileOption = new("--config", "-c") { DefaultValueFactory = fileName => new FileInfo(Path.Combine(projectFolder, "wsdls.json")), Description = "JSON file containing array of WSDL URLs" };
+        Option<DirectoryInfo?> outDirOption = new("--out", "-o") { DefaultValueFactory = outFolder => new DirectoryInfo(Path.Combine(apiFolder, "Temp")), Description = "Output directory for OpenAPI files (relative to project)" };
         root.Add(fileOption);
         root.Add(outDirOption);
 
@@ -63,7 +66,7 @@ internal class Program
                     var existingHash = state.ContainsKey(outFile) ? state[outFile] : null;
 
                     // client output folder under project root, named {clientName}.client
-                    var clientDir = Path.Combine(projectRoot, safeName + ".client");
+                    var clientDir = Path.Combine(apiFolder, safeName + ".client");
 
                     var needKiota = existingHash != hash || !Directory.Exists(clientDir);
                     if (needKiota)
@@ -75,9 +78,9 @@ internal class Program
                         // Build kiota CLI args:
                         // - generate C# client
                         // - put output in project root {client}.client
-                        // - set namespace to MythTvApi.{clientName}
+                        // - set namespace to MythTvApi
                         // - use HttpClient and System.Text.Json (suitable for Blazor)
-                        var namespaceArg = $"MythTvApi.{safeName}";
+                        var namespaceArg = $"{apiProject}.{safeName}";
                         var argsStr = $"generate -l csharp -d \"{outFile}\" -o \"{clientDir}\" --namespace-name \"{namespaceArg}\"";
 
                         var psi = new System.Diagnostics.ProcessStartInfo("kiota", argsStr)
@@ -122,17 +125,17 @@ internal class Program
     }
 
     // Try to find the project root by looking for the given project file name in parent folders
-    private static string? FindProjectRoot(string projectFileName)
+    private static string? FindProjectRoot(string apiFolderName)
     {
         try
         {
             var dir = new DirectoryInfo(AppContext.BaseDirectory);
             for (int i = 0; i < 8 && dir != null; i++)
             {
-                var candidate = Path.Combine(dir.FullName, projectFileName);
-                if (File.Exists(candidate))
+                var candidate = Path.Combine(dir.FullName, apiFolderName);
+                if (Directory.Exists(candidate))
                 {
-                    return dir.FullName;
+                    return candidate;
                 }
                 dir = dir.Parent;
             }
@@ -141,7 +144,7 @@ internal class Program
             dir = new DirectoryInfo(AppContext.BaseDirectory);
             for (int i = 0; i < 8 && dir != null; i++)
             {
-                if (Directory.EnumerateFiles(dir.FullName, "*.sln").Any())
+                if (Directory.EnumerateFiles(dir.FullName, "*.slnx").Any())
                     return dir.FullName;
                 dir = dir.Parent;
             }

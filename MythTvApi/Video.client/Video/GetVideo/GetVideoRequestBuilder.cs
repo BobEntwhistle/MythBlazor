@@ -3,7 +3,6 @@
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions.Serialization;
 using Microsoft.Kiota.Abstractions;
-using MythTvApi.Video.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -36,21 +35,39 @@ namespace MythTvApi.Video.Video.GetVideo
         /// <summary>
         /// GET 
         /// </summary>
-        /// <returns>A List&lt;global::MythTvApi.Video.Models.VideoMetadataInfo&gt;</returns>
+        /// <returns>A <see cref="global::MythTvApi.Video.Video.GetVideo.GetVideoGetResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<global::MythTvApi.Video.Models.VideoMetadataInfo>?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Video.Video.GetVideo.GetVideoRequestBuilder.GetVideoRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Video.Video.GetVideo.GetVideoGetResponse?> GetAsGetVideoGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Video.Video.GetVideo.GetVideoRequestBuilder.GetVideoRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<global::MythTvApi.Video.Models.VideoMetadataInfo>> GetAsync(Action<RequestConfiguration<global::MythTvApi.Video.Video.GetVideo.GetVideoRequestBuilder.GetVideoRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Video.Video.GetVideo.GetVideoGetResponse> GetAsGetVideoGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Video.Video.GetVideo.GetVideoRequestBuilder.GetVideoRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendCollectionAsync<global::MythTvApi.Video.Models.VideoMetadataInfo>(requestInfo, global::MythTvApi.Video.Models.VideoMetadataInfo.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
-            return collectionResult?.AsList();
+            return await RequestAdapter.SendAsync<global::MythTvApi.Video.Video.GetVideo.GetVideoGetResponse>(requestInfo, global::MythTvApi.Video.Video.GetVideo.GetVideoGetResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// GET 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Video.Video.GetVideo.GetVideoResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use GetAsGetVideoGetResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Video.Video.GetVideo.GetVideoResponse?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Video.Video.GetVideo.GetVideoRequestBuilder.GetVideoRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Video.Video.GetVideo.GetVideoResponse> GetAsync(Action<RequestConfiguration<global::MythTvApi.Video.Video.GetVideo.GetVideoRequestBuilder.GetVideoRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Video.Video.GetVideo.GetVideoResponse>(requestInfo, global::MythTvApi.Video.Video.GetVideo.GetVideoResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// GET 

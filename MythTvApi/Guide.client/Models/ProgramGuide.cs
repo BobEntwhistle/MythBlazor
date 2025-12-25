@@ -19,10 +19,10 @@ namespace MythTvApi.Guide.Models
         /// <summary>The Channels property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Guide.Models.ArrayOfChannelInfo? Channels { get; set; }
+        public List<global::MythTvApi.Guide.Models.ChannelInfo>? Channels { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Guide.Models.ArrayOfChannelInfo Channels { get; set; }
+        public List<global::MythTvApi.Guide.Models.ChannelInfo> Channels { get; set; }
 #endif
         /// <summary>The Count property</summary>
         public int? Count { get; set; }
@@ -78,7 +78,7 @@ namespace MythTvApi.Guide.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "AsOf", n => { AsOf = n.GetDateTimeOffsetValue(); } },
-                { "Channels", n => { Channels = n.GetObjectValue<global::MythTvApi.Guide.Models.ArrayOfChannelInfo>(global::MythTvApi.Guide.Models.ArrayOfChannelInfo.CreateFromDiscriminatorValue); } },
+                { "Channels", n => { Channels = n.GetCollectionOfObjectValues<global::MythTvApi.Guide.Models.ChannelInfo>(global::MythTvApi.Guide.Models.ChannelInfo.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "Count", n => { Count = n.GetIntValue(); } },
                 { "Details", n => { Details = n.GetBoolValue(); } },
                 { "EndTime", n => { EndTime = n.GetDateTimeOffsetValue(); } },
@@ -97,7 +97,7 @@ namespace MythTvApi.Guide.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteDateTimeOffsetValue("AsOf", AsOf);
-            writer.WriteObjectValue<global::MythTvApi.Guide.Models.ArrayOfChannelInfo>("Channels", Channels);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Guide.Models.ChannelInfo>("Channels", Channels);
             writer.WriteIntValue("Count", Count);
             writer.WriteBoolValue("Details", Details);
             writer.WriteDateTimeOffsetValue("EndTime", EndTime);

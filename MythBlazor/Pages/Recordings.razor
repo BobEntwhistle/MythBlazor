@@ -1,0 +1,233 @@
+﻿MythBlazor/Pages/Recordings.razor
+@page "/recordings"
+@using Microsoft.Kiota.Abstractions.Authentication
+@using MythTvApi.Dvr
+@using MythTvApi.Dvr.Dvr.GetRecordedList
+@using MythTvApi.Dvr.Models
+@using Microsoft.Kiota.Http.HttpClientLibrary
+@using Program = MythTvApi.Dvr.Models.Program
+@inject HttpClient Http
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+<h3>Recordings</h3>
+
+<div class="d-flex flex-column" style="height: calc(100vh - 120px);">
+    <!-- top 3/4: list -->
+    <div style="flex: 3; overflow:auto;" class="border rounded p-2">
+        <div class="d-flex justify-content-between mb-2">
+            <div>
+                <button class="btn btn-secondary btn-sm me-2" @onclick="PrevPage" disabled="@(_pageIndex == 0)">Previous</button>
+                <button class="btn btn-secondary btn-sm" @onclick="NextPage">Next</button>
+            </div>
+            <div>Page: @_pageIndex + 1</div>
+        </div>
+
+        @if (_isLoading)
+        {
+            <div>Loading...</div>
+        }
+        else if (_recordings?.Any() != true)
+        {
+            <div>No recordings found.</div>
+        }
+        else
+        {
+            <div class="list-group">
+                @foreach (var r in _recordings.Select((rec, idx) => (rec, idx)))
+                {
+                    var recItem = r.rec;
+                    var idx = r.idx;
+                    <button class="list-group-item list-group-item-action @(idx == _selectedIndex ? "active" : "")"
+                            @onclick="() => SelectRecording(idx)">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">@recItem.Title</h5>
+                            <small>@FormatDuration(recItem)</small>
+                        </div>
+                        <p class="mb-1">@recItem.SubTitle</p>
+                        <small>@(recItem.Channel?.ChannelName ?? "") — @FormatAirDate(recItem)</small>
+                    </button>
+                }
+            </div>
+        }
+    </div>
+
+    <!-- bottom 1/4: details -->
+    <div style="flex: 1; overflow:auto;" class="border rounded p-2 mt-2">
+        @if (_selectedRecording != null)
+        {
+            <div class="row">
+                <div class="col-3">
+                    @if (!string.IsNullOrEmpty(_thumbnailUrl))
+                    {
+                        <img src="@_thumbnailUrl" class="img-fluid rounded" alt="thumbnail" />
+                    }
+                    else
+                    {
+                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height:160px;">
+                            No Image
+                        </div>
+                    }
+                </div>
+                <div class="col-9">
+                    <h4>@_selectedRecording.Title</h4>
+                    <h6 class="text-muted">@_selectedRecording.SubTitle</h6>
+                    <p><strong>Channel:</strong> @_selectedRecording.Channel?.ChannelName</p>
+                    <p><strong>Air:</strong> @FormatAirDateTime(_selectedRecording)</p>
+                    <p><strong>Duration:</strong> @FormatDuration(_selectedRecording)</p>
+                    <p>@_selectedRecording.Description</p>
+                    <p class="small text-muted">File: @_selectedRecording.Recording?.FileName</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-muted">Select a recording to view details.</div>
+        }
+    </div>
+</div>
+
+@code {
+    // NOTE: adjust this baseApiUrl to your MythTV backend. Using the value from workspace test config:
+    private string baseApiUrl = string.Empty;
+
+    private List<Program> _recordings = new();
+    private Program? _selectedRecording;
+    private string? _thumbnailUrl;
+    private bool _isLoading;
+    private int _pageIndex = 0;
+    private int _pageSize = 25;
+    private int _selectedIndex = -1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPageAsync();
+    }
+
+    private async Task LoadPageAsync()
+    {
+        _isLoading = true;
+        _recordings.Clear();
+        _selectedRecording = null;
+        _thumbnailUrl = null;
+        _selectedIndex = -1;
+        StateHasChanged();
+
+        try
+        {
+            baseApiUrl = Configuration.GetValue<string>("ApiInfo:ApiUrl") ?? "localhost";
+            var httpClient = new HttpClient { BaseAddress = new Uri(baseApiUrl) };
+            // create Kiota request adapter using the Blazor HttpClient
+            var adapter = new HttpClientRequestAdapter(new AnonymousAuthenticationProvider(), httpClient: httpClient)
+            {
+                BaseUrl = baseApiUrl
+            };
+            var client = new ApiClient(adapter);
+
+
+            var result = await client.Dvr.GetRecordedList.GetAsGetRecordedListGetResponseAsync(cfg =>
+            {
+                cfg.QueryParameters = new GetRecordedListRequestBuilder.GetRecordedListRequestBuilderGetQueryParameters
+                {
+                    Count = _pageSize,
+                    StartIndex = _pageIndex * _pageSize,
+                    Details = true,
+                    IncArtWork = true,
+                    IncChannel = true,
+                    //Sort = nameof(Program.Airdate),
+                    Descending = true
+                };
+            });
+            var programList = result?.ProgramList;
+            Console.WriteLine($"GetRecordedList completed. {programList.Count == null}");
+            // result may be a collection of ProgramList objects — flatten into Program list
+            if (programList != null && programList.Count > 0 && programList.Programs != null)
+            {
+                Console.WriteLine($"Loaded {programList.Count} recording lists.");
+
+                _recordings.AddRange(programList.Programs);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to load recordings: {ex}");
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task NextPage()
+    {
+        _pageIndex++;
+        await LoadPageAsync();
+    }
+
+    private async Task PrevPage()
+    {
+        if (_pageIndex == 0) return;
+        _pageIndex--;
+        await LoadPageAsync();
+    }
+
+    private void SelectRecording(int idx)
+    {
+        if (idx < 0 || idx >= _recordings.Count) return;
+        _selectedIndex = idx;
+        _selectedRecording = _recordings[idx];
+        _thumbnailUrl = ResolveThumbnailUrl(_selectedRecording);
+    }
+
+    private string? ResolveThumbnailUrl(Program p)
+    {
+        // Artwork is optional. Look for Artwork.ArtworkInfos.ArtworkInfo.URL
+        try
+        {
+            var firstThumb = p.Artwork?.ArtworkInfos?.FirstOrDefault()?.URL;
+            if (firstThumb  != null)
+            {
+                return MakeAbsoluteIfNeeded(firstThumb);
+            }
+        }
+        catch { }
+        // fallback to Recording.FileName-based thumbnail if available, or null
+        return null;
+    }
+
+    private string? MakeAbsoluteIfNeeded(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return null;
+        if (Uri.TryCreate(url, UriKind.Absolute, out var _)) return url;
+        // assume relative to baseApiUrl
+        if (Uri.TryCreate(baseApiUrl, UriKind.Absolute, out var baseUri))
+        {
+            return new Uri(baseUri, url).ToString();
+        }
+        return url;
+    }
+
+    private string FormatAirDate(Program p)
+    {
+        var dt = p.StartTime ?? p.Airdate?.DateTime; //.ToDateTime(TimeOnly.MinValue);
+        if (dt == null) return "";
+        return dt?.ToString("d");
+    }
+
+    private string FormatAirDateTime(Program p)
+    {
+        var dt = p.StartTime;
+        if (dt == null) return "";
+        return dt.Value.ToLocalTime().ToString("g");
+    }
+
+    private string FormatDuration(Program p)
+    {
+        // Try EndTime - StartTime; use Recording start/end if available
+        DateTimeOffset? start = p.StartTime ?? p.Recording?.StartTs;
+        DateTimeOffset? end = p.EndTime ?? p.Recording?.EndTs;
+        if (start == null || end == null) return "-";
+        var span = end.Value - start.Value;
+        return $"{(int)span.TotalMinutes}m";
+    }
+}

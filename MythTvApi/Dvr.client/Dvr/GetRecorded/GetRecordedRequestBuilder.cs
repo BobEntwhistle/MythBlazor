@@ -3,7 +3,6 @@
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions.Serialization;
 using Microsoft.Kiota.Abstractions;
-using MythTvApi.Dvr.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -36,21 +35,39 @@ namespace MythTvApi.Dvr.Dvr.GetRecorded
         /// <summary>
         /// GET 
         /// </summary>
-        /// <returns>A List&lt;global::MythTvApi.Dvr.Models.Program&gt;</returns>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedGetResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<global::MythTvApi.Dvr.Models.Program>?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedRequestBuilder.GetRecordedRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedGetResponse?> GetAsGetRecordedGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedRequestBuilder.GetRecordedRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<global::MythTvApi.Dvr.Models.Program>> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedRequestBuilder.GetRecordedRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedGetResponse> GetAsGetRecordedGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedRequestBuilder.GetRecordedRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendCollectionAsync<global::MythTvApi.Dvr.Models.Program>(requestInfo, global::MythTvApi.Dvr.Models.Program.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
-            return collectionResult?.AsList();
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedGetResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedGetResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// GET 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use GetAsGetRecordedGetResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedResponse?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedRequestBuilder.GetRecordedRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedResponse> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedRequestBuilder.GetRecordedRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.GetRecorded.GetRecordedResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// GET 

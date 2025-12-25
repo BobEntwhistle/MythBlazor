@@ -17,10 +17,10 @@ namespace MythTvApi.Dvr.Models
         /// <summary>The ArtworkInfo property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Dvr.Models.ArtworkInfo? ArtworkInfo { get; set; }
+        public List<global::MythTvApi.Dvr.Models.ArtworkInfo>? ArtworkInfo { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Dvr.Models.ArtworkInfo ArtworkInfo { get; set; }
+        public List<global::MythTvApi.Dvr.Models.ArtworkInfo> ArtworkInfo { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Dvr.Models.ArrayOfArtworkInfo"/> and sets the default values.
@@ -47,7 +47,7 @@ namespace MythTvApi.Dvr.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "ArtworkInfo", n => { ArtworkInfo = n.GetObjectValue<global::MythTvApi.Dvr.Models.ArtworkInfo>(global::MythTvApi.Dvr.Models.ArtworkInfo.CreateFromDiscriminatorValue); } },
+                { "ArtworkInfo", n => { ArtworkInfo = n.GetCollectionOfObjectValues<global::MythTvApi.Dvr.Models.ArtworkInfo>(global::MythTvApi.Dvr.Models.ArtworkInfo.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace MythTvApi.Dvr.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<global::MythTvApi.Dvr.Models.ArtworkInfo>("ArtworkInfo", ArtworkInfo);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Dvr.Models.ArtworkInfo>("ArtworkInfo", ArtworkInfo);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

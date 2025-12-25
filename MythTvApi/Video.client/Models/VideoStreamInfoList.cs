@@ -47,10 +47,10 @@ namespace MythTvApi.Video.Models
         /// <summary>The VideoStreamInfos property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Video.Models.ArrayOfVideoStreamInfo? VideoStreamInfos { get; set; }
+        public List<global::MythTvApi.Video.Models.VideoStreamInfo>? VideoStreamInfos { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Video.Models.ArrayOfVideoStreamInfo VideoStreamInfos { get; set; }
+        public List<global::MythTvApi.Video.Models.VideoStreamInfo> VideoStreamInfos { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Video.Models.VideoStreamInfoList"/> and sets the default values.
@@ -83,7 +83,7 @@ namespace MythTvApi.Video.Models
                 { "ErrorMsg", n => { ErrorMsg = n.GetStringValue(); } },
                 { "ProtoVer", n => { ProtoVer = n.GetStringValue(); } },
                 { "Version", n => { Version = n.GetStringValue(); } },
-                { "VideoStreamInfos", n => { VideoStreamInfos = n.GetObjectValue<global::MythTvApi.Video.Models.ArrayOfVideoStreamInfo>(global::MythTvApi.Video.Models.ArrayOfVideoStreamInfo.CreateFromDiscriminatorValue); } },
+                { "VideoStreamInfos", n => { VideoStreamInfos = n.GetCollectionOfObjectValues<global::MythTvApi.Video.Models.VideoStreamInfo>(global::MythTvApi.Video.Models.VideoStreamInfo.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -99,7 +99,7 @@ namespace MythTvApi.Video.Models
             writer.WriteStringValue("ErrorMsg", ErrorMsg);
             writer.WriteStringValue("ProtoVer", ProtoVer);
             writer.WriteStringValue("Version", Version);
-            writer.WriteObjectValue<global::MythTvApi.Video.Models.ArrayOfVideoStreamInfo>("VideoStreamInfos", VideoStreamInfos);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Video.Models.VideoStreamInfo>("VideoStreamInfos", VideoStreamInfos);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

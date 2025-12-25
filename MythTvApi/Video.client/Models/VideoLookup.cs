@@ -17,10 +17,10 @@ namespace MythTvApi.Video.Models
         /// <summary>The Artwork property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Video.Models.ArrayOfArtworkItem? Artwork { get; set; }
+        public List<global::MythTvApi.Video.Models.ArtworkItem>? Artwork { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Video.Models.ArrayOfArtworkItem Artwork { get; set; }
+        public List<global::MythTvApi.Video.Models.ArtworkItem> Artwork { get; set; }
 #endif
         /// <summary>The Budget property</summary>
         public int? Budget { get; set; }
@@ -43,10 +43,10 @@ namespace MythTvApi.Video.Models
         /// <summary>The Countries property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Video.Models.ArrayOfString? Countries { get; set; }
+        public List<string>? Countries { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Video.Models.ArrayOfString Countries { get; set; }
+        public List<string> Countries { get; set; }
 #endif
         /// <summary>The Description property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -161,11 +161,11 @@ namespace MythTvApi.Video.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "Artwork", n => { Artwork = n.GetObjectValue<global::MythTvApi.Video.Models.ArrayOfArtworkItem>(global::MythTvApi.Video.Models.ArrayOfArtworkItem.CreateFromDiscriminatorValue); } },
+                { "Artwork", n => { Artwork = n.GetCollectionOfObjectValues<global::MythTvApi.Video.Models.ArtworkItem>(global::MythTvApi.Video.Models.ArtworkItem.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "Budget", n => { Budget = n.GetIntValue(); } },
                 { "Certification", n => { Certification = n.GetStringValue(); } },
                 { "Collectionref", n => { Collectionref = n.GetStringValue(); } },
-                { "Countries", n => { Countries = n.GetObjectValue<global::MythTvApi.Video.Models.ArrayOfString>(global::MythTvApi.Video.Models.ArrayOfString.CreateFromDiscriminatorValue); } },
+                { "Countries", n => { Countries = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "Description", n => { Description = n.GetStringValue(); } },
                 { "Episode", n => { Episode = n.GetIntValue(); } },
                 { "HomePage", n => { HomePage = n.GetStringValue(); } },
@@ -192,11 +192,11 @@ namespace MythTvApi.Video.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<global::MythTvApi.Video.Models.ArrayOfArtworkItem>("Artwork", Artwork);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Video.Models.ArtworkItem>("Artwork", Artwork);
             writer.WriteIntValue("Budget", Budget);
             writer.WriteStringValue("Certification", Certification);
             writer.WriteStringValue("Collectionref", Collectionref);
-            writer.WriteObjectValue<global::MythTvApi.Video.Models.ArrayOfString>("Countries", Countries);
+            writer.WriteCollectionOfPrimitiveValues<string>("Countries", Countries);
             writer.WriteStringValue("Description", Description);
             writer.WriteIntValue("Episode", Episode);
             writer.WriteStringValue("HomePage", HomePage);

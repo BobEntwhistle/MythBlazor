@@ -35,20 +35,39 @@ namespace MythTvApi.Dvr.Dvr.GetRecordedCommBreak
         /// <summary>
         /// GET 
         /// </summary>
-        /// <returns>A <see cref="UntypedNode"/></returns>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakGetResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<UntypedNode?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakRequestBuilder.GetRecordedCommBreakRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakGetResponse?> GetAsGetRecordedCommBreakGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakRequestBuilder.GetRecordedCommBreakRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<UntypedNode> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakRequestBuilder.GetRecordedCommBreakRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakGetResponse> GetAsGetRecordedCommBreakGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakRequestBuilder.GetRecordedCommBreakRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<UntypedNode>(requestInfo, UntypedNode.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakGetResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakGetResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// GET 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use GetAsGetRecordedCommBreakGetResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakResponse?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakRequestBuilder.GetRecordedCommBreakRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakResponse> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakRequestBuilder.GetRecordedCommBreakRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.GetRecordedCommBreak.GetRecordedCommBreakResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// GET 

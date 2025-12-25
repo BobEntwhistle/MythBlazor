@@ -17,10 +17,10 @@ namespace MythTvApi.Video.Models
         /// <summary>The ArtworkInfos property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Video.Models.ArrayOfArtworkInfo? ArtworkInfos { get; set; }
+        public List<global::MythTvApi.Video.Models.ArtworkInfo>? ArtworkInfos { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Video.Models.ArrayOfArtworkInfo ArtworkInfos { get; set; }
+        public List<global::MythTvApi.Video.Models.ArtworkInfo> ArtworkInfos { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Video.Models.ArtworkInfoList"/> and sets the default values.
@@ -47,7 +47,7 @@ namespace MythTvApi.Video.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "ArtworkInfos", n => { ArtworkInfos = n.GetObjectValue<global::MythTvApi.Video.Models.ArrayOfArtworkInfo>(global::MythTvApi.Video.Models.ArrayOfArtworkInfo.CreateFromDiscriminatorValue); } },
+                { "ArtworkInfos", n => { ArtworkInfos = n.GetCollectionOfObjectValues<global::MythTvApi.Video.Models.ArtworkInfo>(global::MythTvApi.Video.Models.ArtworkInfo.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace MythTvApi.Video.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<global::MythTvApi.Video.Models.ArrayOfArtworkInfo>("ArtworkInfos", ArtworkInfos);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Video.Models.ArtworkInfo>("ArtworkInfos", ArtworkInfos);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

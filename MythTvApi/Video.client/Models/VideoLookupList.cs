@@ -37,10 +37,10 @@ namespace MythTvApi.Video.Models
         /// <summary>The VideoLookups property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Video.Models.ArrayOfVideoLookup? VideoLookups { get; set; }
+        public List<global::MythTvApi.Video.Models.VideoLookup>? VideoLookups { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Video.Models.ArrayOfVideoLookup VideoLookups { get; set; }
+        public List<global::MythTvApi.Video.Models.VideoLookup> VideoLookups { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Video.Models.VideoLookupList"/> and sets the default values.
@@ -71,7 +71,7 @@ namespace MythTvApi.Video.Models
                 { "Count", n => { Count = n.GetIntValue(); } },
                 { "ProtoVer", n => { ProtoVer = n.GetStringValue(); } },
                 { "Version", n => { Version = n.GetStringValue(); } },
-                { "VideoLookups", n => { VideoLookups = n.GetObjectValue<global::MythTvApi.Video.Models.ArrayOfVideoLookup>(global::MythTvApi.Video.Models.ArrayOfVideoLookup.CreateFromDiscriminatorValue); } },
+                { "VideoLookups", n => { VideoLookups = n.GetCollectionOfObjectValues<global::MythTvApi.Video.Models.VideoLookup>(global::MythTvApi.Video.Models.VideoLookup.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -85,7 +85,7 @@ namespace MythTvApi.Video.Models
             writer.WriteIntValue("Count", Count);
             writer.WriteStringValue("ProtoVer", ProtoVer);
             writer.WriteStringValue("Version", Version);
-            writer.WriteObjectValue<global::MythTvApi.Video.Models.ArrayOfVideoLookup>("VideoLookups", VideoLookups);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Video.Models.VideoLookup>("VideoLookups", VideoLookups);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

@@ -17,10 +17,10 @@ namespace MythTvApi.Video.Models
         /// <summary>The String property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? String { get; set; }
+        public List<string>? String { get; set; }
 #nullable restore
 #else
-        public string String { get; set; }
+        public List<string> String { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Video.Models.ArrayOfString"/> and sets the default values.
@@ -47,7 +47,7 @@ namespace MythTvApi.Video.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "String", n => { String = n.GetStringValue(); } },
+                { "String", n => { String = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
             };
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace MythTvApi.Video.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("String", String);
+            writer.WriteCollectionOfPrimitiveValues<string>("String", String);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

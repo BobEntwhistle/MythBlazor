@@ -32,10 +32,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int32"
+                  "type": "object",
+                  "properties": {
+                    "AddChannelGroupResponse": {
+                      "type": "integer",
+                      "format": "int32"
+                    }
                   }
                 }
               }
@@ -80,9 +82,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "AddToChannelGroupResponse": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -100,10 +104,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "array",
-                    "items": {
+                  "type": "object",
+                  "properties": {
+                    "GetCategoryListResponse": {
                       "type": "string"
                     }
                   }
@@ -132,14 +135,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/ChannelGroup"
-                      }
+                  "type": "object",
+                  "properties": {
+                    "ChannelGroup": {
+                      "$ref": "#/components/schemas/ChannelGroup"
                     }
                   }
                 }
@@ -191,9 +190,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "GetChannelIconResponse": {
+                      "type": "string"
+                    }
                   }
                 }
               }
@@ -229,9 +230,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Program"
+                  "type": "object",
+                  "properties": {
+                    "Program": {
+                      "$ref": "#/components/schemas/Program"
+                    }
                   }
                 }
               }
@@ -305,9 +308,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProgramGuide"
+                  "type": "object",
+                  "properties": {
+                    "ProgramGuide": {
+                      "$ref": "#/components/schemas/ProgramGuide"
+                    }
                   }
                 }
               }
@@ -444,9 +449,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProgramList"
+                  "type": "object",
+                  "properties": {
+                    "ProgramList": {
+                      "$ref": "#/components/schemas/ProgramList"
+                    }
                   }
                 }
               }
@@ -473,10 +480,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "array",
-                    "items": {
+                  "type": "object",
+                  "properties": {
+                    "GetStoredSearchesResponse": {
                       "type": "string"
                     }
                   }
@@ -514,9 +520,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "RemoveChannelGroupResponse": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -561,9 +569,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "RemoveFromChannelGroupResponse": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -606,9 +616,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "UpdateChannelGroupResponse": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -648,11 +660,9 @@
         }
       },
       "ArrayOfProgram": {
-        "type": "object",
-        "properties": {
-          "Program": {
-            "$ref": "#/components/schemas/Program"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Program"
         }
       },
       "ChannelInfo": {
@@ -850,11 +860,9 @@
         }
       },
       "ArrayOfArtworkInfo": {
-        "type": "object",
-        "properties": {
-          "ArtworkInfo": {
-            "$ref": "#/components/schemas/ArtworkInfo"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ArtworkInfo"
         }
       },
       "ArtworkInfoList": {
@@ -883,11 +891,9 @@
         }
       },
       "ArrayOfCastMember": {
-        "type": "object",
-        "properties": {
-          "CastMember": {
-            "$ref": "#/components/schemas/CastMember"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CastMember"
         }
       },
       "CastMemberList": {
@@ -1016,11 +1022,9 @@
         }
       },
       "ArrayOfChannelInfo": {
-        "type": "object",
-        "properties": {
-          "ChannelInfo": {
-            "$ref": "#/components/schemas/ChannelInfo"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ChannelInfo"
         }
       },
       "ProgramGuide": {

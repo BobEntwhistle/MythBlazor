@@ -35,21 +35,39 @@ namespace MythTvApi.Dvr.Dvr.RecordedIdForKey
         /// <summary>
         /// GET 
         /// </summary>
-        /// <returns>A List&lt;int&gt;</returns>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyGetResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<int?>?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyRequestBuilder.RecordedIdForKeyRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyGetResponse?> GetAsRecordedIdForKeyGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyRequestBuilder.RecordedIdForKeyRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<int?>> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyRequestBuilder.RecordedIdForKeyRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyGetResponse> GetAsRecordedIdForKeyGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyRequestBuilder.RecordedIdForKeyRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendPrimitiveCollectionAsync<int?>(requestInfo, default, cancellationToken).ConfigureAwait(false);
-            return collectionResult?.AsList();
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyGetResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyGetResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// GET 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use GetAsRecordedIdForKeyGetResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyResponse?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyRequestBuilder.RecordedIdForKeyRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyResponse> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyRequestBuilder.RecordedIdForKeyRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.RecordedIdForKey.RecordedIdForKeyResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// GET 

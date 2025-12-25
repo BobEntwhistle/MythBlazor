@@ -35,20 +35,39 @@ namespace MythTvApi.Dvr.Dvr.GetRecGroupList
         /// <summary>
         /// GET 
         /// </summary>
-        /// <returns>A <see cref="UntypedNode"/></returns>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListGetResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<UntypedNode?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListRequestBuilder.GetRecGroupListRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListGetResponse?> GetAsGetRecGroupListGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListRequestBuilder.GetRecGroupListRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<UntypedNode> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListRequestBuilder.GetRecGroupListRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListGetResponse> GetAsGetRecGroupListGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListRequestBuilder.GetRecGroupListRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<UntypedNode>(requestInfo, UntypedNode.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListGetResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListGetResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// GET 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use GetAsGetRecGroupListGetResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListResponse?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListRequestBuilder.GetRecGroupListRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListResponse> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListRequestBuilder.GetRecGroupListRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.GetRecGroupList.GetRecGroupListResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// GET 

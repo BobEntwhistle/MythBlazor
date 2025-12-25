@@ -17,18 +17,18 @@ namespace MythTvApi.Dvr.Models
         /// <summary>The Mark property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Dvr.Models.ArrayOfMarkup? Mark { get; set; }
+        public List<global::MythTvApi.Dvr.Models.Markup>? Mark { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Dvr.Models.ArrayOfMarkup Mark { get; set; }
+        public List<global::MythTvApi.Dvr.Models.Markup> Mark { get; set; }
 #endif
         /// <summary>The Seek property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Dvr.Models.ArrayOfMarkup? Seek { get; set; }
+        public List<global::MythTvApi.Dvr.Models.Markup>? Seek { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Dvr.Models.ArrayOfMarkup Seek { get; set; }
+        public List<global::MythTvApi.Dvr.Models.Markup> Seek { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Dvr.Models.MarkupList"/> and sets the default values.
@@ -55,8 +55,8 @@ namespace MythTvApi.Dvr.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "Mark", n => { Mark = n.GetObjectValue<global::MythTvApi.Dvr.Models.ArrayOfMarkup>(global::MythTvApi.Dvr.Models.ArrayOfMarkup.CreateFromDiscriminatorValue); } },
-                { "Seek", n => { Seek = n.GetObjectValue<global::MythTvApi.Dvr.Models.ArrayOfMarkup>(global::MythTvApi.Dvr.Models.ArrayOfMarkup.CreateFromDiscriminatorValue); } },
+                { "Mark", n => { Mark = n.GetCollectionOfObjectValues<global::MythTvApi.Dvr.Models.Markup>(global::MythTvApi.Dvr.Models.Markup.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "Seek", n => { Seek = n.GetCollectionOfObjectValues<global::MythTvApi.Dvr.Models.Markup>(global::MythTvApi.Dvr.Models.Markup.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -66,8 +66,8 @@ namespace MythTvApi.Dvr.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<global::MythTvApi.Dvr.Models.ArrayOfMarkup>("Mark", Mark);
-            writer.WriteObjectValue<global::MythTvApi.Dvr.Models.ArrayOfMarkup>("Seek", Seek);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Dvr.Models.Markup>("Mark", Mark);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Dvr.Models.Markup>("Seek", Seek);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

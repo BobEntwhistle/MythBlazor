@@ -35,23 +35,43 @@ namespace MythTvApi.Dvr.Dvr.UnDeleteRecording
         /// <summary>
         /// POST 
         /// </summary>
-        /// <returns>A List&lt;bool&gt;</returns>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostResponse"/></returns>
         /// <param name="body">The request body</param>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<bool?>?> PostAsync(global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingRequestBuilder.UnDeleteRecordingRequestBuilderPostQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostResponse?> PostAsUnDeleteRecordingPostResponseAsync(global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingRequestBuilder.UnDeleteRecordingRequestBuilderPostQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<bool?>> PostAsync(global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingRequestBuilder.UnDeleteRecordingRequestBuilderPostQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostResponse> PostAsUnDeleteRecordingPostResponseAsync(global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingRequestBuilder.UnDeleteRecordingRequestBuilderPostQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
-            var collectionResult = await RequestAdapter.SendPrimitiveCollectionAsync<bool?>(requestInfo, default, cancellationToken).ConfigureAwait(false);
-            return collectionResult?.AsList();
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// POST 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingResponse"/></returns>
+        /// <param name="body">The request body</param>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use PostAsUnDeleteRecordingPostResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingResponse?> PostAsync(global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingRequestBuilder.UnDeleteRecordingRequestBuilderPostQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingResponse> PostAsync(global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingPostRequestBody body, Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingRequestBuilder.UnDeleteRecordingRequestBuilderPostQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
+            var requestInfo = ToPostRequestInformation(body, requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.UnDeleteRecording.UnDeleteRecordingResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// POST 

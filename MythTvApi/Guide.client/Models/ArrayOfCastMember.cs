@@ -17,10 +17,10 @@ namespace MythTvApi.Guide.Models
         /// <summary>The CastMember property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Guide.Models.CastMember? CastMember { get; set; }
+        public List<global::MythTvApi.Guide.Models.CastMember>? CastMember { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Guide.Models.CastMember CastMember { get; set; }
+        public List<global::MythTvApi.Guide.Models.CastMember> CastMember { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Guide.Models.ArrayOfCastMember"/> and sets the default values.
@@ -47,7 +47,7 @@ namespace MythTvApi.Guide.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "CastMember", n => { CastMember = n.GetObjectValue<global::MythTvApi.Guide.Models.CastMember>(global::MythTvApi.Guide.Models.CastMember.CreateFromDiscriminatorValue); } },
+                { "CastMember", n => { CastMember = n.GetCollectionOfObjectValues<global::MythTvApi.Guide.Models.CastMember>(global::MythTvApi.Guide.Models.CastMember.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace MythTvApi.Guide.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<global::MythTvApi.Guide.Models.CastMember>("CastMember", CastMember);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Guide.Models.CastMember>("CastMember", CastMember);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

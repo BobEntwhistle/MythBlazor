@@ -17,10 +17,10 @@ namespace MythTvApi.Video.Models
         /// <summary>The VideoMetadataInfo property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Video.Models.VideoMetadataInfo? VideoMetadataInfo { get; set; }
+        public List<global::MythTvApi.Video.Models.VideoMetadataInfo>? VideoMetadataInfo { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Video.Models.VideoMetadataInfo VideoMetadataInfo { get; set; }
+        public List<global::MythTvApi.Video.Models.VideoMetadataInfo> VideoMetadataInfo { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Video.Models.ArrayOfVideoMetadataInfo"/> and sets the default values.
@@ -47,7 +47,7 @@ namespace MythTvApi.Video.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "VideoMetadataInfo", n => { VideoMetadataInfo = n.GetObjectValue<global::MythTvApi.Video.Models.VideoMetadataInfo>(global::MythTvApi.Video.Models.VideoMetadataInfo.CreateFromDiscriminatorValue); } },
+                { "VideoMetadataInfo", n => { VideoMetadataInfo = n.GetCollectionOfObjectValues<global::MythTvApi.Video.Models.VideoMetadataInfo>(global::MythTvApi.Video.Models.VideoMetadataInfo.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace MythTvApi.Video.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<global::MythTvApi.Video.Models.VideoMetadataInfo>("VideoMetadataInfo", VideoMetadataInfo);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Video.Models.VideoMetadataInfo>("VideoMetadataInfo", VideoMetadataInfo);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

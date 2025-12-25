@@ -21,10 +21,10 @@ namespace MythTvApi.Dvr.Models
         /// <summary>The Programs property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Dvr.Models.ArrayOfProgram? Programs { get; set; }
+        public List<global::MythTvApi.Dvr.Models.Program>? Programs { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Dvr.Models.ArrayOfProgram Programs { get; set; }
+        public List<global::MythTvApi.Dvr.Models.Program> Programs { get; set; }
 #endif
         /// <summary>The ProtoVer property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -73,7 +73,7 @@ namespace MythTvApi.Dvr.Models
             {
                 { "AsOf", n => { AsOf = n.GetDateTimeOffsetValue(); } },
                 { "Count", n => { Count = n.GetIntValue(); } },
-                { "Programs", n => { Programs = n.GetObjectValue<global::MythTvApi.Dvr.Models.ArrayOfProgram>(global::MythTvApi.Dvr.Models.ArrayOfProgram.CreateFromDiscriminatorValue); } },
+                { "Programs", n => { Programs = n.GetCollectionOfObjectValues<global::MythTvApi.Dvr.Models.Program>(global::MythTvApi.Dvr.Models.Program.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "ProtoVer", n => { ProtoVer = n.GetStringValue(); } },
                 { "StartIndex", n => { StartIndex = n.GetIntValue(); } },
                 { "TotalAvailable", n => { TotalAvailable = n.GetIntValue(); } },
@@ -89,7 +89,7 @@ namespace MythTvApi.Dvr.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteDateTimeOffsetValue("AsOf", AsOf);
             writer.WriteIntValue("Count", Count);
-            writer.WriteObjectValue<global::MythTvApi.Dvr.Models.ArrayOfProgram>("Programs", Programs);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Dvr.Models.Program>("Programs", Programs);
             writer.WriteStringValue("ProtoVer", ProtoVer);
             writer.WriteIntValue("StartIndex", StartIndex);
             writer.WriteIntValue("TotalAvailable", TotalAvailable);

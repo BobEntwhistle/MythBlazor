@@ -39,9 +39,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "AddVideoResponse": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -68,9 +70,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/BlurayInfo"
+                  "type": "object",
+                  "properties": {
+                    "BlurayInfo": {
+                      "$ref": "#/components/schemas/BlurayInfo"
+                    }
                   }
                 }
               }
@@ -88,14 +92,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/VideoCategory"
-                      }
+                  "type": "object",
+                  "properties": {
+                    "VideoCategory": {
+                      "$ref": "#/components/schemas/VideoCategory"
                     }
                   }
                 }
@@ -124,10 +124,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int64"
+                  "type": "object",
+                  "properties": {
+                    "GetLastPlayPosResponse": {
+                      "type": "integer",
+                      "format": "int64"
+                    }
                   }
                 }
               }
@@ -155,10 +157,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int64"
+                  "type": "object",
+                  "properties": {
+                    "GetSavedBookmarkResponse": {
+                      "type": "integer",
+                      "format": "int64"
+                    }
                   }
                 }
               }
@@ -192,9 +196,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VideoStreamInfoList"
+                  "type": "object",
+                  "properties": {
+                    "VideoStreamInfoList": {
+                      "$ref": "#/components/schemas/VideoStreamInfoList"
+                    }
                   }
                 }
               }
@@ -222,9 +228,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VideoMetadataInfo"
+                  "type": "object",
+                  "properties": {
+                    "VideoMetadataInfo": {
+                      "$ref": "#/components/schemas/VideoMetadataInfo"
+                    }
                   }
                 }
               }
@@ -251,9 +259,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VideoMetadataInfo"
+                  "type": "object",
+                  "properties": {
+                    "VideoMetadataInfo": {
+                      "$ref": "#/components/schemas/VideoMetadataInfo"
+                    }
                   }
                 }
               }
@@ -295,14 +305,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Cutting"
-                      }
+                  "type": "object",
+                  "properties": {
+                    "Cutting": {
+                      "$ref": "#/components/schemas/Cutting"
                     }
                   }
                 }
@@ -345,14 +351,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Cutting"
-                      }
+                  "type": "object",
+                  "properties": {
+                    "Cutting": {
+                      "$ref": "#/components/schemas/Cutting"
                     }
                   }
                 }
@@ -432,9 +434,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VideoMetadataInfoList"
+                  "type": "object",
+                  "properties": {
+                    "VideoMetadataInfoList": {
+                      "$ref": "#/components/schemas/VideoMetadataInfoList"
+                    }
                   }
                 }
               }
@@ -505,9 +509,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VideoLookupList"
+                  "type": "object",
+                  "properties": {
+                    "VideoLookupList": {
+                      "$ref": "#/components/schemas/VideoLookupList"
+                    }
                   }
                 }
               }
@@ -544,9 +550,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "RemoveVideoFromDBResponse": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -591,9 +599,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "SetLastPlayPosResponse": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -638,9 +648,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "SetSavedBookmarkResponse": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -947,9 +959,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "UpdateVideoMetadataResponse": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -993,9 +1007,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "UpdateVideoWatchedStatusResponse": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -1135,11 +1151,9 @@
         }
       },
       "ArrayOfVideoStreamInfo": {
-        "type": "object",
-        "properties": {
-          "VideoStreamInfo": {
-            "$ref": "#/components/schemas/VideoStreamInfo"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/VideoStreamInfo"
         }
       },
       "VideoStreamInfoList": {
@@ -1189,11 +1203,9 @@
         }
       },
       "ArrayOfArtworkInfo": {
-        "type": "object",
-        "properties": {
-          "ArtworkInfo": {
-            "$ref": "#/components/schemas/ArtworkInfo"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ArtworkInfo"
         }
       },
       "ArtworkInfoList": {
@@ -1222,11 +1234,9 @@
         }
       },
       "ArrayOfCastMember": {
-        "type": "object",
-        "properties": {
-          "CastMember": {
-            "$ref": "#/components/schemas/CastMember"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CastMember"
         }
       },
       "CastMemberList": {
@@ -1246,11 +1256,9 @@
         }
       },
       "ArrayOfGenre": {
-        "type": "object",
-        "properties": {
-          "Genre": {
-            "$ref": "#/components/schemas/Genre"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Genre"
         }
       },
       "GenreList": {
@@ -1399,11 +1407,9 @@
         }
       },
       "ArrayOfVideoMetadataInfo": {
-        "type": "object",
-        "properties": {
-          "VideoMetadataInfo": {
-            "$ref": "#/components/schemas/VideoMetadataInfo"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/VideoMetadataInfo"
         }
       },
       "VideoMetadataInfoList": {
@@ -1445,11 +1451,9 @@
         }
       },
       "ArrayOfString": {
-        "type": "object",
-        "properties": {
-          "String": {
-            "type": "string"
-          }
+        "type": "array",
+        "items": {
+          "type": "string"
         }
       },
       "ArtworkItem": {
@@ -1475,11 +1479,9 @@
         }
       },
       "ArrayOfArtworkItem": {
-        "type": "object",
-        "properties": {
-          "ArtworkItem": {
-            "$ref": "#/components/schemas/ArtworkItem"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ArtworkItem"
         }
       },
       "VideoLookup": {
@@ -1561,11 +1563,9 @@
         }
       },
       "ArrayOfVideoLookup": {
-        "type": "object",
-        "properties": {
-          "VideoLookup": {
-            "$ref": "#/components/schemas/VideoLookup"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/VideoLookup"
         }
       },
       "VideoLookupList": {

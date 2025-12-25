@@ -17,10 +17,10 @@ namespace MythTvApi.Video.Models
         /// <summary>The Genre property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Video.Models.Genre? Genre { get; set; }
+        public List<global::MythTvApi.Video.Models.Genre>? Genre { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Video.Models.Genre Genre { get; set; }
+        public List<global::MythTvApi.Video.Models.Genre> Genre { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Video.Models.ArrayOfGenre"/> and sets the default values.
@@ -47,7 +47,7 @@ namespace MythTvApi.Video.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "Genre", n => { Genre = n.GetObjectValue<global::MythTvApi.Video.Models.Genre>(global::MythTvApi.Video.Models.Genre.CreateFromDiscriminatorValue); } },
+                { "Genre", n => { Genre = n.GetCollectionOfObjectValues<global::MythTvApi.Video.Models.Genre>(global::MythTvApi.Video.Models.Genre.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace MythTvApi.Video.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<global::MythTvApi.Video.Models.Genre>("Genre", Genre);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Video.Models.Genre>("Genre", Genre);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

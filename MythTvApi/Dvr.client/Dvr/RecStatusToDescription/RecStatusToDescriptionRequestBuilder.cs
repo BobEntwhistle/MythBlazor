@@ -35,21 +35,39 @@ namespace MythTvApi.Dvr.Dvr.RecStatusToDescription
         /// <summary>
         /// GET 
         /// </summary>
-        /// <returns>A List&lt;string&gt;</returns>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionGetResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<string>?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionRequestBuilder.RecStatusToDescriptionRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionGetResponse?> GetAsRecStatusToDescriptionGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionRequestBuilder.RecStatusToDescriptionRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<string>> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionRequestBuilder.RecStatusToDescriptionRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionGetResponse> GetAsRecStatusToDescriptionGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionRequestBuilder.RecStatusToDescriptionRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendPrimitiveCollectionAsync<string>(requestInfo, default, cancellationToken).ConfigureAwait(false);
-            return collectionResult?.AsList();
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionGetResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionGetResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// GET 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use GetAsRecStatusToDescriptionGetResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionResponse?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionRequestBuilder.RecStatusToDescriptionRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionResponse> GetAsync(Action<RequestConfiguration<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionRequestBuilder.RecStatusToDescriptionRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionResponse>(requestInfo, global::MythTvApi.Dvr.Dvr.RecStatusToDescription.RecStatusToDescriptionResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// GET 

@@ -261,6 +261,7 @@ public class WsdlToOpenApiConverter
     }
 
     // Build OpenApi schema for a MessagePart (delegates to CreateOpenApiSchemaForType)
+    // NOTE: Modified to expect actual responses wrapped with a top-level property named the same as the returned type.
     private static IOpenApiSchema BuildOpenApiSchemaForMessagePart(MessagePart part, XmlSchemaSet set, OpenApiComponents components, Dictionary<XmlQualifiedName, string> processed)
     {
         try
@@ -272,10 +273,43 @@ public class WsdlToOpenApiConverter
                 {
                     var elementType = ResolveElementType(element, set);
                     var baseSchema = CreateOpenApiSchemaForType(elementType, set, components, processed);
+
+                    // derive wrapper name: prefer the element name, fall back to type name
+                    var wrapperName = (baseSchema as OpenApiSchemaReference)?.Reference.Id ?? element.Name;
+                    if (string.IsNullOrWhiteSpace(wrapperName) && elementType != null && !elementType.QualifiedName.IsEmpty)
+                        wrapperName = elementType.QualifiedName.Name;
+
+                    // if the element itself is repeated, we still wrap the array under the named property
                     if (element.MaxOccurs > 1m)
                     {
-                        return new OpenApiSchema { Type = JsonSchemaType.Array, Items = baseSchema };
+                        var arraySchema = new OpenApiSchema { Type = JsonSchemaType.Array, Items = baseSchema };
+                        if (!string.IsNullOrWhiteSpace(wrapperName))
+                        {
+                            return new OpenApiSchema
+                            {
+                                Type = JsonSchemaType.Object,
+                                Properties = new Dictionary<string, IOpenApiSchema>
+                                {
+                                    [wrapperName] = arraySchema
+                                }
+                            };
+                        }
+                        return arraySchema;
                     }
+
+                    // wrap the response so the top-level JSON begins with the type name property
+                    if (!string.IsNullOrWhiteSpace(wrapperName))
+                    {
+                        return new OpenApiSchema
+                        {
+                            Type = JsonSchemaType.Object,
+                            Properties = new Dictionary<string, IOpenApiSchema>
+                            {
+                                [wrapperName] = baseSchema
+                            }
+                        };
+                    }
+
                     return baseSchema;
                 }
             }
@@ -284,7 +318,24 @@ public class WsdlToOpenApiConverter
                 var xmlType = ResolveXmlSchemaType(part.Type, set);
                 if (xmlType != null)
                 {
-                    return CreateOpenApiSchemaForType(xmlType, set, components, processed);
+                    var baseSchema = CreateOpenApiSchemaForType(xmlType, set, components, processed);
+
+                    // derive wrapper name from the type name
+                    var wrapperName = !xmlType.QualifiedName.IsEmpty ? xmlType.QualifiedName.Name : part.Name;
+
+                    if (!string.IsNullOrWhiteSpace(wrapperName))
+                    {
+                        return new OpenApiSchema
+                        {
+                            Type = JsonSchemaType.Object,
+                            Properties = new Dictionary<string, IOpenApiSchema>
+                            {
+                                [wrapperName] = baseSchema
+                            }
+                        };
+                    }
+
+                    return baseSchema;
                 }
             }
         }
@@ -311,19 +362,18 @@ public class WsdlToOpenApiConverter
 
         if (type is XmlSchemaComplexType ct)
         {
-            // wrapper pattern: single sequence child -> array of inner type
             var inner = GetSingleSequenceChild(ct);
             if (inner != null)
             {
                 var innerType = inner.ElementSchemaType ?? ResolveXmlSchemaType(inner.SchemaTypeName, set);
                 if (innerType != null)
                 {
-                    var itemSchema = CreateOpenApiSchemaForType(innerType, set, components, processed);
-                    return new OpenApiSchema { Type = JsonSchemaType.Array, Items = itemSchema };
+                    return CreateOpenApiSchemaForType(innerType, set, components, processed);
                 }
             }
 
             // otherwise create/ensure a component schema and return a reference schema
+
             var compName = EnsureComponentForTypeOpenApi(type, set, components, processed);
             return new OpenApiSchemaReference(compName);
         }
@@ -343,6 +393,48 @@ public class WsdlToOpenApiConverter
 
         processed[qn] = compName;
 
+        // If this complex type is a simple wrapper over a single repeating element
+        // (e.g. ArrayOfX with sequence containing one element with maxOccurs > 1)
+        // then represent the component itself as an array rather than an object that contains an array property.
+        if (type is XmlSchemaComplexType ct)
+        {
+            var single = GetSingleSequenceChild(ct);
+            if (single != null)
+            {
+                // Determine if the single child is repeating/unbounded
+                var isRepeating = (single.MaxOccurs > 1m) || string.Equals(single.MaxOccursString, "unbounded", StringComparison.OrdinalIgnoreCase);
+                if (isRepeating)
+                {
+                    var childType = single.ElementSchemaType ?? ResolveXmlSchemaType(single.SchemaTypeName, set);
+                    IOpenApiSchema itemSchema;
+                    if (IsSimpleType(childType))
+                    {
+                        itemSchema = MapSimpleTypeToOpenApiSchema(childType);
+                    }
+                    else
+                    {
+                        var nestedName = EnsureComponentForTypeOpenApi(childType!, set, components, processed);
+                        itemSchema = new OpenApiSchemaReference(nestedName);
+                    }
+
+                    // Ensure components.Schemas dictionary is initialized before adding entries
+                    if (components.Schemas == null)
+                    {
+                        components.Schemas = new Dictionary<string, IOpenApiSchema>();
+                    }
+
+                    var arraySchema = new OpenApiSchema
+                    {
+                        Type = JsonSchemaType.Array,
+                        Items = itemSchema
+                    };
+
+                    components.Schemas[compName] = arraySchema;
+                    return compName;
+                }
+            }
+        }
+
         var schema = new OpenApiSchema { Type = JsonSchemaType.Object, Properties = new Dictionary<string, IOpenApiSchema>() };
 
         // Ensure components.Schemas dictionary is initialized before adding entries
@@ -352,9 +444,9 @@ public class WsdlToOpenApiConverter
         }
 
         // handle complex content extension -> include base refs and extension properties
-        if (type is XmlSchemaComplexType ct)
+        if (type is XmlSchemaComplexType ct2)
         {
-            if (ct.ContentModel is XmlSchemaComplexContent complexContent && complexContent.Content is XmlSchemaComplexContentExtension extension)
+            if (ct2.ContentModel is XmlSchemaComplexContent complexContent && complexContent.Content is XmlSchemaComplexContentExtension extension)
             {
                 if (!extension.BaseTypeName.IsEmpty)
                 {
@@ -378,7 +470,7 @@ public class WsdlToOpenApiConverter
                     }
                 }
             }
-            else if (ct.Particle is XmlSchemaSequence seq)
+            else if (ct2.Particle is XmlSchemaSequence seq)
             {
                 foreach (XmlSchemaObject item in seq.Items)
                 {
@@ -388,7 +480,7 @@ public class WsdlToOpenApiConverter
                     }
                 }
             }
-            else if (ct.Particle is XmlSchemaChoice choice)
+            else if (ct2.Particle is XmlSchemaChoice choice)
             {
                 foreach (XmlSchemaObject item in choice.Items)
                 {
@@ -408,14 +500,42 @@ public class WsdlToOpenApiConverter
     private static void AddPropertyForChildOpenApi(XmlSchemaElement child, XmlSchemaSet set, IDictionary<string, IOpenApiSchema> props, OpenApiComponents components, Dictionary<XmlQualifiedName, string> processed)
     {
         var childType = child.ElementSchemaType ?? ResolveXmlSchemaType(child.SchemaTypeName, set) ?? child.ElementSchemaType!;
+        var propName = child.Name ?? child.QualifiedName.Name;
+
+        // Detect repeating elements (arrays) via MaxOccurs or MaxOccursString == "unbounded"
+        var isArray = (child.MaxOccurs > 1m) || string.Equals(child.MaxOccursString, "unbounded", StringComparison.OrdinalIgnoreCase);
+
+        if (isArray)
+        {
+            // Build item schema
+            IOpenApiSchema itemSchema;
+            if (IsSimpleType(childType))
+            {
+                itemSchema = MapSimpleTypeToOpenApiSchema(childType);
+            }
+            else
+            {
+                var nestedName = EnsureComponentForTypeOpenApi(childType, set, components, processed);
+                itemSchema = new OpenApiSchemaReference(nestedName);
+            }
+
+            props[propName] = new OpenApiSchema
+            {
+                Type = JsonSchemaType.Array,
+                Items = itemSchema
+            };
+            return;
+        }
+
+        // Non-array element
         if (IsSimpleType(childType))
         {
-            props[child.Name ?? child.QualifiedName.Name] = MapSimpleTypeToOpenApiSchema(childType);
+            props[propName] = MapSimpleTypeToOpenApiSchema(childType);
         }
         else
         {
             var nestedName = EnsureComponentForTypeOpenApi(childType, set, components, processed);
-            props[child.Name ?? child.QualifiedName.Name] = new OpenApiSchemaReference(nestedName);
+            props[propName] = new OpenApiSchemaReference(nestedName);
         }
     }
 

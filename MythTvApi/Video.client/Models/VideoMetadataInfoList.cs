@@ -45,10 +45,10 @@ namespace MythTvApi.Video.Models
         /// <summary>The VideoMetadataInfos property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Video.Models.ArrayOfVideoMetadataInfo? VideoMetadataInfos { get; set; }
+        public List<global::MythTvApi.Video.Models.VideoMetadataInfo>? VideoMetadataInfos { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Video.Models.ArrayOfVideoMetadataInfo VideoMetadataInfos { get; set; }
+        public List<global::MythTvApi.Video.Models.VideoMetadataInfo> VideoMetadataInfos { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Video.Models.VideoMetadataInfoList"/> and sets the default values.
@@ -83,7 +83,7 @@ namespace MythTvApi.Video.Models
                 { "TotalAvailable", n => { TotalAvailable = n.GetIntValue(); } },
                 { "TotalPages", n => { TotalPages = n.GetIntValue(); } },
                 { "Version", n => { Version = n.GetStringValue(); } },
-                { "VideoMetadataInfos", n => { VideoMetadataInfos = n.GetObjectValue<global::MythTvApi.Video.Models.ArrayOfVideoMetadataInfo>(global::MythTvApi.Video.Models.ArrayOfVideoMetadataInfo.CreateFromDiscriminatorValue); } },
+                { "VideoMetadataInfos", n => { VideoMetadataInfos = n.GetCollectionOfObjectValues<global::MythTvApi.Video.Models.VideoMetadataInfo>(global::MythTvApi.Video.Models.VideoMetadataInfo.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -101,7 +101,7 @@ namespace MythTvApi.Video.Models
             writer.WriteIntValue("TotalAvailable", TotalAvailable);
             writer.WriteIntValue("TotalPages", TotalPages);
             writer.WriteStringValue("Version", Version);
-            writer.WriteObjectValue<global::MythTvApi.Video.Models.ArrayOfVideoMetadataInfo>("VideoMetadataInfos", VideoMetadataInfos);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Video.Models.VideoMetadataInfo>("VideoMetadataInfos", VideoMetadataInfos);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

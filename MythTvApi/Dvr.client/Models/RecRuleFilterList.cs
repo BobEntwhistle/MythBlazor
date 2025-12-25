@@ -29,10 +29,10 @@ namespace MythTvApi.Dvr.Models
         /// <summary>The RecRuleFilters property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Dvr.Models.ArrayOfRecRuleFilter? RecRuleFilters { get; set; }
+        public List<global::MythTvApi.Dvr.Models.RecRuleFilter>? RecRuleFilters { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Dvr.Models.ArrayOfRecRuleFilter RecRuleFilters { get; set; }
+        public List<global::MythTvApi.Dvr.Models.RecRuleFilter> RecRuleFilters { get; set; }
 #endif
         /// <summary>The StartIndex property</summary>
         public int? StartIndex { get; set; }
@@ -74,7 +74,7 @@ namespace MythTvApi.Dvr.Models
                 { "AsOf", n => { AsOf = n.GetDateTimeOffsetValue(); } },
                 { "Count", n => { Count = n.GetIntValue(); } },
                 { "ProtoVer", n => { ProtoVer = n.GetStringValue(); } },
-                { "RecRuleFilters", n => { RecRuleFilters = n.GetObjectValue<global::MythTvApi.Dvr.Models.ArrayOfRecRuleFilter>(global::MythTvApi.Dvr.Models.ArrayOfRecRuleFilter.CreateFromDiscriminatorValue); } },
+                { "RecRuleFilters", n => { RecRuleFilters = n.GetCollectionOfObjectValues<global::MythTvApi.Dvr.Models.RecRuleFilter>(global::MythTvApi.Dvr.Models.RecRuleFilter.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "StartIndex", n => { StartIndex = n.GetIntValue(); } },
                 { "TotalAvailable", n => { TotalAvailable = n.GetIntValue(); } },
                 { "Version", n => { Version = n.GetStringValue(); } },
@@ -90,7 +90,7 @@ namespace MythTvApi.Dvr.Models
             writer.WriteDateTimeOffsetValue("AsOf", AsOf);
             writer.WriteIntValue("Count", Count);
             writer.WriteStringValue("ProtoVer", ProtoVer);
-            writer.WriteObjectValue<global::MythTvApi.Dvr.Models.ArrayOfRecRuleFilter>("RecRuleFilters", RecRuleFilters);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Dvr.Models.RecRuleFilter>("RecRuleFilters", RecRuleFilters);
             writer.WriteIntValue("StartIndex", StartIndex);
             writer.WriteIntValue("TotalAvailable", TotalAvailable);
             writer.WriteStringValue("Version", Version);

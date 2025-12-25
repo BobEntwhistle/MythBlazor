@@ -21,10 +21,10 @@ namespace MythTvApi.Guide.Models
         /// <summary>The Programs property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Guide.Models.ArrayOfProgram? Programs { get; set; }
+        public List<global::MythTvApi.Guide.Models.Program>? Programs { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Guide.Models.ArrayOfProgram Programs { get; set; }
+        public List<global::MythTvApi.Guide.Models.Program> Programs { get; set; }
 #endif
         /// <summary>The ProtoVer property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -73,7 +73,7 @@ namespace MythTvApi.Guide.Models
             {
                 { "AsOf", n => { AsOf = n.GetDateTimeOffsetValue(); } },
                 { "Count", n => { Count = n.GetIntValue(); } },
-                { "Programs", n => { Programs = n.GetObjectValue<global::MythTvApi.Guide.Models.ArrayOfProgram>(global::MythTvApi.Guide.Models.ArrayOfProgram.CreateFromDiscriminatorValue); } },
+                { "Programs", n => { Programs = n.GetCollectionOfObjectValues<global::MythTvApi.Guide.Models.Program>(global::MythTvApi.Guide.Models.Program.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "ProtoVer", n => { ProtoVer = n.GetStringValue(); } },
                 { "StartIndex", n => { StartIndex = n.GetIntValue(); } },
                 { "TotalAvailable", n => { TotalAvailable = n.GetIntValue(); } },
@@ -89,7 +89,7 @@ namespace MythTvApi.Guide.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteDateTimeOffsetValue("AsOf", AsOf);
             writer.WriteIntValue("Count", Count);
-            writer.WriteObjectValue<global::MythTvApi.Guide.Models.ArrayOfProgram>("Programs", Programs);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Guide.Models.Program>("Programs", Programs);
             writer.WriteStringValue("ProtoVer", ProtoVer);
             writer.WriteIntValue("StartIndex", StartIndex);
             writer.WriteIntValue("TotalAvailable", TotalAvailable);

@@ -3,7 +3,6 @@
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions.Serialization;
 using Microsoft.Kiota.Abstractions;
-using MythTvApi.Guide.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -36,21 +35,39 @@ namespace MythTvApi.Guide.Guide.GetProgramDetails
         /// <summary>
         /// GET 
         /// </summary>
-        /// <returns>A List&lt;global::MythTvApi.Guide.Models.Program&gt;</returns>
+        /// <returns>A <see cref="global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsGetResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<global::MythTvApi.Guide.Models.Program>?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsRequestBuilder.GetProgramDetailsRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsGetResponse?> GetAsGetProgramDetailsGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsRequestBuilder.GetProgramDetailsRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<global::MythTvApi.Guide.Models.Program>> GetAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsRequestBuilder.GetProgramDetailsRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsGetResponse> GetAsGetProgramDetailsGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsRequestBuilder.GetProgramDetailsRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendCollectionAsync<global::MythTvApi.Guide.Models.Program>(requestInfo, global::MythTvApi.Guide.Models.Program.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
-            return collectionResult?.AsList();
+            return await RequestAdapter.SendAsync<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsGetResponse>(requestInfo, global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsGetResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// GET 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use GetAsGetProgramDetailsGetResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsResponse?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsRequestBuilder.GetProgramDetailsRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsResponse> GetAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsRequestBuilder.GetProgramDetailsRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsResponse>(requestInfo, global::MythTvApi.Guide.Guide.GetProgramDetails.GetProgramDetailsResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// GET 

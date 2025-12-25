@@ -17,10 +17,10 @@ namespace MythTvApi.Dvr.Models
         /// <summary>The CastMembers property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Dvr.Models.ArrayOfCastMember? CastMembers { get; set; }
+        public List<global::MythTvApi.Dvr.Models.CastMember>? CastMembers { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Dvr.Models.ArrayOfCastMember CastMembers { get; set; }
+        public List<global::MythTvApi.Dvr.Models.CastMember> CastMembers { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Dvr.Models.CastMemberList"/> and sets the default values.
@@ -47,7 +47,7 @@ namespace MythTvApi.Dvr.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "CastMembers", n => { CastMembers = n.GetObjectValue<global::MythTvApi.Dvr.Models.ArrayOfCastMember>(global::MythTvApi.Dvr.Models.ArrayOfCastMember.CreateFromDiscriminatorValue); } },
+                { "CastMembers", n => { CastMembers = n.GetCollectionOfObjectValues<global::MythTvApi.Dvr.Models.CastMember>(global::MythTvApi.Dvr.Models.CastMember.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace MythTvApi.Dvr.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<global::MythTvApi.Dvr.Models.ArrayOfCastMember>("CastMembers", CastMembers);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Dvr.Models.CastMember>("CastMembers", CastMembers);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

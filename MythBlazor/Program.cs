@@ -13,6 +13,8 @@ namespace MythBlazor
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
+            string? apiUrl = builder.Configuration.GetValue<string>("ApiInfo:ApiUrl");
+
             await builder.Build().RunAsync();
         }
     }

@@ -35,20 +35,39 @@ namespace MythTvApi.Guide.Guide.GetChannelGroupList
         /// <summary>
         /// GET 
         /// </summary>
-        /// <returns>A <see cref="UntypedNode"/></returns>
+        /// <returns>A <see cref="global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListGetResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<UntypedNode?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListRequestBuilder.GetChannelGroupListRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListGetResponse?> GetAsGetChannelGroupListGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListRequestBuilder.GetChannelGroupListRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<UntypedNode> GetAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListRequestBuilder.GetChannelGroupListRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListGetResponse> GetAsGetChannelGroupListGetResponseAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListRequestBuilder.GetChannelGroupListRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<UntypedNode>(requestInfo, UntypedNode.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListGetResponse>(requestInfo, global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListGetResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// GET 
+        /// </summary>
+        /// <returns>A <see cref="global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use GetAsGetChannelGroupListGetResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListResponse?> GetAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListRequestBuilder.GetChannelGroupListRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListResponse> GetAsync(Action<RequestConfiguration<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListRequestBuilder.GetChannelGroupListRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListResponse>(requestInfo, global::MythTvApi.Guide.Guide.GetChannelGroupList.GetChannelGroupListResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// GET 

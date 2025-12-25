@@ -29,10 +29,10 @@ namespace MythTvApi.Dvr.Models
         /// <summary>The RecRules property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Dvr.Models.ArrayOfRecRule? RecRules { get; set; }
+        public List<global::MythTvApi.Dvr.Models.RecRule>? RecRules { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Dvr.Models.ArrayOfRecRule RecRules { get; set; }
+        public List<global::MythTvApi.Dvr.Models.RecRule> RecRules { get; set; }
 #endif
         /// <summary>The StartIndex property</summary>
         public int? StartIndex { get; set; }
@@ -74,7 +74,7 @@ namespace MythTvApi.Dvr.Models
                 { "AsOf", n => { AsOf = n.GetDateTimeOffsetValue(); } },
                 { "Count", n => { Count = n.GetIntValue(); } },
                 { "ProtoVer", n => { ProtoVer = n.GetStringValue(); } },
-                { "RecRules", n => { RecRules = n.GetObjectValue<global::MythTvApi.Dvr.Models.ArrayOfRecRule>(global::MythTvApi.Dvr.Models.ArrayOfRecRule.CreateFromDiscriminatorValue); } },
+                { "RecRules", n => { RecRules = n.GetCollectionOfObjectValues<global::MythTvApi.Dvr.Models.RecRule>(global::MythTvApi.Dvr.Models.RecRule.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "StartIndex", n => { StartIndex = n.GetIntValue(); } },
                 { "TotalAvailable", n => { TotalAvailable = n.GetIntValue(); } },
                 { "Version", n => { Version = n.GetStringValue(); } },
@@ -90,7 +90,7 @@ namespace MythTvApi.Dvr.Models
             writer.WriteDateTimeOffsetValue("AsOf", AsOf);
             writer.WriteIntValue("Count", Count);
             writer.WriteStringValue("ProtoVer", ProtoVer);
-            writer.WriteObjectValue<global::MythTvApi.Dvr.Models.ArrayOfRecRule>("RecRules", RecRules);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Dvr.Models.RecRule>("RecRules", RecRules);
             writer.WriteIntValue("StartIndex", StartIndex);
             writer.WriteIntValue("TotalAvailable", TotalAvailable);
             writer.WriteStringValue("Version", Version);

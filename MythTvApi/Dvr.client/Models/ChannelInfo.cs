@@ -153,10 +153,10 @@ namespace MythTvApi.Dvr.Models
         /// <summary>The Programs property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::MythTvApi.Dvr.Models.ArrayOfProgram? Programs { get; set; }
+        public List<global::MythTvApi.Dvr.Models.Program>? Programs { get; set; }
 #nullable restore
 #else
-        public global::MythTvApi.Dvr.Models.ArrayOfProgram Programs { get; set; }
+        public List<global::MythTvApi.Dvr.Models.Program> Programs { get; set; }
 #endif
         /// <summary>The RecPriority property</summary>
         public int? RecPriority { get; set; }
@@ -237,7 +237,7 @@ namespace MythTvApi.Dvr.Models
                 { "InputId", n => { InputId = n.GetIntValue(); } },
                 { "Inputs", n => { Inputs = n.GetStringValue(); } },
                 { "MplexId", n => { MplexId = n.GetStringValue(); } },
-                { "Programs", n => { Programs = n.GetObjectValue<global::MythTvApi.Dvr.Models.ArrayOfProgram>(global::MythTvApi.Dvr.Models.ArrayOfProgram.CreateFromDiscriminatorValue); } },
+                { "Programs", n => { Programs = n.GetCollectionOfObjectValues<global::MythTvApi.Dvr.Models.Program>(global::MythTvApi.Dvr.Models.Program.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "RecPriority", n => { RecPriority = n.GetIntValue(); } },
                 { "ServiceId", n => { ServiceId = n.GetStringValue(); } },
                 { "ServiceType", n => { ServiceType = n.GetStringValue(); } },
@@ -275,7 +275,7 @@ namespace MythTvApi.Dvr.Models
             writer.WriteIntValue("InputId", InputId);
             writer.WriteStringValue("Inputs", Inputs);
             writer.WriteStringValue("MplexId", MplexId);
-            writer.WriteObjectValue<global::MythTvApi.Dvr.Models.ArrayOfProgram>("Programs", Programs);
+            writer.WriteCollectionOfObjectValues<global::MythTvApi.Dvr.Models.Program>("Programs", Programs);
             writer.WriteIntValue("RecPriority", RecPriority);
             writer.WriteStringValue("ServiceId", ServiceId);
             writer.WriteStringValue("ServiceType", ServiceType);
