@@ -306,14 +306,16 @@
             "name": "Season",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
             "name": "Episode",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -349,7 +351,8 @@
             "name": "PreferredInput",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -401,7 +404,8 @@
             "name": "Filter",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -537,7 +541,8 @@
                   "type": "object",
                   "properties": {
                     "AddRecordScheduleResponse": {
-                      "type": "string"
+                      "type": "integer",
+                      "format": "int32"
                     }
                   }
                 }
@@ -803,7 +808,8 @@
             "name": "RecordId",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -967,7 +973,8 @@
             "name": "RecordId",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -1498,7 +1505,8 @@
             "name": "RecordId",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -2680,7 +2688,8 @@
             "name": "RecordId",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -3309,7 +3318,8 @@
             "name": "RecordId",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -3411,14 +3421,16 @@
             "name": "Season",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
             "name": "Episode",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -3454,7 +3466,8 @@
             "name": "PreferredInput",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -3498,7 +3511,8 @@
             "name": "Filter",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -3652,7 +3666,8 @@
             "name": "RecordedId",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -3695,7 +3710,8 @@
             "name": "Episode",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -3739,14 +3755,16 @@
             "name": "Season",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
             "name": "Stars",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           },
           {
@@ -3893,7 +3911,8 @@
         "type": "object",
         "properties": {
           "ChanId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "ChanNum": {
             "type": "string"
@@ -3911,16 +3930,20 @@
             "type": "string"
           },
           "MplexId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "ServiceId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "ATSCMajorChan": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "ATSCMinorChan": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "Format": {
             "type": "string"
@@ -3968,7 +3991,8 @@
             "type": "string"
           },
           "ServiceType": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "RecPriority": {
             "type": "integer",
@@ -3991,7 +4015,8 @@
         "type": "object",
         "properties": {
           "RecordedId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "Status": {
             "type": "integer",
@@ -4285,13 +4310,16 @@
         "type": "object",
         "properties": {
           "Id": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "CardId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "SourceId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "InputName": {
             "type": "string"
@@ -4471,10 +4499,12 @@
             "type": "string"
           },
           "Season": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "Episode": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "Category": {
             "type": "string"
@@ -4521,7 +4551,8 @@
             "format": "int32"
           },
           "PreferredInput": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "StartOffset": {
             "type": "integer",
@@ -4541,7 +4572,8 @@
             "type": "boolean"
           },
           "Filter": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "RecProfile": {
             "type": "string"

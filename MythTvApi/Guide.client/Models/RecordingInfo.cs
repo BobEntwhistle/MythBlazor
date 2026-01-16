@@ -77,13 +77,7 @@ namespace MythTvApi.Guide.Models
         public string RecGroup { get; set; }
 #endif
         /// <summary>The RecordedId property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? RecordedId { get; set; }
-#nullable restore
-#else
-        public string RecordedId { get; set; }
-#endif
+        public int? RecordedId { get; set; }
         /// <summary>The RecordId property</summary>
         public int? RecordId { get; set; }
         /// <summary>The RecType property</summary>
@@ -157,7 +151,7 @@ namespace MythTvApi.Guide.Models
                 { "RecType", n => { RecType = n.GetIntValue(); } },
                 { "RecTypeStatus", n => { RecTypeStatus = n.GetStringValue(); } },
                 { "RecordId", n => { RecordId = n.GetIntValue(); } },
-                { "RecordedId", n => { RecordedId = n.GetStringValue(); } },
+                { "RecordedId", n => { RecordedId = n.GetIntValue(); } },
                 { "StartTs", n => { StartTs = n.GetDateTimeOffsetValue(); } },
                 { "Status", n => { Status = n.GetIntValue(); } },
                 { "StatusName", n => { StatusName = n.GetStringValue(); } },
@@ -184,7 +178,7 @@ namespace MythTvApi.Guide.Models
             writer.WriteIntValue("Priority", Priority);
             writer.WriteStringValue("Profile", Profile);
             writer.WriteStringValue("RecGroup", RecGroup);
-            writer.WriteStringValue("RecordedId", RecordedId);
+            writer.WriteIntValue("RecordedId", RecordedId);
             writer.WriteIntValue("RecordId", RecordId);
             writer.WriteIntValue("RecType", RecType);
             writer.WriteStringValue("RecTypeStatus", RecTypeStatus);

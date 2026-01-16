@@ -106,13 +106,7 @@ namespace MythTvApi.Dvr.Dvr.GetRecordSchedule
             public int? ChanId { get; set; }
             public bool? MakeOverride { get; set; }
             public int? RecordedId { get; set; }
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? RecordId { get; set; }
-#nullable restore
-#else
-            public string RecordId { get; set; }
-#endif
+            public int? RecordId { get; set; }
             public DateTimeOffset? StartTime { get; set; }
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable

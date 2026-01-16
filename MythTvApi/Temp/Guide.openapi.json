@@ -649,7 +649,8 @@
         "type": "object",
         "properties": {
           "GroupId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "Name": {
             "type": "string"
@@ -669,7 +670,8 @@
         "type": "object",
         "properties": {
           "ChanId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "ChanNum": {
             "type": "string"
@@ -687,16 +689,20 @@
             "type": "string"
           },
           "MplexId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "ServiceId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "ATSCMajorChan": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "ATSCMinorChan": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "Format": {
             "type": "string"
@@ -744,7 +750,8 @@
             "type": "string"
           },
           "ServiceType": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "RecPriority": {
             "type": "integer",
@@ -767,7 +774,8 @@
         "type": "object",
         "properties": {
           "RecordedId": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "Status": {
             "type": "integer",

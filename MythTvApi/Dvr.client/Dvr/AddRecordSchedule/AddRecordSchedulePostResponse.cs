@@ -15,13 +15,7 @@ namespace MythTvApi.Dvr.Dvr.AddRecordSchedule
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The AddRecordScheduleResponse property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? AddRecordScheduleResponse { get; set; }
-#nullable restore
-#else
-        public string AddRecordScheduleResponse { get; set; }
-#endif
+        public int? AddRecordScheduleResponse { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Dvr.Dvr.AddRecordSchedule.AddRecordSchedulePostResponse"/> and sets the default values.
         /// </summary>
@@ -47,7 +41,7 @@ namespace MythTvApi.Dvr.Dvr.AddRecordSchedule
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "AddRecordScheduleResponse", n => { AddRecordScheduleResponse = n.GetStringValue(); } },
+                { "AddRecordScheduleResponse", n => { AddRecordScheduleResponse = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -57,7 +51,7 @@ namespace MythTvApi.Dvr.Dvr.AddRecordSchedule
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("AddRecordScheduleResponse", AddRecordScheduleResponse);
+            writer.WriteIntValue("AddRecordScheduleResponse", AddRecordScheduleResponse);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

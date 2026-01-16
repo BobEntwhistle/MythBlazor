@@ -561,6 +561,7 @@ public class WsdlToOpenApiConverter
                 case "integer":
                 case "short":
                 case "byte":
+                case "unsignedInt":
                     res.Type = JsonSchemaType.Integer;
                     res.Format = "int32";
                     break;

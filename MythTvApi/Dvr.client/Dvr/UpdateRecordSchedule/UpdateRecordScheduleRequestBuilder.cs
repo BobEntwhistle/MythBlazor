@@ -156,20 +156,8 @@ namespace MythTvApi.Dvr.Dvr.UpdateRecordSchedule
 #endif
             public int? EndOffset { get; set; }
             public DateTimeOffset? EndTime { get; set; }
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? Episode { get; set; }
-#nullable restore
-#else
-            public string Episode { get; set; }
-#endif
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? Filter { get; set; }
-#nullable restore
-#else
-            public string Filter { get; set; }
-#endif
+            public int? Episode { get; set; }
+            public int? Filter { get; set; }
             public int? FindDay { get; set; }
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -196,13 +184,7 @@ namespace MythTvApi.Dvr.Dvr.UpdateRecordSchedule
 #else
             public string PlayGroup { get; set; }
 #endif
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? PreferredInput { get; set; }
-#nullable restore
-#else
-            public string PreferredInput { get; set; }
-#endif
+            public int? PreferredInput { get; set; }
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             public string? ProgramId { get; set; }
@@ -217,13 +199,7 @@ namespace MythTvApi.Dvr.Dvr.UpdateRecordSchedule
 #else
             public string RecGroup { get; set; }
 #endif
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? RecordId { get; set; }
-#nullable restore
-#else
-            public string RecordId { get; set; }
-#endif
+            public int? RecordId { get; set; }
             public int? RecPriority { get; set; }
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -239,13 +215,7 @@ namespace MythTvApi.Dvr.Dvr.UpdateRecordSchedule
 #else
             public string SearchType { get; set; }
 #endif
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? Season { get; set; }
-#nullable restore
-#else
-            public string Season { get; set; }
-#endif
+            public int? Season { get; set; }
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             public string? SeriesId { get; set; }

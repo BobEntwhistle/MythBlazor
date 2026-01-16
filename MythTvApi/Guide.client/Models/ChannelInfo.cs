@@ -15,21 +15,9 @@ namespace MythTvApi.Guide.Models
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The ATSCMajorChan property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? ATSCMajorChan { get; set; }
-#nullable restore
-#else
-        public string ATSCMajorChan { get; set; }
-#endif
+        public int? ATSCMajorChan { get; set; }
         /// <summary>The ATSCMinorChan property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? ATSCMinorChan { get; set; }
-#nullable restore
-#else
-        public string ATSCMinorChan { get; set; }
-#endif
+        public int? ATSCMinorChan { get; set; }
         /// <summary>The CallSign property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -47,13 +35,7 @@ namespace MythTvApi.Guide.Models
         public string ChanFilters { get; set; }
 #endif
         /// <summary>The ChanId property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? ChanId { get; set; }
-#nullable restore
-#else
-        public string ChanId { get; set; }
-#endif
+        public int? ChanId { get; set; }
         /// <summary>The ChannelGroups property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -143,13 +125,7 @@ namespace MythTvApi.Guide.Models
         public string Inputs { get; set; }
 #endif
         /// <summary>The MplexId property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? MplexId { get; set; }
-#nullable restore
-#else
-        public string MplexId { get; set; }
-#endif
+        public int? MplexId { get; set; }
         /// <summary>The Programs property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -161,21 +137,9 @@ namespace MythTvApi.Guide.Models
         /// <summary>The RecPriority property</summary>
         public int? RecPriority { get; set; }
         /// <summary>The ServiceId property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? ServiceId { get; set; }
-#nullable restore
-#else
-        public string ServiceId { get; set; }
-#endif
+        public int? ServiceId { get; set; }
         /// <summary>The ServiceType property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? ServiceType { get; set; }
-#nullable restore
-#else
-        public string ServiceType { get; set; }
-#endif
+        public int? ServiceType { get; set; }
         /// <summary>The SourceId property</summary>
         public int? SourceId { get; set; }
         /// <summary>The TimeOffset property</summary>
@@ -217,11 +181,11 @@ namespace MythTvApi.Guide.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "ATSCMajorChan", n => { ATSCMajorChan = n.GetStringValue(); } },
-                { "ATSCMinorChan", n => { ATSCMinorChan = n.GetStringValue(); } },
+                { "ATSCMajorChan", n => { ATSCMajorChan = n.GetIntValue(); } },
+                { "ATSCMinorChan", n => { ATSCMinorChan = n.GetIntValue(); } },
                 { "CallSign", n => { CallSign = n.GetStringValue(); } },
                 { "ChanFilters", n => { ChanFilters = n.GetStringValue(); } },
-                { "ChanId", n => { ChanId = n.GetStringValue(); } },
+                { "ChanId", n => { ChanId = n.GetIntValue(); } },
                 { "ChanNum", n => { ChanNum = n.GetStringValue(); } },
                 { "ChannelGroups", n => { ChannelGroups = n.GetStringValue(); } },
                 { "ChannelName", n => { ChannelName = n.GetStringValue(); } },
@@ -236,11 +200,11 @@ namespace MythTvApi.Guide.Models
                 { "IconURL", n => { IconURL = n.GetStringValue(); } },
                 { "InputId", n => { InputId = n.GetIntValue(); } },
                 { "Inputs", n => { Inputs = n.GetStringValue(); } },
-                { "MplexId", n => { MplexId = n.GetStringValue(); } },
+                { "MplexId", n => { MplexId = n.GetIntValue(); } },
                 { "Programs", n => { Programs = n.GetCollectionOfObjectValues<global::MythTvApi.Guide.Models.Program>(global::MythTvApi.Guide.Models.Program.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "RecPriority", n => { RecPriority = n.GetIntValue(); } },
-                { "ServiceId", n => { ServiceId = n.GetStringValue(); } },
-                { "ServiceType", n => { ServiceType = n.GetStringValue(); } },
+                { "ServiceId", n => { ServiceId = n.GetIntValue(); } },
+                { "ServiceType", n => { ServiceType = n.GetIntValue(); } },
                 { "SourceId", n => { SourceId = n.GetIntValue(); } },
                 { "TimeOffset", n => { TimeOffset = n.GetIntValue(); } },
                 { "UseEIT", n => { UseEIT = n.GetBoolValue(); } },
@@ -255,11 +219,11 @@ namespace MythTvApi.Guide.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("ATSCMajorChan", ATSCMajorChan);
-            writer.WriteStringValue("ATSCMinorChan", ATSCMinorChan);
+            writer.WriteIntValue("ATSCMajorChan", ATSCMajorChan);
+            writer.WriteIntValue("ATSCMinorChan", ATSCMinorChan);
             writer.WriteStringValue("CallSign", CallSign);
             writer.WriteStringValue("ChanFilters", ChanFilters);
-            writer.WriteStringValue("ChanId", ChanId);
+            writer.WriteIntValue("ChanId", ChanId);
             writer.WriteStringValue("ChannelGroups", ChannelGroups);
             writer.WriteStringValue("ChannelName", ChannelName);
             writer.WriteStringValue("ChanNum", ChanNum);
@@ -274,11 +238,11 @@ namespace MythTvApi.Guide.Models
             writer.WriteStringValue("IconURL", IconURL);
             writer.WriteIntValue("InputId", InputId);
             writer.WriteStringValue("Inputs", Inputs);
-            writer.WriteStringValue("MplexId", MplexId);
+            writer.WriteIntValue("MplexId", MplexId);
             writer.WriteCollectionOfObjectValues<global::MythTvApi.Guide.Models.Program>("Programs", Programs);
             writer.WriteIntValue("RecPriority", RecPriority);
-            writer.WriteStringValue("ServiceId", ServiceId);
-            writer.WriteStringValue("ServiceType", ServiceType);
+            writer.WriteIntValue("ServiceId", ServiceId);
+            writer.WriteIntValue("ServiceType", ServiceType);
             writer.WriteIntValue("SourceId", SourceId);
             writer.WriteIntValue("TimeOffset", TimeOffset);
             writer.WriteBoolValue("UseEIT", UseEIT);

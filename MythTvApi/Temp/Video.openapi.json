@@ -1050,16 +1050,20 @@
             "type": "string"
           },
           "DiscNum": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "TotalDiscNum": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "TitleCount": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "ThumbCount": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "ThumbPath": {
             "type": "string"
@@ -1071,13 +1075,16 @@
             "type": "boolean"
           },
           "NumHDMVTitles": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "NumBDJTitles": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "NumUnsupportedTitles": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "AACSDetected": {
             "type": "boolean"

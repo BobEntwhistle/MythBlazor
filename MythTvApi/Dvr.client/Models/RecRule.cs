@@ -87,21 +87,9 @@ namespace MythTvApi.Dvr.Models
         /// <summary>The EndTime property</summary>
         public DateTimeOffset? EndTime { get; set; }
         /// <summary>The Episode property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? Episode { get; set; }
-#nullable restore
-#else
-        public string Episode { get; set; }
-#endif
+        public int? Episode { get; set; }
         /// <summary>The Filter property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? Filter { get; set; }
-#nullable restore
-#else
-        public string Filter { get; set; }
-#endif
+        public int? Filter { get; set; }
         /// <summary>The FindDay property</summary>
         public int? FindDay { get; set; }
         /// <summary>The FindTime property</summary>
@@ -147,13 +135,7 @@ namespace MythTvApi.Dvr.Models
         public string PlayGroup { get; set; }
 #endif
         /// <summary>The PreferredInput property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? PreferredInput { get; set; }
-#nullable restore
-#else
-        public string PreferredInput { get; set; }
-#endif
+        public int? PreferredInput { get; set; }
         /// <summary>The ProgramId property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -189,13 +171,7 @@ namespace MythTvApi.Dvr.Models
         public string SearchType { get; set; }
 #endif
         /// <summary>The Season property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? Season { get; set; }
-#nullable restore
-#else
-        public string Season { get; set; }
-#endif
+        public int? Season { get; set; }
         /// <summary>The SeriesId property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -285,8 +261,8 @@ namespace MythTvApi.Dvr.Models
                 { "DupMethod", n => { DupMethod = n.GetStringValue(); } },
                 { "EndOffset", n => { EndOffset = n.GetIntValue(); } },
                 { "EndTime", n => { EndTime = n.GetDateTimeOffsetValue(); } },
-                { "Episode", n => { Episode = n.GetStringValue(); } },
-                { "Filter", n => { Filter = n.GetStringValue(); } },
+                { "Episode", n => { Episode = n.GetIntValue(); } },
+                { "Filter", n => { Filter = n.GetIntValue(); } },
                 { "FindDay", n => { FindDay = n.GetIntValue(); } },
                 { "FindTime", n => { FindTime = n.GetStringValue(); } },
                 { "Id", n => { Id = n.GetIntValue(); } },
@@ -300,13 +276,13 @@ namespace MythTvApi.Dvr.Models
                 { "NextRecording", n => { NextRecording = n.GetDateTimeOffsetValue(); } },
                 { "ParentId", n => { ParentId = n.GetIntValue(); } },
                 { "PlayGroup", n => { PlayGroup = n.GetStringValue(); } },
-                { "PreferredInput", n => { PreferredInput = n.GetStringValue(); } },
+                { "PreferredInput", n => { PreferredInput = n.GetIntValue(); } },
                 { "ProgramId", n => { ProgramId = n.GetStringValue(); } },
                 { "RecGroup", n => { RecGroup = n.GetStringValue(); } },
                 { "RecPriority", n => { RecPriority = n.GetIntValue(); } },
                 { "RecProfile", n => { RecProfile = n.GetStringValue(); } },
                 { "SearchType", n => { SearchType = n.GetStringValue(); } },
-                { "Season", n => { Season = n.GetStringValue(); } },
+                { "Season", n => { Season = n.GetIntValue(); } },
                 { "SeriesId", n => { SeriesId = n.GetStringValue(); } },
                 { "StartOffset", n => { StartOffset = n.GetIntValue(); } },
                 { "StartTime", n => { StartTime = n.GetDateTimeOffsetValue(); } },
@@ -342,8 +318,8 @@ namespace MythTvApi.Dvr.Models
             writer.WriteStringValue("DupMethod", DupMethod);
             writer.WriteIntValue("EndOffset", EndOffset);
             writer.WriteDateTimeOffsetValue("EndTime", EndTime);
-            writer.WriteStringValue("Episode", Episode);
-            writer.WriteStringValue("Filter", Filter);
+            writer.WriteIntValue("Episode", Episode);
+            writer.WriteIntValue("Filter", Filter);
             writer.WriteIntValue("FindDay", FindDay);
             writer.WriteStringValue("FindTime", FindTime);
             writer.WriteIntValue("Id", Id);
@@ -357,13 +333,13 @@ namespace MythTvApi.Dvr.Models
             writer.WriteDateTimeOffsetValue("NextRecording", NextRecording);
             writer.WriteIntValue("ParentId", ParentId);
             writer.WriteStringValue("PlayGroup", PlayGroup);
-            writer.WriteStringValue("PreferredInput", PreferredInput);
+            writer.WriteIntValue("PreferredInput", PreferredInput);
             writer.WriteStringValue("ProgramId", ProgramId);
             writer.WriteStringValue("RecGroup", RecGroup);
             writer.WriteIntValue("RecPriority", RecPriority);
             writer.WriteStringValue("RecProfile", RecProfile);
             writer.WriteStringValue("SearchType", SearchType);
-            writer.WriteStringValue("Season", Season);
+            writer.WriteIntValue("Season", Season);
             writer.WriteStringValue("SeriesId", SeriesId);
             writer.WriteIntValue("StartOffset", StartOffset);
             writer.WriteDateTimeOffsetValue("StartTime", StartTime);

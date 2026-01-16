@@ -110,13 +110,7 @@ namespace MythTvApi.Dvr.Dvr.RemoveRecordSchedule
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class RemoveRecordScheduleRequestBuilderPostQueryParameters 
         {
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? RecordId { get; set; }
-#nullable restore
-#else
-            public string RecordId { get; set; }
-#endif
+            public int? RecordId { get; set; }
         }
         /// <summary>
         /// Configuration for the request such as headers, query parameters, and middleware options.

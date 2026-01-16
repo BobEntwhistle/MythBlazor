@@ -15,13 +15,7 @@ namespace MythTvApi.Dvr.Models
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The CardId property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? CardId { get; set; }
-#nullable restore
-#else
-        public string CardId { get; set; }
-#endif
+        public int? CardId { get; set; }
         /// <summary>The DisplayName property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -31,13 +25,7 @@ namespace MythTvApi.Dvr.Models
         public string DisplayName { get; set; }
 #endif
         /// <summary>The Id property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? Id { get; set; }
-#nullable restore
-#else
-        public string Id { get; set; }
-#endif
+        public int? Id { get; set; }
         /// <summary>The InputName property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -55,13 +43,7 @@ namespace MythTvApi.Dvr.Models
         /// <summary>The ScheduleOrder property</summary>
         public int? ScheduleOrder { get; set; }
         /// <summary>The SourceId property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? SourceId { get; set; }
-#nullable restore
-#else
-        public string SourceId { get; set; }
-#endif
+        public int? SourceId { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Dvr.Models.Input"/> and sets the default values.
         /// </summary>
@@ -87,15 +69,15 @@ namespace MythTvApi.Dvr.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "CardId", n => { CardId = n.GetStringValue(); } },
+                { "CardId", n => { CardId = n.GetIntValue(); } },
                 { "DisplayName", n => { DisplayName = n.GetStringValue(); } },
-                { "Id", n => { Id = n.GetStringValue(); } },
+                { "Id", n => { Id = n.GetIntValue(); } },
                 { "InputName", n => { InputName = n.GetStringValue(); } },
                 { "LiveTVOrder", n => { LiveTVOrder = n.GetIntValue(); } },
                 { "QuickTune", n => { QuickTune = n.GetBoolValue(); } },
                 { "RecPriority", n => { RecPriority = n.GetIntValue(); } },
                 { "ScheduleOrder", n => { ScheduleOrder = n.GetIntValue(); } },
-                { "SourceId", n => { SourceId = n.GetStringValue(); } },
+                { "SourceId", n => { SourceId = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -105,15 +87,15 @@ namespace MythTvApi.Dvr.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("CardId", CardId);
+            writer.WriteIntValue("CardId", CardId);
             writer.WriteStringValue("DisplayName", DisplayName);
-            writer.WriteStringValue("Id", Id);
+            writer.WriteIntValue("Id", Id);
             writer.WriteStringValue("InputName", InputName);
             writer.WriteIntValue("LiveTVOrder", LiveTVOrder);
             writer.WriteBoolValue("QuickTune", QuickTune);
             writer.WriteIntValue("RecPriority", RecPriority);
             writer.WriteIntValue("ScheduleOrder", ScheduleOrder);
-            writer.WriteStringValue("SourceId", SourceId);
+            writer.WriteIntValue("SourceId", SourceId);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

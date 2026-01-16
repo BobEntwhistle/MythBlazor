@@ -127,13 +127,7 @@ namespace MythTvApi.Dvr.Dvr.UpdateRecordedMetadata
 #else
             public string Description { get; set; }
 #endif
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? Episode { get; set; }
-#nullable restore
-#else
-            public string Episode { get; set; }
-#endif
+            public int? Episode { get; set; }
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             public string? Inetref { get; set; }
@@ -158,27 +152,9 @@ namespace MythTvApi.Dvr.Dvr.UpdateRecordedMetadata
 #else
             public string RecGroup { get; set; }
 #endif
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? RecordedId { get; set; }
-#nullable restore
-#else
-            public string RecordedId { get; set; }
-#endif
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? Season { get; set; }
-#nullable restore
-#else
-            public string Season { get; set; }
-#endif
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public string? Stars { get; set; }
-#nullable restore
-#else
-            public string Stars { get; set; }
-#endif
+            public int? RecordedId { get; set; }
+            public int? Season { get; set; }
+            public int? Stars { get; set; }
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             public string? SubTitle { get; set; }

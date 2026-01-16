@@ -39,13 +39,7 @@ namespace MythTvApi.Video.Models
         public string DiscLang { get; set; }
 #endif
         /// <summary>The DiscNum property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? DiscNum { get; set; }
-#nullable restore
-#else
-        public string DiscNum { get; set; }
-#endif
+        public int? DiscNum { get; set; }
         /// <summary>The FirstPlaySupported property</summary>
         public bool? FirstPlaySupported { get; set; }
         /// <summary>The LibAACSDetected property</summary>
@@ -53,29 +47,11 @@ namespace MythTvApi.Video.Models
         /// <summary>The LibBDPlusDetected property</summary>
         public bool? LibBDPlusDetected { get; set; }
         /// <summary>The NumBDJTitles property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? NumBDJTitles { get; set; }
-#nullable restore
-#else
-        public string NumBDJTitles { get; set; }
-#endif
+        public int? NumBDJTitles { get; set; }
         /// <summary>The NumHDMVTitles property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? NumHDMVTitles { get; set; }
-#nullable restore
-#else
-        public string NumHDMVTitles { get; set; }
-#endif
+        public int? NumHDMVTitles { get; set; }
         /// <summary>The NumUnsupportedTitles property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? NumUnsupportedTitles { get; set; }
-#nullable restore
-#else
-        public string NumUnsupportedTitles { get; set; }
-#endif
+        public int? NumUnsupportedTitles { get; set; }
         /// <summary>The Path property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -85,13 +61,7 @@ namespace MythTvApi.Video.Models
         public string Path { get; set; }
 #endif
         /// <summary>The ThumbCount property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? ThumbCount { get; set; }
-#nullable restore
-#else
-        public string ThumbCount { get; set; }
-#endif
+        public int? ThumbCount { get; set; }
         /// <summary>The ThumbPath property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -109,23 +79,11 @@ namespace MythTvApi.Video.Models
         public string Title { get; set; }
 #endif
         /// <summary>The TitleCount property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? TitleCount { get; set; }
-#nullable restore
-#else
-        public string TitleCount { get; set; }
-#endif
+        public int? TitleCount { get; set; }
         /// <summary>The TopMenuSupported property</summary>
         public bool? TopMenuSupported { get; set; }
         /// <summary>The TotalDiscNum property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? TotalDiscNum { get; set; }
-#nullable restore
-#else
-        public string TotalDiscNum { get; set; }
-#endif
+        public int? TotalDiscNum { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::MythTvApi.Video.Models.BlurayInfo"/> and sets the default values.
         /// </summary>
@@ -157,20 +115,20 @@ namespace MythTvApi.Video.Models
                 { "BDPlusDetected", n => { BDPlusDetected = n.GetBoolValue(); } },
                 { "BDPlusHandled", n => { BDPlusHandled = n.GetBoolValue(); } },
                 { "DiscLang", n => { DiscLang = n.GetStringValue(); } },
-                { "DiscNum", n => { DiscNum = n.GetStringValue(); } },
+                { "DiscNum", n => { DiscNum = n.GetIntValue(); } },
                 { "FirstPlaySupported", n => { FirstPlaySupported = n.GetBoolValue(); } },
                 { "LibAACSDetected", n => { LibAACSDetected = n.GetBoolValue(); } },
                 { "LibBDPlusDetected", n => { LibBDPlusDetected = n.GetBoolValue(); } },
-                { "NumBDJTitles", n => { NumBDJTitles = n.GetStringValue(); } },
-                { "NumHDMVTitles", n => { NumHDMVTitles = n.GetStringValue(); } },
-                { "NumUnsupportedTitles", n => { NumUnsupportedTitles = n.GetStringValue(); } },
+                { "NumBDJTitles", n => { NumBDJTitles = n.GetIntValue(); } },
+                { "NumHDMVTitles", n => { NumHDMVTitles = n.GetIntValue(); } },
+                { "NumUnsupportedTitles", n => { NumUnsupportedTitles = n.GetIntValue(); } },
                 { "Path", n => { Path = n.GetStringValue(); } },
-                { "ThumbCount", n => { ThumbCount = n.GetStringValue(); } },
+                { "ThumbCount", n => { ThumbCount = n.GetIntValue(); } },
                 { "ThumbPath", n => { ThumbPath = n.GetStringValue(); } },
                 { "Title", n => { Title = n.GetStringValue(); } },
-                { "TitleCount", n => { TitleCount = n.GetStringValue(); } },
+                { "TitleCount", n => { TitleCount = n.GetIntValue(); } },
                 { "TopMenuSupported", n => { TopMenuSupported = n.GetBoolValue(); } },
-                { "TotalDiscNum", n => { TotalDiscNum = n.GetStringValue(); } },
+                { "TotalDiscNum", n => { TotalDiscNum = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -186,20 +144,20 @@ namespace MythTvApi.Video.Models
             writer.WriteBoolValue("BDPlusDetected", BDPlusDetected);
             writer.WriteBoolValue("BDPlusHandled", BDPlusHandled);
             writer.WriteStringValue("DiscLang", DiscLang);
-            writer.WriteStringValue("DiscNum", DiscNum);
+            writer.WriteIntValue("DiscNum", DiscNum);
             writer.WriteBoolValue("FirstPlaySupported", FirstPlaySupported);
             writer.WriteBoolValue("LibAACSDetected", LibAACSDetected);
             writer.WriteBoolValue("LibBDPlusDetected", LibBDPlusDetected);
-            writer.WriteStringValue("NumBDJTitles", NumBDJTitles);
-            writer.WriteStringValue("NumHDMVTitles", NumHDMVTitles);
-            writer.WriteStringValue("NumUnsupportedTitles", NumUnsupportedTitles);
+            writer.WriteIntValue("NumBDJTitles", NumBDJTitles);
+            writer.WriteIntValue("NumHDMVTitles", NumHDMVTitles);
+            writer.WriteIntValue("NumUnsupportedTitles", NumUnsupportedTitles);
             writer.WriteStringValue("Path", Path);
-            writer.WriteStringValue("ThumbCount", ThumbCount);
+            writer.WriteIntValue("ThumbCount", ThumbCount);
             writer.WriteStringValue("ThumbPath", ThumbPath);
             writer.WriteStringValue("Title", Title);
-            writer.WriteStringValue("TitleCount", TitleCount);
+            writer.WriteIntValue("TitleCount", TitleCount);
             writer.WriteBoolValue("TopMenuSupported", TopMenuSupported);
-            writer.WriteStringValue("TotalDiscNum", TotalDiscNum);
+            writer.WriteIntValue("TotalDiscNum", TotalDiscNum);
             writer.WriteAdditionalData(AdditionalData);
         }
     }
