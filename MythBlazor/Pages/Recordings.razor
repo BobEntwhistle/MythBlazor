@@ -1,5 +1,4 @@
-﻿MythBlazor/Pages/Recordings.razor
-@page "/recordings"
+﻿@page "/recordings"
 @using Microsoft.Kiota.Abstractions.Authentication
 @using Microsoft.Kiota.Abstractions.Serialization
 @using MythBlazor.Factories
@@ -9,6 +8,7 @@
 @using Microsoft.Kiota.Http.HttpClientLibrary
 @using MythTvApi.Content
 @using MythTvApi.Content.Content.GetPreviewImage
+@using MythBlazor.Components
 @using Program = MythTvApi.Dvr.Models.Program
 @using static MythTvApi.Content.Content.GetPreviewImage.GetPreviewImageRequestBuilder
 @inject HttpClient Http
@@ -56,38 +56,9 @@
         }
     </div>
 
-    <!-- bottom 1/4: details -->
+    <!-- bottom 1/4: details: broken out into component -->
     <div style="flex: 1; overflow:auto;" class="border rounded p-2 mt-2">
-        @if (_selectedRecording != null)
-        {
-            <div class="row">
-                <div class="col-3">
-                    @if (!string.IsNullOrEmpty(_thumbnailUrl))
-                    {
-                        <img src="@_thumbnailUrl" class="img-fluid rounded" alt="thumbnail" />
-                    }
-                    else
-                    {
-                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height:160px;">
-                            No Image
-                        </div>
-                    }
-                </div>
-                <div class="col-9">
-                    <h4>@_selectedRecording.Title</h4>
-                    <h6 class="text-muted">@_selectedRecording.SubTitle</h6>
-                    <p><strong>Channel:</strong> @_selectedRecording.Channel?.ChannelName</p>
-                    <p><strong>Air:</strong> @FormatAirDateTime(_selectedRecording)</p>
-                    <p><strong>Duration:</strong> @FormatDuration(_selectedRecording)</p>
-                    <p>@_selectedRecording.Description</p>
-                    <p class="small text-muted">File: @_selectedRecording.Recording?.FileName</p>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="text-muted">Select a recording to view details.</div>
-        }
+        <RecordingDetails SelectedRecording="_selectedRecording" />
     </div>
 </div>
 
@@ -184,150 +155,7 @@
         _thumbnailUrl = null;
         StateHasChanged();
 
-        // Try artwork first, then fall back to Content.GetPreviewImage via the generated Content ApiClient.
-        /* var artworkUrl = TryGetArtworkUrl(_selectedRecording);
-        if (!string.IsNullOrEmpty(artworkUrl))
-        {
-            _thumbnailUrl = MakeAbsoluteIfNeeded(artworkUrl);
-            StateHasChanged();
-            return;
-            }*/
-
-        // Use Content client to request preview image
-        try
-        {
-            if (string.IsNullOrWhiteSpace(baseApiUrl))
-            {
-                baseApiUrl = Configuration.GetValue<string>("ApiInfo:ApiUrl") ?? "http://localhost";
-            }
-
-            using var httpClient = new HttpClient { BaseAddress = new Uri(baseApiUrl) };
-            var adapter = new HttpClientRequestAdapter(new AnonymousAuthenticationProvider(), new JpegFactory(), httpClient: httpClient)
-            {
-                BaseUrl = baseApiUrl
-            };
-
-            var contentClient = new MythTvApi.Content.ApiClient(adapter);
-
-            var resp = await contentClient.Content.GetPreviewImage.GetAsGetPreviewImageGetResponseAsync(cfg =>
-            {
-                // fill query parameters: prefer RecordedId, otherwise ChanId+StartTime
-                if (_selectedRecording.Recording?.RecordedId != null)
-                {
-                    cfg.QueryParameters = new GetPreviewImageRequestBuilderGetQueryParameters
-                    {
-                        RecordedId = _selectedRecording.Recording?.RecordedId,
-                        SecsIn = 180,
-                        Width = 640,
-                        Height = 360,
-                        Format = "jpg"
-                    };
-                }
-                else if (_selectedRecording.Channel?.ChanId != null && _selectedRecording?.StartTime != null)
-                {
-                    cfg.QueryParameters = new GetPreviewImageRequestBuilderGetQueryParameters
-                    {
-                        ChanId = _selectedRecording.Channel?.ChanId,
-                        StartTime = _selectedRecording.StartTime,
-                        Width = 320,
-                        Height = 180,
-                        Format = "jpg"
-                    };
-                }
-                else
-                {
-                    // best-effort: request image by width/height only (some servers may return a default)
-                    cfg.QueryParameters = new GetPreviewImageRequestBuilderGetQueryParameters
-                    {
-                        Width = 320,
-                        Height = 180,
-                        Format = "jpg"
-                    };
-                }
-            });
-
-            // The response includes the jpeg bytes in AdditionalData under "content" (or may be string)
-            if (resp?.AdditionalData != null && resp.AdditionalData.TryGetValue("content", out var contentObj) && contentObj != null)
-            {
-                // If it's raw bytes
-                if (contentObj is byte[] bytes && bytes.Length > 0)
-                {
-                    _thumbnailUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(bytes)}";
-                }
-                else if (contentObj is string s && !string.IsNullOrEmpty(s))
-                {
-                    // string may already be base64 or a URL/path; try to detect base64
-                    if (IsBase64String(s))
-                    {
-                        _thumbnailUrl = $"data:image/jpeg;base64,{s}";
-                    }
-                    else
-                    {
-                        _thumbnailUrl = MakeAbsoluteIfNeeded(s);
-                    }
-                }
-            }
-            else if (!string.IsNullOrEmpty(resp?.GetPreviewImageResponse))
-            {
-                // older generated response property may contain URL or base64 string
-                var v = resp.GetPreviewImageResponse;
-                if (IsBase64String(v))
-                {
-                    _thumbnailUrl = $"data:image/jpeg;base64,{v}";
-                }
-                else
-                {
-                    _thumbnailUrl = MakeAbsoluteIfNeeded(v);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Failed to fetch preview image: {ex}");
-        }
-        finally
-        {
-            StateHasChanged();
-        }
-    }
-
-    private string? TryGetArtworkUrl(Program p)
-    {
-        try
-        {
-            var firstThumb = p.Artwork?.ArtworkInfos?.FirstOrDefault()?.URL;
-            if (!string.IsNullOrEmpty(firstThumb)) return firstThumb;
-        }
-        catch { }
-        return null;
-    }
-
-    private string? MakeAbsoluteIfNeeded(string url)
-    {
-        if (string.IsNullOrWhiteSpace(url)) return null;
-        if (Uri.TryCreate(url, UriKind.Absolute, out var _)) return url;
-        // assume relative to baseApiUrl
-        if (Uri.TryCreate(baseApiUrl, UriKind.Absolute, out var baseUri))
-        {
-            return new Uri(baseUri, url).ToString();
-        }
-        return url;
-    }
-
-    private static bool IsBase64String(string s)
-    {
-        if (string.IsNullOrWhiteSpace(s)) return false;
-        // Trim whitespace and padding
-        s = s.Trim();
-        try
-        {
-            Convert.FromBase64String(s);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        // no thumbnail-fetching logic here — moved into RecordingDetails component
     }
 
     private string FormatAirDate(Program p)
@@ -335,13 +163,6 @@
         var dt = p.StartTime ?? p.Airdate?.DateTime; //.ToDateTime(TimeOnly.MinValue);
         if (dt == null) return "";
         return dt?.ToString("d");
-    }
-
-    private string FormatAirDateTime(Program p)
-    {
-        var dt = p.StartTime;
-        if (dt == null) return "";
-        return dt.Value.ToLocalTime().ToString("g");
     }
 
     private string FormatDuration(Program p)
