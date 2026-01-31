@@ -1,0 +1,12 @@
+﻿@page "/guide"
+@using MythBlazor.Components
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>TV Guide</PageTitle>
+
+<h3>TV Guide</h3>
+
+<div class="p-2">
+    <!-- host the GuideGrid component; adjust parameters as needed -->
+    <GuideGrid WindowMinutesBeforeNow="60" WindowMinutesAfterNow="360" SlotMinutes="30" PixelPerMinute="4" />
+</div>

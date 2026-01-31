@@ -56,7 +56,6 @@
         }
     </div>
 
-    <!-- bottom 1/4: details: broken out into component -->
     <div style="flex: 1; overflow:auto;" class="border rounded p-2 mt-2">
         <RecordingDetails SelectedRecording="_selectedRecording" />
     </div>
@@ -68,7 +67,7 @@
 
     private List<Program> _recordings = new();
     private Program? _selectedRecording;
-    private string? _thumbnailUrl;
+    
     private bool _isLoading;
     private int _pageIndex = 0;
     private int _pageSize = 25;
@@ -84,7 +83,6 @@
         _isLoading = true;
         _recordings.Clear();
         _selectedRecording = null;
-        _thumbnailUrl = null;
         _selectedIndex = -1;
         StateHasChanged();
 
@@ -114,12 +112,10 @@
                 };
             });
             var programList = result?.ProgramList;
-            Console.WriteLine($"GetRecordedList completed. {programList.Count == null}");
+
             // result may be a collection of ProgramList objects — flatten into Program list
             if (programList != null && programList.Count > 0 && programList.Programs != null)
             {
-                Console.WriteLine($"Loaded {programList.Count} recording lists.");
-
                 _recordings.AddRange(programList.Programs);
             }
         }
@@ -152,17 +148,13 @@
         if (idx < 0 || idx >= _recordings.Count) return;
         _selectedIndex = idx;
         _selectedRecording = _recordings[idx];
-        _thumbnailUrl = null;
         StateHasChanged();
-
-        // no thumbnail-fetching logic here — moved into RecordingDetails component
     }
 
     private string FormatAirDate(Program p)
     {
-        var dt = p.StartTime ?? p.Airdate?.DateTime; //.ToDateTime(TimeOnly.MinValue);
-        if (dt == null) return "";
-        return dt?.ToString("d");
+        var dt = p.StartTime ?? p.Airdate?.DateTime;
+        return dt == null ? "" : dt.Value.ToString("d");
     }
 
     private string FormatDuration(Program p)

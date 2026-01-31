@@ -1,0 +1,313 @@
+﻿@using MythTvApi.Guide.Models
+@using Microsoft.Kiota.Abstractions.Authentication
+@using Microsoft.Kiota.Http.HttpClientLibrary
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Microsoft.Kiota.Abstractions
+@using Program = MythTvApi.Guide.Models.Program
+@inject IJSRuntime Js
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+<div class="guide-container" @ref="_containerRef" role="region" aria-label="TV Guide schedule">
+    <div class="guide-header sticky-top" @ref="_headerRef">
+        <div class="channel-column header-cell">Channel</div>
+        <div class="timeline-header" @onwheel="OnHeaderWheel">
+            @foreach (var slot in _timeSlots)
+            {
+                <div class="time-slot" style="width:@(_pixelPerSlotPx)px;">@slot.ToLocalTime().ToString("HH:mm")</div>
+            }
+        </div>
+    </div>
+
+    <div class="guide-body" @ref="_bodyRef">
+        @foreach (var ch in _channels)
+        {
+            <div class="guide-row" data-channel="@ch.ChanId">
+                <div class="channel-column sticky-left" title="@ch.ChannelName" role="gridcell" aria-label="@ch.ChannelName">
+                    <div class="logo-placeholder" aria-hidden="true">@GetLogoSvg(ch)</div>
+                    <div class="channel-identifier">
+                        <div class="channel-name">@ch.ChanNum</div>
+                        <div class="channel-name">@ch.ChannelName</div>
+                    </div>
+                </div>
+
+                <div class="timeline-row" role="row">
+                    <div class="timeline-inner" style="min-width:@(ComputeTimelineWidthPx())px;">
+                        @if (ch.ChanId.HasValue && _programsForChannel.TryGetValue(ch.ChanId.Value, out var list))
+                        {
+                            @foreach (var p in list)
+                            {
+                                var left = ComputeLeftPx(p.StartTime);
+                                var width = ComputeWidthPx(p.StartTime, p.EndTime);
+
+                                var cls = (p.Recording != null || (p.StartTime <= DateTimeOffset.Now && p.EndTime >= DateTimeOffset.Now)) ? "program live" : "program upcoming";
+                                <div tabindex="0"
+                                     class="@cls"
+                                     style="left:@(left)px; width:@(width)px;"
+                                     role="button"
+                                     @onmouseover="(e) => ShowTooltip(p, e)"
+                                     @onmouseout="HideTooltip"
+                                     @onblur="HideTooltip"
+                                     @onclick="() => ToggleDetails(p)">
+                                    <div class="prog-title">@p.Title</div>
+                                    <div class="prog-meta">@p.StartTime?.ToLocalTime().ToString("t") — @p.EndTime?.ToLocalTime().ToString("t")</div>
+
+                                </div>
+                            }
+                        }
+                        <div class="now-indicator" style="left:@ComputeLeftPx(DateTimeOffset.Now)px;" aria-hidden="true"></div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <button class="fab btn btn-primary" @onclick="ScrollToNow" title="Go to Now" aria-label="Go to now">
+        Now
+    </button>
+
+    @if (_tooltipVisible && _tooltipProgram != null)
+    {
+        <div class="tooltip-popup" style="top:@(_tooltipPosYpx)px; left:@(_tooltipPosXpx)px;" role="tooltip">
+            <strong>@_tooltipProgram.Title</strong>
+            <div>@_tooltipProgram.SubTitle</div>
+            <div class="small text-muted">@_tooltipProgram.Category</div>
+            <div class="pt-1">@_tooltipProgram.Description</div>
+            <div class="pt-1">
+                @if (_tooltipProgram.Recording?.RecordId != null)
+                {
+                    <span class="badge bg-success me-1">Recorded</span>
+                }
+                @if (_tooltipProgram.Repeat == true)
+                {
+                    <span class="badge bg-warning">Repeat</span>
+                }
+            </div>
+        </div>
+    }
+
+    @if (_drawerOpen && _drawerProgram != null)
+    {
+        <div class="drawer" role="dialog" aria-modal="true" aria-label="Program details">
+            <button class="drawer-close" @onclick="CloseDrawer" aria-label="Close details">×</button>
+            <h4>@_drawerProgram.Title</h4>
+            <div class="small text-muted">@_drawerProgram.Category</div>
+            <p>@_drawerProgram.Description</p>
+            <h6>Cast</h6>
+            <ul>
+                @foreach (var c in (_drawerProgram.Cast?.CastMembers?.Select(cm => cm.Name) ?? Enumerable.Empty<string>()))
+                {
+                    <li>@c</li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int WindowMinutesBeforeNow { get; set; } = 120;
+    [Parameter] public int WindowMinutesAfterNow { get; set; } = 360;
+    [Parameter] public int SlotMinutes { get; set; } = 30;
+    [Parameter] public int PixelPerMinute { get; set; } = 4;
+
+    private ElementReference _containerRef;
+    private ElementReference _bodyRef;
+    private ElementReference _headerRef;
+    private bool _disposed;
+
+    private List<ChannelInfo> _channels = new();
+    private Dictionary<int, List<MythTvApi.Guide.Models.Program>> _programsForChannel = new();
+    private List<DateTimeOffset> _timeSlots = new();
+    private int _pixelPerSlotPx => SlotMinutes * PixelPerMinute;
+
+    private bool _tooltipVisible;
+    private Program? _tooltipProgram;
+    private double _tooltipPosXpx;
+    private double _tooltipPosYpx;
+
+    private bool _drawerOpen;
+    private Program? _drawerProgram;
+
+    protected override async Task OnInitializedAsync()
+    {
+        BuildTimeSlots();
+        await LoadGuideAsync();
+    }
+
+    private void BuildTimeSlots()
+    {
+        _timeSlots.Clear();
+        var start = DateTimeOffset.Now.AddMinutes(-WindowMinutesBeforeNow);
+        var minutes = start.Minute;
+        if(minutes < 30)
+        {
+            start = new DateTimeOffset(start.Year, start.Month, start.Day, start.Hour, 0, 0, start.Offset);
+        } else if(minutes > 30)
+        {
+            start = new DateTimeOffset(start.Year, start.Month, start.Day, start.Hour, 30, 0, start.Offset);
+        }
+        var end = DateTimeOffset.Now.AddMinutes(WindowMinutesAfterNow);
+        var slot = start;
+        while (slot <= end)
+        {
+            _timeSlots.Add(slot);
+            slot = slot.AddMinutes(SlotMinutes);
+        }
+    }
+
+    private async Task LoadGuideAsync()
+    {
+        try
+        {
+            var baseApiUrl = Configuration.GetValue<string>("ApiInfo:ApiUrl") ?? string.Empty;
+            using var httpClient = new HttpClient { BaseAddress = string.IsNullOrEmpty(baseApiUrl) ? null : new Uri(baseApiUrl) };
+            var adapter = new HttpClientRequestAdapter(new AnonymousAuthenticationProvider(), httpClient: httpClient)
+            {
+                BaseUrl = baseApiUrl
+            };
+            var client = new MythTvApi.Guide.ApiClient(adapter);
+
+            var start = DateTimeOffset.Now.AddMinutes(-WindowMinutesBeforeNow);
+            var end = DateTimeOffset.Now.AddMinutes(WindowMinutesAfterNow);
+
+            var resp = await client.Guide.GetProgramGuide.GetAsGetProgramGuideGetResponseAsync(cfg =>
+            {
+                cfg.QueryParameters = new MythTvApi.Guide.Guide.GetProgramGuide.GetProgramGuideRequestBuilder.GetProgramGuideRequestBuilderGetQueryParameters
+                {
+                    StartTime = start.ToUniversalTime(),
+                    EndTime = end.ToUniversalTime(),
+                    Details = true,
+                };
+            });
+
+            var pg = resp?.ProgramGuide;
+            if (pg?.Channels != null)
+            {
+                _channels = pg.Channels;
+                _programsForChannel = new Dictionary<int, List<Program>>();
+
+                foreach (var ch in _channels)
+                {
+                    if (!ch.ChanId.HasValue) continue;
+                    var key = ch.ChanId.Value;
+                    var list = ch.Programs ?? new List<Program>();
+                    _programsForChannel[key] = list;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Guide load failed: {ex.Message}");
+            // keep UI usable; no throw
+        }
+
+        StateHasChanged();
+        await Js.InvokeVoidAsync("guide.initPanning", _bodyRef, DotNetObjectReference.Create(this));
+    }
+
+    private int ComputeTimelineWidthPx() => _timeSlots.Count * _pixelPerSlotPx;
+
+    private double ComputeLeftPx(DateTimeOffset? start)
+    {
+        if (!start.HasValue || _timeSlots.Count == 0) return 0;
+        var first = _timeSlots[0];
+        var diff = start.Value.ToUniversalTime() - first.ToUniversalTime();
+        return diff.TotalMinutes * PixelPerMinute;
+    }
+
+    private double ComputeWidthPx(DateTimeOffset? st, DateTimeOffset? en)
+    {
+        if (!st.HasValue || !en.HasValue) return PixelPerMinute * SlotMinutes;
+        var mins = (en.Value.ToUniversalTime() - st.Value.ToUniversalTime()).TotalMinutes;
+        var w = mins * PixelPerMinute;
+        var width = Math.Max(w, PixelPerMinute * 2);
+        return width;
+    }
+
+    private MarkupString GetLogoSvg(ChannelInfo ch)
+    {
+        // If channel provides an IconURL use it (combine with base API URL when relative)
+        var iconUrl = ch.IconURL;
+        if (!string.IsNullOrWhiteSpace(iconUrl))
+        {
+            string src = iconUrl!;
+            if (!Uri.IsWellFormedUriString(src, UriKind.Absolute))
+            {
+                var baseApi = Configuration.GetValue<string>("ApiInfo:ApiUrl") ?? string.Empty;
+                if (!string.IsNullOrWhiteSpace(baseApi))
+                {
+                    try
+                    {
+                        var baseUri = new Uri(baseApi.EndsWith("/") ? baseApi : baseApi + "/");
+                        src = new Uri(baseUri, iconUrl).ToString();
+                    }
+                    catch
+                    {
+                        // fallback to raw iconUrl
+                        src = iconUrl!;
+                    }
+                }
+            }
+
+            var alt = System.Net.WebUtility.HtmlEncode(ch.ChannelName ?? "channel");
+            return new MarkupString($"<img src=\"{src}\" width=\"50%\"  class=\"channel-logo\" alt=\"{alt}\"/>");
+        }
+
+        // fallback: inline SVG placeholder
+        var label = ch.ChannelName ?? "CH";
+        var shortLabel = label.Length > 3 ? label.Substring(0, 3) : label;
+        var svg = $"<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"{System.Net.WebUtility.HtmlEncode(label)}\">" +
+                  $"<rect width=\"100%\" height=\"100%\" fill=\"#d8d8d8\"/><text x=\"50%\" y=\"50%\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-size=\"10\" fill=\"#666\">{System.Net.WebUtility.HtmlEncode(shortLabel)}</text></svg>";
+        return new MarkupString(svg);
+    }
+
+    private void ShowTooltip(Program p, MouseEventArgs e)
+    {
+        _tooltipProgram = p;
+        _tooltipVisible = true;
+        _tooltipPosXpx = e.ClientX + 8;
+        _tooltipPosYpx = e.ClientY + 8;
+    }
+
+    private void HideTooltip()
+    {
+        _tooltipVisible = false;
+        _tooltipProgram = null;
+    }
+
+    private void ToggleDetails(Program p)
+    {
+        if (_drawerOpen && _drawerProgram?.ProgramId == p.ProgramId)
+        {
+            _drawerOpen = false;
+            _drawerProgram = null;
+        }
+        else
+        {
+            _drawerProgram = p;
+            _drawerOpen = true;
+        }
+    }
+
+    private async Task ScrollToNow()
+    {
+        await Js.InvokeVoidAsync("guide.scrollToNow", _bodyRef, ComputeLeftPx(DateTimeOffset.Now));
+    }
+
+    private void OnHeaderWheel(WheelEventArgs e)
+    {
+        // shift/scroll handled in JS panning helper
+    }
+
+    private void CloseDrawer()
+    {
+        _drawerOpen = false;
+        _drawerProgram = null;
+    }
+
+    public void Dispose()
+    {
+        if (_disposed) return;
+        _disposed = true;
+    }
+}
