@@ -1,0 +1,202 @@
+@using Microsoft.Kiota.Abstractions.Authentication
+@using Microsoft.Kiota.Abstractions.Serialization
+@using MythBlazor.Factories
+@using MythTvApi.Content
+@using MythTvApi.Content.Content.GetPreviewImage
+@using Microsoft.Kiota.Http.HttpClientLibrary
+@using MythTvApi.Dvr.Models
+@using static MythTvApi.Content.Content.GetPreviewImage.GetPreviewImageRequestBuilder
+@using Program = MythTvApi.Dvr.Models.Program
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+@if (SelectedRecording != null)
+{
+    <div class="row">
+        <div class="col-3">
+            @if (!string.IsNullOrEmpty(_thumbnailUrl))
+            {
+                <img src="@_thumbnailUrl" class="img-fluid rounded" alt="thumbnail" />
+            }
+            else if (_loading)
+            {
+                <div class="d-flex align-items-center justify-content-center" style="height:160px;">
+                    Loading...
+                </div>
+            }
+            else
+            {
+                <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height:160px;">
+                    No Image
+                </div>
+            }
+        </div>
+        <div class="col-9">
+            <h4>@SelectedRecording.Title</h4>
+            <h6 class="text-muted">@SelectedRecording.SubTitle</h6>
+            <p><strong>Channel:</strong> @SelectedRecording.Channel?.ChannelName</p>
+            <p><strong>Air:</strong> @FormatAirDateTime(SelectedRecording)</p>
+            <p><strong>Duration:</strong> @FormatDuration(SelectedRecording)</p>
+            <p>@SelectedRecording.Description</p>
+            <p class="small text-muted">File: @SelectedRecording.Recording?.FileName</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-muted">Select a recording to view details.</div>
+}
+
+@code {
+    [Parameter]
+    public Program? SelectedRecording { get; set; }
+
+    private string? _thumbnailUrl;
+    private bool _loading;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadThumbnailAsync();
+    }
+
+    private async Task LoadThumbnailAsync()
+    {
+        _thumbnailUrl = null;
+        if (SelectedRecording == null)
+        {
+            return;
+        }
+
+        _loading = true;
+        StateHasChanged();
+
+        try
+        {
+            var baseApiUrl = Configuration.GetValue<string>("ApiInfo:ApiUrl") ?? "http://localhost";
+            using var httpClient = new HttpClient { BaseAddress = new Uri(baseApiUrl) };
+            var adapter = new HttpClientRequestAdapter(new AnonymousAuthenticationProvider(), new JpegFactory(), httpClient: httpClient)
+            {
+                BaseUrl = baseApiUrl
+            };
+
+            var contentClient = new MythTvApi.Content.ApiClient(adapter);
+
+            var resp = await contentClient.Content.GetPreviewImage.GetAsGetPreviewImageGetResponseAsync(cfg =>
+            {
+                if (SelectedRecording.Recording?.RecordedId != null)
+                {
+                    cfg.QueryParameters = new GetPreviewImageRequestBuilderGetQueryParameters
+                    {
+                        RecordedId = SelectedRecording.Recording?.RecordedId,
+                        SecsIn = 180,
+                        Width = 640,
+                        Height = 360,
+                        Format = "jpg"
+                    };
+                }
+                else if (SelectedRecording.Channel?.ChanId != null && SelectedRecording.StartTime != null)
+                {
+                    cfg.QueryParameters = new GetPreviewImageRequestBuilderGetQueryParameters
+                    {
+                        ChanId = SelectedRecording.Channel?.ChanId,
+                        StartTime = SelectedRecording.StartTime,
+                        Width = 320,
+                        Height = 180,
+                        Format = "jpg"
+                    };
+                }
+                else
+                {
+                    cfg.QueryParameters = new GetPreviewImageRequestBuilderGetQueryParameters
+                    {
+                        Width = 320,
+                        Height = 180,
+                        Format = "jpg"
+                    };
+                }
+            });
+
+            if (resp?.AdditionalData != null && resp.AdditionalData.TryGetValue("content", out var contentObj) && contentObj != null)
+            {
+                if (contentObj is byte[] bytes && bytes.Length > 0)
+                {
+                    _thumbnailUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(bytes)}";
+                }
+                else if (contentObj is string s && !string.IsNullOrEmpty(s))
+                {
+                    if (IsBase64String(s))
+                    {
+                        _thumbnailUrl = $"data:image/jpeg;base64,{s}";
+                    }
+                    else
+                    {
+                        _thumbnailUrl = MakeAbsoluteIfNeeded(s, Configuration);
+                    }
+                }
+            }
+            else if (!string.IsNullOrEmpty(resp?.GetPreviewImageResponse))
+            {
+                var v = resp.GetPreviewImageResponse;
+                if (IsBase64String(v))
+                {
+                    _thumbnailUrl = $"data:image/jpeg;base64,{v}";
+                }
+                else
+                {
+                    _thumbnailUrl = MakeAbsoluteIfNeeded(v, Configuration);
+                }
+            }
+        }
+        catch
+        {
+            // swallow: component should not break parent
+        }
+        finally
+        {
+            _loading = false;
+            StateHasChanged(); // only refresh this component
+        }
+    }
+
+    private static bool IsBase64String(string s)
+    {
+        if (string.IsNullOrWhiteSpace(s)) return false;
+        s = s.Trim();
+        try
+        {
+            Convert.FromBase64String(s);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static string? MakeAbsoluteIfNeeded(string url, Microsoft.Extensions.Configuration.IConfiguration configuration)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return null;
+        if (Uri.TryCreate(url, UriKind.Absolute, out var _)) return url;
+        var baseApiUrl = configuration.GetValue<string>("ApiInfo:ApiUrl") ?? "http://localhost";
+        if (Uri.TryCreate(baseApiUrl, UriKind.Absolute, out var baseUri))
+        {
+            return new Uri(baseUri, url).ToString();
+        }
+        return url;
+    }
+
+    private string FormatAirDateTime(Program p)
+    {
+        var dt = p.StartTime;
+        if (dt == null) return "";
+        return dt.Value.ToLocalTime().ToString("g");
+    }
+
+    private string FormatDuration(Program p)
+    {
+        DateTimeOffset? start = p.StartTime ?? p.Recording?.StartTs;
+        DateTimeOffset? end = p.EndTime ?? p.Recording?.EndTs;
+        if (start == null || end == null) return "-";
+        var span = end.Value - start.Value;
+        return $"{(int)span.TotalMinutes}m";
+    }
+}
