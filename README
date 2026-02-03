@@ -1,0 +1,42 @@
+
+# MythBlazor
+
+An experimental MythTV frontend created with Microsoft Blazor.
+
+
+## Building
+
+Clone the project
+
+```bash
+  git clone https://github.com/BobEntwhistle/MythBlazor.git
+```
+
+Open and Build in Visual Studio 2026+
+
+
+
+## Generating New API Clients
+
+Edit `~/WsdlToOpenApi.Runner/wsdls.json`
+
+Change IP addresses/ports to match the backend you are querying for WSDL definitions.
+```bash
+[
+  "http://192.168.0.100:6544/Video/wsdl?raw=1",
+  "http://192.168.0.100:6544/Dvr/wsdl?raw=1",
+  "http://192.168.0.100:6544/Guide/wsdl?raw=1",
+  "http://192.168.0.100:6544/Content/wsdl?raw=1"
+]
+```
+## Running the Frontend
+
+Edit `~/MythBlazor/wwwroot/appsettings.json`
+
+Change IP address/port to match the backend you are querying for MythTV Services.
+```json
+"APIinfo": {
+  "ApiUrl": "http://192.168.0.100:6544"
+}
+```
+Run the MythBlazor project.
